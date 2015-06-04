@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		806C7CD51B2052060021C23F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CD41B2052060021C23F /* main.m */; };
+		806C7CD81B2052060021C23F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CD71B2052060021C23F /* AppDelegate.m */; };
+		806C7CDB1B2052060021C23F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CDA1B2052060021C23F /* ViewController.m */; };
+		806C7CDE1B2052060021C23F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 806C7CDC1B2052060021C23F /* Main.storyboard */; };
+		806C7CE01B2052060021C23F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 806C7CDF1B2052060021C23F /* Images.xcassets */; };
+		806C7CE31B2052060021C23F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 806C7CE11B2052060021C23F /* LaunchScreen.xib */; };
+		806C7CEF1B2052060021C23F /* Dribbble_ios_sdkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CEE1B2052060021C23F /* Dribbble_ios_sdkTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		806C7CE91B2052060021C23F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 806C7CC71B2052060021C23F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 806C7CCE1B2052060021C23F;
+			remoteInfo = "Dribbble-ios-sdk";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		806C7CCF1B2052060021C23F /* Dribbble-ios-sdk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dribbble-ios-sdk.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		806C7CD31B2052060021C23F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		806C7CD41B2052060021C23F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		806C7CD61B2052060021C23F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		806C7CD71B2052060021C23F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		806C7CD91B2052060021C23F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		806C7CDA1B2052060021C23F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		806C7CDD1B2052060021C23F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		806C7CDF1B2052060021C23F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		806C7CE21B2052060021C23F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		806C7CE81B2052060021C23F /* Dribbble-ios-sdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dribbble-ios-sdkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		806C7CED1B2052060021C23F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		806C7CEE1B2052060021C23F /* Dribbble_ios_sdkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Dribbble_ios_sdkTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		806C7CCC1B2052060021C23F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		806C7CE51B2052060021C23F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		806C7CC61B2052060021C23F = {
+			isa = PBXGroup;
+			children = (
+				806C7CD11B2052060021C23F /* Dribbble-ios-sdk */,
+				806C7CEB1B2052060021C23F /* Dribbble-ios-sdkTests */,
+				806C7CD01B2052060021C23F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		806C7CD01B2052060021C23F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				806C7CCF1B2052060021C23F /* Dribbble-ios-sdk.app */,
+				806C7CE81B2052060021C23F /* Dribbble-ios-sdkTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		806C7CD11B2052060021C23F /* Dribbble-ios-sdk */ = {
+			isa = PBXGroup;
+			children = (
+				806C7CD61B2052060021C23F /* AppDelegate.h */,
+				806C7CD71B2052060021C23F /* AppDelegate.m */,
+				806C7CD91B2052060021C23F /* ViewController.h */,
+				806C7CDA1B2052060021C23F /* ViewController.m */,
+				806C7CDC1B2052060021C23F /* Main.storyboard */,
+				806C7CDF1B2052060021C23F /* Images.xcassets */,
+				806C7CE11B2052060021C23F /* LaunchScreen.xib */,
+				806C7CD21B2052060021C23F /* Supporting Files */,
+			);
+			path = "Dribbble-ios-sdk";
+			sourceTree = "<group>";
+		};
+		806C7CD21B2052060021C23F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				806C7CD31B2052060021C23F /* Info.plist */,
+				806C7CD41B2052060021C23F /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		806C7CEB1B2052060021C23F /* Dribbble-ios-sdkTests */ = {
+			isa = PBXGroup;
+			children = (
+				806C7CEE1B2052060021C23F /* Dribbble_ios_sdkTests.m */,
+				806C7CEC1B2052060021C23F /* Supporting Files */,
+			);
+			path = "Dribbble-ios-sdkTests";
+			sourceTree = "<group>";
+		};
+		806C7CEC1B2052060021C23F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				806C7CED1B2052060021C23F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		806C7CCE1B2052060021C23F /* Dribbble-ios-sdk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 806C7CF21B2052060021C23F /* Build configuration list for PBXNativeTarget "Dribbble-ios-sdk" */;
+			buildPhases = (
+				806C7CCB1B2052060021C23F /* Sources */,
+				806C7CCC1B2052060021C23F /* Frameworks */,
+				806C7CCD1B2052060021C23F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Dribbble-ios-sdk";
+			productName = "Dribbble-ios-sdk";
+			productReference = 806C7CCF1B2052060021C23F /* Dribbble-ios-sdk.app */;
+			productType = "com.apple.product-type.application";
+		};
+		806C7CE71B2052060021C23F /* Dribbble-ios-sdkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 806C7CF51B2052060021C23F /* Build configuration list for PBXNativeTarget "Dribbble-ios-sdkTests" */;
+			buildPhases = (
+				806C7CE41B2052060021C23F /* Sources */,
+				806C7CE51B2052060021C23F /* Frameworks */,
+				806C7CE61B2052060021C23F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				806C7CEA1B2052060021C23F /* PBXTargetDependency */,
+			);
+			name = "Dribbble-ios-sdkTests";
+			productName = "Dribbble-ios-sdkTests";
+			productReference = 806C7CE81B2052060021C23F /* Dribbble-ios-sdkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		806C7CC71B2052060021C23F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = Agilie;
+				TargetAttributes = {
+					806C7CCE1B2052060021C23F = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+					806C7CE71B2052060021C23F = {
+						CreatedOnToolsVersion = 6.3.2;
+						TestTargetID = 806C7CCE1B2052060021C23F;
+					};
+				};
+			};
+			buildConfigurationList = 806C7CCA1B2052060021C23F /* Build configuration list for PBXProject "Dribbble-ios-sdk" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 806C7CC61B2052060021C23F;
+			productRefGroup = 806C7CD01B2052060021C23F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				806C7CCE1B2052060021C23F /* Dribbble-ios-sdk */,
+				806C7CE71B2052060021C23F /* Dribbble-ios-sdkTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		806C7CCD1B2052060021C23F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				806C7CDE1B2052060021C23F /* Main.storyboard in Resources */,
+				806C7CE31B2052060021C23F /* LaunchScreen.xib in Resources */,
+				806C7CE01B2052060021C23F /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		806C7CE61B2052060021C23F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		806C7CCB1B2052060021C23F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				806C7CDB1B2052060021C23F /* ViewController.m in Sources */,
+				806C7CD81B2052060021C23F /* AppDelegate.m in Sources */,
+				806C7CD51B2052060021C23F /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		806C7CE41B2052060021C23F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				806C7CEF1B2052060021C23F /* Dribbble_ios_sdkTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		806C7CEA1B2052060021C23F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 806C7CCE1B2052060021C23F /* Dribbble-ios-sdk */;
+			targetProxy = 806C7CE91B2052060021C23F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		806C7CDC1B2052060021C23F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				806C7CDD1B2052060021C23F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		806C7CE11B2052060021C23F /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				806C7CE21B2052060021C23F /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		806C7CF01B2052060021C23F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		806C7CF11B2052060021C23F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		806C7CF31B2052060021C23F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Dribbble-ios-sdk/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		806C7CF41B2052060021C23F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Dribbble-ios-sdk/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		806C7CF61B2052060021C23F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Dribbble-ios-sdkTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dribbble-ios-sdk.app/Dribbble-ios-sdk";
+			};
+			name = Debug;
+		};
+		806C7CF71B2052060021C23F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Dribbble-ios-sdkTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Dribbble-ios-sdk.app/Dribbble-ios-sdk";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		806C7CCA1B2052060021C23F /* Build configuration list for PBXProject "Dribbble-ios-sdk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				806C7CF01B2052060021C23F /* Debug */,
+				806C7CF11B2052060021C23F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		806C7CF21B2052060021C23F /* Build configuration list for PBXNativeTarget "Dribbble-ios-sdk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				806C7CF31B2052060021C23F /* Debug */,
+				806C7CF41B2052060021C23F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		806C7CF51B2052060021C23F /* Build configuration list for PBXNativeTarget "Dribbble-ios-sdkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				806C7CF61B2052060021C23F /* Debug */,
+				806C7CF71B2052060021C23F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 806C7CC71B2052060021C23F /* Project object */;
+}
