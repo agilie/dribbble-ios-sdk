@@ -10,7 +10,7 @@
 #import "DRUser.h"
 #import "DRBaseModel.h"
 
-@interface DRFolloweeUser : DRBaseModel
+@interface DRFolloweeUser : JSONModel
 
 @property (nonatomic, strong) DRUser *followee;
 

@@ -8,6 +8,7 @@
 
 #import "DROAuthManager.h"
 #import "DRApiClient.h"
+#import "DRBaseModel.h"
 
 @interface DROAuthManager () <UIWebViewDelegate>
 
@@ -33,8 +34,7 @@
                forAccountType:kIDMOAccountType];
     __weak typeof(self)weakSelf = self;
     [accountStore requestAccessToAccountWithType:kIDMOAccountType withPreparedAuthorizationURLHandler:^(NSURL *preparedURL) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kRedirectUrlDribbbleFormat, preparedURL.absoluteString, weakSelf.checkSumString]];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSURLRequest *request = [NSURLRequest requestWithURL:preparedURL];
         
 #warning TODO don't delete all cache, keep media
 
@@ -50,7 +50,7 @@
         webView.alpha = 0.f;
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
         NSLog(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
-        if (account.accessToken.accessToken.length > 0) {
+        if (account.accessToken.accessToken) {
             if (completion) completion([DRBaseModel modelWithData:account]);
         } else {
             if (errorHandler) errorHandler([DRBaseModel modelWithError:[NSError errorWithDomain:@"Invalid auth data" code:kHttpAuthErrorCode userInfo:nil]]);
@@ -81,8 +81,6 @@
         self.webView.userInteractionEnabled = YES;
         NSDictionary *params = [self grabUrlParameters:webView.request.URL];
         if ([params objectForKey:@"code"]) {
-            webView.alpha = 0.f;
-            self.oauthUrlCode = [params objectForKey:@"code"];
             [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType:kIDMOAccountType] enumerateObjectsUsingBlock:^(NXOAuth2Account * obj, NSUInteger idx, BOOL *stop) {
                 [[NXOAuth2AccountStore sharedStore] removeAccount:obj];
             }];
@@ -99,7 +97,6 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     if (self.progressHUDDismissBlock) self.progressHUDDismissBlock();
-    [[UIAlertView alertWithError:error] show];
 }
 
 #pragma mark - Helpers

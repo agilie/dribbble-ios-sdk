@@ -9,22 +9,18 @@
 #define DRApiClientLoggingEnabled 1
 #define DribbbleApiServiceLogTag @"[API Service] "
 
-
-
 #import <Foundation/Foundation.h>
-#import "DRBaseApiClient.h"
 #import "NXOAuth2.h"
-
+#import "DribbbleSDK.h"
 
 extern void logInteral(NSString *format, ...);
 extern DRErrorHandler showErrorAlertFailureHandler();
 
 typedef void(^DRRequestOperationHandler)(NSURLSessionDataTask *operation);
 
-@interface DRApiClient : DRBaseApiClient
+@interface DRApiClient : NSObject
 
 @property (strong, nonatomic) NSString *accessToken;
-@property (strong, nonatomic) AFHTTPSessionManager *apiManager;
 @property (copy, nonatomic) DRRequestOperationHandler operationStartHandler;
 @property (copy, nonatomic) DRRequestOperationHandler operationEndHandler;
 @property (copy, nonatomic) DRGeneralErrorHandler clientErrorHandler;

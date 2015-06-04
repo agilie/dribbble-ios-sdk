@@ -16,14 +16,14 @@ static NSString * const kFileExtensionGif = @"gif";
 
 #pragma mark - Dictionary Serialization
 
-+ (instancetype)fromDictionary:(NSDictionary *)shotDict {
-    DRShot *shotItem = [super fromDictionary:shotDict];
-    shotItem.shotId = [shotDict obtainNumber:@"id"];
-    shotItem.shotDescription = [shotDict obtainString:@"description"];
-    shotItem.user = (DRUser *)[DRUser fromDictionary:[shotDict obtainDictionary:@"user"]];
-    shotItem.team = (DRTeam *)[DRTeam fromDictionary:[shotDict obtainDictionary:@"team"]];
-    return shotItem;
-}
+//+ (instancetype)fromDictionary:(NSDictionary *)shotDict {
+//    DRShot *shotItem = [super fromDictionary:shotDict];
+//    shotItem.shotId = [shotDict obtainNumber:@"id"];
+//    shotItem.shotDescription = [shotDict obtainString:@"description"];
+//    shotItem.user = (DRUser *)[DRUser fromDictionary:[shotDict obtainDictionary:@"user"]];
+//    shotItem.team = (DRTeam *)[DRTeam fromDictionary:[shotDict obtainDictionary:@"team"]];
+//    return shotItem;
+//}
 
 + (NSArray *)transientProperties {
     return @[@"defaultUrl", @"fileType", @"db_shot_id", @"db_like_count", @"db_data", @"authorityId", @"isAuthorityFollowed", @"isLiked"];
@@ -48,23 +48,6 @@ static NSString * const kFileExtensionGif = @"gif";
 
 - (BOOL)isAnimation {
     return [self.fileType isEqualToString:kFileExtensionGif];
-}
-
-+ (DRShot *)makeStub {
-#warning TODO maybe return the same static instance?
-    return [DRShot new];
-}
-
-- (BOOL)isStub {
-    return !([self.shotId integerValue] > 0 && [self.authorityId integerValue] > 0);
-}
-
-- (BOOL)isLiked {
-    return [[DRActionManager instance] checkLocalLikedShots:self.shotId];
-}
-
-- (BOOL)isAuthorityFollowed {
-    return [[DRActionManager instance] checkLocalFollowed:self.authorityId];
 }
 
 #pragma mark - Override

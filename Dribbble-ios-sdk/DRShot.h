@@ -52,12 +52,7 @@
 @property (nonatomic) NSString *fileType;
 @property (nonatomic, readonly) NSNumber *authorityId;
 
-@property (nonatomic, readonly) BOOL isLiked;
-@property (nonatomic, readonly) BOOL isAuthorityFollowed;
 
 - (BOOL)isAnimation;
-
-+ (DRShot *)makeStub;
-- (BOOL)isStub;
 
 @end

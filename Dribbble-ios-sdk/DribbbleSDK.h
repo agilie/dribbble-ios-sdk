@@ -9,6 +9,10 @@
 #ifndef Dribbble_ios_sdk_DribbbleSDK_h
 #define Dribbble_ios_sdk_DribbbleSDK_h
 
+#import <AFNetworking/AFNetworking.h>
+#import <JSONModel/JSONModel.h>
+#import "AFHTTPRequestOperationManager+AutoRetry.h"
+
 #import "DREnums.h"
 #import "DRDefinitions.h"
 #import "DROAuthManager.h"

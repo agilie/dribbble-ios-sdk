@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DRBaseModel.h"
+#import "DRLink.h"
 
 @interface DRTeam : DRBaseModel
 

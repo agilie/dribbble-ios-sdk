@@ -8,11 +8,11 @@
 
 #import "DRApiClient.h"
 #import "DROAuthManager.h"
-#import "DRRequestLimitHandler.h"
-#import "DRTransactionModel.h"
+#import "DribbbleSDK.h"
+#import "DRBaseModel.h"
 #import "DRFolloweeUser.h"
-#import "NSURLSessionTask+TaskPriority.h"
-
+#import "DRShot.h"
+#import "DRTransactionModel.h"
 
 static NSString * const kInernalServerPattern = @"devdribbble.agilie.com";
 
@@ -45,12 +45,11 @@ void logInteral(NSString *format, ...) {
 
 
 @property (strong, nonatomic) DROAuthManager *oauthManager;
+@property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *imageManager;
 @property (strong, nonatomic) NSString *clientAccessSecret;
 
 @property (strong, nonatomic) AFHTTPRequestOperation *lastAddedImageOperation;
-
-@property (strong, nonatomic) DRRequestLimitHandler *limitHandler;
 
 @property (strong, nonatomic) NSMutableArray *scheduledTasks;
 
@@ -97,39 +96,39 @@ void logInteral(NSString *format, ...) {
 }
 
 
-- (AFHTTPSessionManager *)apiManager {
-    if (!_apiManager) {
-        _apiManager = [self createApiManager];
-        [self setupApiManager];
-    }
-    return _apiManager;
-}
+//- (AFHTTPSessionManager *)apiManager {
+//    if (!_apiManager) {
+//        _apiManager = [self createApiManager];
+//        [self setupApiManager];
+//    }
+//    return _apiManager;
+//}
 
-- (AFHTTPSessionManager *)createApiManager {
-    return [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:_baseApiUrl] sessionConfiguration:[self configuration]];
-}
+//- (AFHTTPSessionManager *)createApiManager {
+//    return [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:_baseApiUrl] sessionConfiguration:[self configuration]];
+//}
 
-- (NSURLSessionConfiguration *)configuration {
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    return configuration;
-}
+//- (NSURLSessionConfiguration *)configuration {
+//    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+//    return configuration;
+//}
 
-- (void)setupApiManager {
-    [_apiManager.requestSerializer setHTTPShouldHandleCookies:YES];
-    _apiManager.securityPolicy.allowInvalidCertificates = YES;
-    _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
-    _apiManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-    _apiManager.responseSerializer = [AFJSONResponseSerializer serializer];
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status){
-        logInteral(@"Internet reachability %d", status);
-    }];
-    __weak typeof(self)weakSelf = self;
-    [_apiManager setTaskDidCompleteBlock:^(NSURLSession *session, NSURLSessionTask *task, NSError *error) {
-        [weakSelf handleOperationEnd:(NSURLSessionDataTask *)task];
-    }];
-    
-}
+//- (void)setupApiManager {
+//    [_apiManager.requestSerializer setHTTPShouldHandleCookies:YES];
+//    _apiManager.securityPolicy.allowInvalidCertificates = YES;
+//    _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
+//    _apiManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+//    _apiManager.responseSerializer = [AFJSONResponseSerializer serializer];
+//    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+//    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status){
+//        logInteral(@"Internet reachability %d", status);
+//    }];
+//    __weak typeof(self)weakSelf = self;
+//    [_apiManager setTaskDidCompleteBlock:^(NSURLSession *session, NSURLSessionTask *task, NSError *error) {
+//        [weakSelf handleOperationEnd:(NSURLSessionDataTask *)task];
+//    }];
+//    
+//}
 
 #pragma mark - Setup
 
@@ -152,17 +151,17 @@ void logInteral(NSString *format, ...) {
 }
 
 - (void)setAccessToken:(NSString *)accessToken {
-    [super setAccessToken:accessToken];
+    self.accessToken = accessToken;
     [self.apiManager.requestSerializer setValue:[NSString stringWithFormat:@"%@ %@", kBearerString, self.accessToken] forHTTPHeaderField:kAuthorizationHTTPFieldName];
     
 }
 
 - (BOOL)isUserAuthorized {
-    return [super isUserAuthorized] && ![self.accessToken isEqualToString:self.clientAccessSecret];
+    return [self.accessToken length] && ![self.accessToken isEqualToString:self.clientAccessSecret];
 }
 
 - (NSURLSessionConfiguration *)configuration {
-    NSURLSessionConfiguration *configuration = [super configuration];
+    NSURLSessionConfiguration *configuration = [self configuration];
     configuration.HTTPMaximumConnectionsPerHost = 1;
     return configuration;
 }
@@ -191,43 +190,50 @@ void logInteral(NSString *format, ...) {
 
 - (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler {
     __weak typeof(self) weakSelf = self;
-    [self.oauthManager requestOAuth2Login:webView withApiClient:self completionHandler:^(DRBaseModel *data) {
+    [self.oauthManager requestOAuth2Login:webView completionHandler:^(DRBaseModel *data) {
         if (!data.error) {
-            
             NXOAuth2Account *account = data.object;
             if (account.accessToken.accessToken.length) {
                 weakSelf.accessToken = account.accessToken.accessToken;
             }
-            
             if (completion) completion(data);
         } else {
             [weakSelf resetAccessToken];
             if (errorHandler) errorHandler(data);
         }
-
     } failureHandler:errorHandler];
 }
-
-
 
 - (void)runRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler {
     NSURLSessionDataTask *requestOperation = [self prepareRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorBlock:errorHandler autoRetryCount:self.autoRetryCount];
     [self startOperation:requestOperation];
 }
 
-- (NSURLSessionDataTask *)prepareRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler autoRetryCount:(NSInteger)autoRetryCount {
+- (void)prepareRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler autoRetryCount:(NSInteger)autoRetryCount {
     __weak typeof(self)weakSelf = self;
     
     NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:type URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
+    AFHTTPRequestOperation *operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        if (operation.responseData) {
+            NSString *jsonString = [operation.responseData base64EncodedStringWithOptions:0];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        
+        
+    } autoRetryOf:3 retryInterval:1];
+    [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{
+        
+    }];
+    [operation start];
+    
+    if (self.operationStartHandler) self.operationStartHandler(operation);
     
     
     __block NSURLSessionDataTask *dataTask = [self.apiManager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (isFollowingShotsRequest) {
-            NSString *lastModifiedValue = [[(NSHTTPURLResponse *)response allHeaderFields] objectForKey:kHttpHeaderLastModifiedKey];
-            if (lastModifiedValue) {
-                [weakSelf setLastModifiedString:lastModifiedValue];
-            }
-        }
+        
         if (!error) {
             //
             //            #warning REMOVE FROM SDK
@@ -248,11 +254,8 @@ void logInteral(NSString *format, ...) {
             //                    if (completion) completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
             //                }
             //            } else {
-            if (isFollowingShotsRequest) {
-                if (completion) completion([DRBaseModel modelWithData:lastModified]);
-            } else {
+            
                 if (completion) completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
-            }
             //            }
         } else {
             
@@ -277,9 +280,6 @@ void logInteral(NSString *format, ...) {
     return dataTask;
 }
 
-
-
-
 - (NSURLSessionDataTask *)queueRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler {
     return [self queueRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorBlock:errorHandler priority:DRURLSessionTaskPriorityDefault  autoRetryCount:self.autoRetryCount];
 }
@@ -287,9 +287,8 @@ void logInteral(NSString *format, ...) {
 #warning TODO rename to createRequestWithMethod
 
 - (NSURLSessionDataTask *)queueRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler priority:(float)priority autoRetryCount:(NSInteger)autoRetryCount {
-    NSURLSessionDataTask *operation = [super prepareRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorBlock:errorHandler autoRetryCount:autoRetryCount];
+    NSURLSessionDataTask *operation = [self prepareRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorBlock:errorHandler autoRetryCount:autoRetryCount];
     
-    [self setTaskPriority:priority forTask:operation];
     
     [self startOperation:operation];
     return operation;
@@ -300,7 +299,7 @@ void logInteral(NSString *format, ...) {
 #warning TODO refactor back to NSURLConnection
 
 - (void)startOperation:(NSURLSessionDataTask *)operation {
-    if ([self.apiManager.tasks count] || self.limitHandler.isExceeded) {
+    if ([self.apiManager.tasks count] ||) {
         [self scheduleTask:operation];
     } else {
         [self resumeTask:operation];
@@ -323,7 +322,6 @@ void logInteral(NSString *format, ...) {
 - (void)handleOperationEnd:(NSURLSessionDataTask *)operation {
     if (self.operationEndHandler) self.operationEndHandler(operation);
 }
-
 
 #pragma mark - User
 
@@ -423,15 +421,29 @@ void logInteral(NSString *format, ...) {
     return requestOperation;
 }
 
-#pragma mark - 
+#pragma mark - Data response mapping
 
-- (void)resetAccessToken {
-    self.accessToken = nil;
+- (id)objectFromDictionary:(NSDictionary *)dict modelClass:(JSONModel *)modelClass {
+    return nil;
 }
 
-- (BOOL)isUserAuthorized {
-    return [self.accessToken length];
+- (id)mappedDataFromResponseObject:(id)object modelClass:(JSONModel *)modelClass {
+    if (modelClass == [NSNull class]) { // then bypass parsing
+        return [DRBaseModel modelWithData:object];
+    }
+    id mappedObject = nil;
+    if ([object isKindOfClass:[NSDictionary class]]) {
+        mappedObject = [self objectFromDictionary:object modelClass:modelClass];
+    } else if ([object isKindOfClass:[NSArray class]]) {
+        mappedObject = [(NSArray *)object bk_map:^id(id obj) {
+            if ([obj isKindOfClass:[NSDictionary class]]) {
+                return [self objectFromDictionary:obj modelClass:modelClass];
+            } else {
+                return [NSNull null];
+            }
+        }];
+    }
+    return [DRBaseModel modelWithData:mappedObject];
 }
-
 
 @end

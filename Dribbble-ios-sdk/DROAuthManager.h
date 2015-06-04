@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NXOAuth2.h"
+#import "DribbbleSDK.h"
 
 @class DRApiClient;
 

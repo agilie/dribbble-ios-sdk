@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DribbbleSDK.h"
 
 @interface DRShotCategory : NSObject
 

@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <objc/runtime.h>
+#import "DribbbleSDK.h"
+//#import <objc/runtime.h>
 
-@interface DRBaseModel : NSObject
+@interface DRBaseModel : JSONModel
 
 @property (strong, nonatomic) NSError *error;
 @property (strong, nonatomic) NSString *message;
