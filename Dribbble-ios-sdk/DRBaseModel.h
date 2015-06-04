@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
-#import "DRDictionarySerializationProtocol.h"
 
-@interface DRBaseModel : NSObject <DRDictionarySerializationProtocol>
+@interface DRBaseModel : NSObject
 
 @property (strong, nonatomic) NSError *error;
 @property (strong, nonatomic) NSString *message;

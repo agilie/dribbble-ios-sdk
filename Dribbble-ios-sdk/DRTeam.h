@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DRBaseModel.h"
 
-@interface DRTeam : DRBaseModel <DRDictionarySerializationProtocol>
+@interface DRTeam : DRBaseModel
 
 @property (strong, nonatomic) NSNumber *teamId;
 @property (strong, nonatomic) NSString *name;

@@ -15,12 +15,9 @@
 
 @property (strong, nonatomic) UIWebView *webView;
 @property (copy, nonatomic) DRHandler dismissWebViewBlock;
-@property (copy, nonatomic) DRGeneralErrorHandler passErrorToClientBlock;
 @property (copy, nonatomic) DRHandler progressHUDShowBlock;
 @property (copy, nonatomic) DRHandler progressHUDDismissBlock;
 
-- (void)pullCheckSumWithCompletionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler;
-- (void)applyAccount:(NXOAuth2Account *)account withApiClient:(DRApiClient *)apiClient completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler;
-- (void)requestOAuth2Login:(UIWebView *)webView withApiClient:(DRApiClient *)apiCLient completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler;
+- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler;
 
 @end

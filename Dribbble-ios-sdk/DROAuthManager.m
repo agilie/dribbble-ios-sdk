@@ -9,13 +9,7 @@
 #import "DROAuthManager.h"
 #import "DRApiClient.h"
 
-static NSString * kDribbblePullCheckSumRequest = @"PullCheckSumMethod";
-static NSString * kDribbbleAccountApplyRequest = @"AccountApplyMethod";
-
 @interface DROAuthManager () <UIWebViewDelegate>
-
-@property (copy, nonatomic) NSString *checkSumString;
-@property (copy, nonatomic) NSString *oauthUrlCode;
 
 @property (strong, nonatomic) id<NSObject> authCompletionObserver;
 @property (strong, nonatomic) id<NSObject> authErrorObserver;
@@ -24,76 +18,9 @@ static NSString * kDribbbleAccountApplyRequest = @"AccountApplyMethod";
 
 @implementation DROAuthManager
 
-#pragma mark - Oauth requests
-
-- (void)pullCheckSumWithCompletionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    __weak typeof(self)weakSelf = self;
-    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kBaseServerUrl,kDribbbleApiMethodChecksumForAuth]]];
-    [request setHTTPMethod:kDribbblePostRequest];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [requestOperation setResponseSerializer:[AFJSONResponseSerializer serializer]];
-    [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        weakSelf.checkSumString = responseObject[@"result"][@"checksum_code"];
-        completionHandler([DRBaseModel modelWithData:responseObject]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        weakSelf.passErrorToClientBlock(error, operation.request.URL.absoluteString, NO);
-        if (completionHandler) {
-            completionHandler([DRBaseModel modelWithError:error]);
-        }
-    }];
-    [requestOperation start];
-}
-
-- (void)applyAccount:(NXOAuth2Account *)account withApiClient:(DRApiClient *)apiClient completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kBaseServerUrl,kDribbbleApiMethodApplyAccessToken]]];
-    [request setHTTPMethod:kDribbblePostRequest];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    __weak typeof(self)weakSelf = self;
-    [apiClient loadUserInfoWithCompletionHandler:^(DRBaseModel *data) {
-        if (!data.error) {
-            DRUser *user = data.object;
-            NSData *jsonData = nil;
-            if (user.userId) {
-                [params addEntriesFromDictionary:@{@"db_client_id":user.userId}];
-            }
-            if (self.oauthUrlCode) {
-                [params addEntriesFromDictionary:@{@"db_code":self.oauthUrlCode}];
-            }
-            if (self.checkSumString) {
-                [params addEntriesFromDictionary:@{@"db_state":self.checkSumString}];
-            }
-            if (account.accessToken.accessToken) {
-                [params addEntriesFromDictionary:@{@"db_auth_token":account.accessToken.accessToken}];
-            }
-            jsonData = [NSJSONSerialization dataWithJSONObject:params
-                                                       options:NSJSONWritingPrettyPrinted
-                                                         error:nil];
-            [request setHTTPBody:jsonData];
-            AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-            [requestOperation setResponseSerializer:[AFJSONResponseSerializer serializer]];
-            [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-                completionHandler([DRBaseModel modelWithData:responseObject]);
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                weakSelf.passErrorToClientBlock (error, operation.request.URL.absoluteString, NO);
-                if (completionHandler) {
-                    completionHandler([DRBaseModel modelWithError:error]);
-                }
-            }];
-            [requestOperation start];
-        }
-    } failureHandler:^(DRBaseModel *data) {
-        if (errorHandler) {
-            errorHandler(data);
-        }
-    }];
-    
-}
-
 #pragma mark - OAuth2 Logic
 
-- (void)requestOAuth2Login:(UIWebView *)webView withApiClient:(DRApiClient *)apiClient completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler {
+- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler {
     webView.delegate = self;
     NXOAuth2AccountStore *accountStore = [NXOAuth2AccountStore sharedStore];
     [accountStore setClientID:kIDMOAuth2ClientId
@@ -132,7 +59,6 @@ static NSString * kDribbbleAccountApplyRequest = @"AccountApplyMethod";
     }];
     self.authErrorObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NSError *error = [aNotification.userInfo objectForKey:NXOAuth2AccountStoreErrorKey];
-        [[UIAlertView alertWithError:error] show];
         if (errorHandler) {
             errorHandler([DRBaseModel modelWithError:error]);
         }

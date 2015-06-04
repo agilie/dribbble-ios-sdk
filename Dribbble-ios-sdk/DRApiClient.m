@@ -13,6 +13,15 @@
 #import "DRFolloweeUser.h"
 #import "NSURLSessionTask+TaskPriority.h"
 
+
+static NSString * const kInernalServerPattern = @"devdribbble.agilie.com";
+
+static NSString * const kDefaultsKeyLastModified = @"me.agile.ninja.shotbucket.followees_shots_last_modified";
+
+static NSString * const kHttpHeaderLastModifiedKey = @"Last-Modified";
+static NSString * const kHttpHeaderIfModifiedSinceKey = @"If-Modified-Since";
+
+
 static NSString * const kAuthorizationHTTPFieldName = @"Authorization";
 static NSString * const kBearerString = @"Bearer";
 
@@ -31,6 +40,9 @@ void logInteral(NSString *format, ...) {
 }
 
 @interface DRApiClient ()
+
+@property (strong, nonatomic) NSString *baseApiUrl;
+
 
 @property (strong, nonatomic) DROAuthManager *oauthManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *imageManager;
@@ -53,27 +65,77 @@ void logInteral(NSString *format, ...) {
 #pragma mark - Init
 
 - (instancetype)init {
-    self = [super initWithBaseUrl:kBaseApiUrl];
+    self = [super init];
     if (self) {
+        self.baseApiUrl = kBaseApiUrl;
         self.oauthManager = [DROAuthManager new];
-        self.oauthManager.progressHUDShowBlock = self.progressHUDShowBlock;
-        self.oauthManager.progressHUDDismissBlock = self.progressHUDDismissBlock;
         __weak typeof(self) weakSelf = self;
         self.oauthManager.passErrorToClientBlock = ^ (NSError *error, NSString *method, BOOL showAlert) {
             if (weakSelf.clientErrorHandler) {
                 weakSelf.clientErrorHandler (error, method, showAlert);
             }
         };
+        [self restoreAccessToken];
         self.opInd = 0;
         self.dispatchLowPriorityTaskRunning = NO;
     }
     return self;
 }
 
+- (void)restoreAccessToken {
+    NXOAuth2Account *account = [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType: kIDMOAccountType] lastObject];
+    if (account) {
+        NSLog(@"We have token restored: %@", account.accessToken.accessToken);
+        self.accessToken = account.accessToken.accessToken;
+    }
+}
+
 #pragma mark - Setup
 
 - (void)setupOAuthDismissWebViewBlock:(DRHandler)dismissWebViewBlock {
     self.oauthManager.dismissWebViewBlock = dismissWebViewBlock;
+}
+
+
+- (AFHTTPSessionManager *)apiManager {
+    if (!_apiManager) {
+        _apiManager = [self createApiManager];
+        [self setupApiManager];
+    }
+    return _apiManager;
+}
+
+- (AFHTTPSessionManager *)createApiManager {
+    return [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:_baseApiUrl] sessionConfiguration:[self configuration]];
+}
+
+- (NSURLSessionConfiguration *)configuration {
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    return configuration;
+}
+
+- (void)setupApiManager {
+    [_apiManager.requestSerializer setHTTPShouldHandleCookies:YES];
+    _apiManager.securityPolicy.allowInvalidCertificates = YES;
+    _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
+    _apiManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+    _apiManager.responseSerializer = [AFJSONResponseSerializer serializer];
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status){
+        logInteral(@"Internet reachability %d", status);
+    }];
+    __weak typeof(self)weakSelf = self;
+    [_apiManager setTaskDidCompleteBlock:^(NSURLSession *session, NSURLSessionTask *task, NSError *error) {
+        [weakSelf handleOperationEnd:(NSURLSessionDataTask *)task];
+    }];
+    
+}
+
+#pragma mark - Setup
+
+- (void)setupDefaultSettings {
+    self.autoRetryCount = 3;
+    self.autoRetryInterval = 1;
 }
 
 #warning REMOVE FROM SDK
@@ -127,14 +189,16 @@ void logInteral(NSString *format, ...) {
 
 #pragma mark - OAuth calls
 
-- (void)pullCheckSumWithCompletionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self.oauthManager pullCheckSumWithCompletionHandler:completionHandler failureHandler:errorHandler];
-}
-
 - (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler {
     __weak typeof(self) weakSelf = self;
     [self.oauthManager requestOAuth2Login:webView withApiClient:self completionHandler:^(DRBaseModel *data) {
         if (!data.error) {
+            
+            NXOAuth2Account *account = data.object;
+            if (account.accessToken.accessToken.length) {
+                weakSelf.accessToken = account.accessToken.accessToken;
+            }
+            
             if (completion) completion(data);
         } else {
             [weakSelf resetAccessToken];
@@ -144,11 +208,76 @@ void logInteral(NSString *format, ...) {
     } failureHandler:errorHandler];
 }
 
-- (void)applyAccount:(NXOAuth2Account *)account withApiClient:(DRApiClient *)apiClient completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorBlock {
-    [self.oauthManager applyAccount:account withApiClient:apiClient completionHandler:completionHandler failureHandler:errorBlock];
+
+
+- (void)runRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler {
+    NSURLSessionDataTask *requestOperation = [self prepareRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorBlock:errorHandler autoRetryCount:self.autoRetryCount];
+    [self startOperation:requestOperation];
 }
 
-#pragma mark - Managing custom request queue with limit
+- (NSURLSessionDataTask *)prepareRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler autoRetryCount:(NSInteger)autoRetryCount {
+    __weak typeof(self)weakSelf = self;
+    
+    NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:type URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
+    
+    
+    __block NSURLSessionDataTask *dataTask = [self.apiManager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (isFollowingShotsRequest) {
+            NSString *lastModifiedValue = [[(NSHTTPURLResponse *)response allHeaderFields] objectForKey:kHttpHeaderLastModifiedKey];
+            if (lastModifiedValue) {
+                [weakSelf setLastModifiedString:lastModifiedValue];
+            }
+        }
+        if (!error) {
+            //
+            //            #warning REMOVE FROM SDK
+            //
+            //            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            //                NSNumber *status = [responseObject obtainNumber:@"success"];
+            //                NSError *error = nil;
+            //                if (status) {
+            //                    responseObject = [responseObject obtainDictionary:@"result"];
+            //                    if ([status intValue] == 0) {
+            //                        if (completion) completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
+            //                    } else  {
+            //                        error = [NSError errorWithDomain:[responseObject objectForKey:@"message"]?:@"Auth error" code:kHttpAuthErrorCode userInfo:nil];
+            //                        if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error, response.URL.absoluteString, shouldShowError);
+            //                        if (completion) completion([DRBaseModel modelWithError:error]);
+            //                    }
+            //                } else {
+            //                    if (completion) completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
+            //                }
+            //            } else {
+            if (isFollowingShotsRequest) {
+                if (completion) completion([DRBaseModel modelWithData:lastModified]);
+            } else {
+                if (completion) completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
+            }
+            //            }
+        } else {
+            
+            //            if ([(NSHTTPURLResponse *)response statusCode] == kHttpAuthErrorCode) {
+            //                UIAlertView *alertMessage = [UIAlertView alertWithMessage:kConfirmationRequireText andTitle:@"Info"];
+            //                [alertMessage bk_setCancelBlock:^{
+            //
+            //#warning TODO rename to nonAuthorizedErrorHandler()
+            //
+            //                    if (weakSelf.cleanBadCredentialsHandler) {
+            //                        weakSelf.cleanBadCredentialsHandler();
+            //                    }
+            //                }];
+            //                [alertMessage show];
+            //            }
+            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error, response.URL.absoluteString, shouldShowError);
+            
+            if (completion) completion([DRBaseModel modelWithError:error]);
+        }
+    }];
+    
+    return dataTask;
+}
+
+
 
 
 - (NSURLSessionDataTask *)queueRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler {
@@ -180,138 +309,21 @@ void logInteral(NSString *format, ...) {
 
 #warning TODO make public blocks: operationStartHandler(operation) and operationEndHandler(operation)
 
-- (void)handleOperationStart:(NSURLSessionDataTask *)operation {
-    [super handleOperationStart:operation];
-    [self.limitHandler updateRemainingForType:DRRequestLimitPerDay];
-//    NSLog(@"operation start: %@, limit is: %ld", [operation.request.URL absoluteString], self.limitHandler.minuteLimit.remaining);
+
+- (void)startOperation:(NSURLSessionDataTask *)operation {
+    [operation resume];
+    [self handleOperationStart:operation];
 }
+
+- (void)handleOperationStart:(NSURLSessionDataTask *)operation {
+    if (self.operationStartHandler) self.operationStartHandler(operation);
+}
+
 
 - (void)handleOperationEnd:(NSURLSessionDataTask *)operation {
-    [super handleOperationEnd:operation];
-    
-    if ([(NSHTTPURLResponse *)operation.response statusCode] == kHttpRateLimitErrorCode) NSLog(@"got server \"limit exceed\" error 429");
-    
-    if (operation.error && operation.error.code == NSURLErrorCancelled) {
-        NSLog(@"task cancelled: %@", operation.taskDescription ?: [operation.originalRequest.URL relativeString]);
-    } else {
-        NSLog(@"task finished: %@, limit is: %ld;", operation.taskDescription ?: [operation.originalRequest.URL relativeString], (long)self.limitHandler.minuteLimit.remaining);
-        [self.limitHandler updateLimitForType:DRRequestLimitPerMinute withHeaders:[(NSHTTPURLResponse *)operation.response allHeaderFields]];
-    }
-    
-    if (!self.limitHandler.isExceeded) {
-        [self consumeScheduledTask];
-    }
+    if (self.operationEndHandler) self.operationEndHandler(operation);
 }
 
-#warning REMOVE FROM SDK
-
-- (void)killTaskIfNeeded:(NSURLSessionTask *)task reason:(NSString *)reason {
-
-    float taskPriority = [self priorityForTask:task];
-    if (taskPriority == DRURLSessionTaskPriorityLow) {
-        NSString *desc = task.taskDescription ?: [task.originalRequest.URL relativeString];
-       NSLog(@"killed task: %@; reason: %@", desc, reason);
-        [task cancel];
-        if ([self.scheduledTasks containsObject:task]) [self.scheduledTasks removeObject:task];
-    }
-}
-#warning REMOVE FROM SDK
-- (void)killLowPriorityScheduledTask {
-    for (NSURLSessionTask *task in [self.apiManager.tasks arrayByAddingObjectsFromArray:self.scheduledTasks]) {
-        [self killTaskIfNeeded:task reason:@"batch"];
-    }
-}
-#warning REMOVE FROM SDK
-- (void)killLowPriorityTasksForShot:(DRShot *)shot {
-    NSString *likeMethod = [NSString stringWithFormat:kDribbbleApiMethodCheckShotWasLiked, shot.shotId];
-    NSString *followMethod = [NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, shot.authorityId];
-    for (NSURLSessionTask *task in [self.apiManager.tasks arrayByAddingObjectsFromArray:self.scheduledTasks]) {
-        for (NSString *methodString in @[likeMethod, followMethod]) {
-            if ([[task.originalRequest.URL absoluteString] rangeOfString:methodString].location != NSNotFound) {
-                [self killTaskIfNeeded:task reason:[NSString stringWithFormat:@"animate off shot id:%@", shot.shotId]];
-            }
-        }
-    }
-}
-#warning REMOVE FROM SDK
-- (DRRequestLimitHandler *)limitHandler {
-    __weak typeof(self) weakSelf = self;
-    if (!_limitHandler) {
-        _limitHandler = [DRRequestLimitHandler standardHandler];
-        [_limitHandler loadUserLimits];
-        _limitHandler.limitStateChangedHandler = ^(DRRequestLimit *limit) {
-            if (limit.isExceeded) {
-                [[weakSelf.apiManager tasks] makeObjectsPerformSelector:@selector(suspend)];
-            } else {
-                if ([weakSelf.apiManager.tasks count]) {
-                    [[weakSelf.apiManager tasks] enumerateObjectsUsingBlock:^(NSURLSessionTask *obj, NSUInteger idx, BOOL *stop) {
-                        [weakSelf resumeTask:obj];
-                    }];
-                } else {
-                    [weakSelf consumeScheduledTask];
-                }
-            }
-            if (weakSelf.requestLimitStateChangedHandler) weakSelf.requestLimitStateChangedHandler(limit.type, limit.isExceeded);
-        };
-    }
-    return _limitHandler;
-}
-#warning REMOVE FROM SDK
-- (NSMutableArray *)scheduledTasks {
-    if (!_scheduledTasks) _scheduledTasks = [NSMutableArray array];
-    return _scheduledTasks;
-}
-#warning REMOVE FROM SDK
-- (void)scheduleTask:(NSURLSessionTask *)task {
-    __weak typeof(self) weakSelf = self;
-    @synchronized(self) {
-        [self.scheduledTasks addObject:task];
-        [self.scheduledTasks sortUsingComparator:^NSComparisonResult(NSURLSessionTask *task1, NSURLSessionTask *task2) {
-            float value1 = [weakSelf priorityForTask:task1];
-            float value2 = [weakSelf priorityForTask:task2];
-            if (value1 > value2)
-                return NSOrderedDescending;
-            else if (value1 < value2)
-                return NSOrderedAscending;
-            return NSOrderedSame;
-        }];
-    }
-}
-#warning REMOVE FROM SDK
-- (void)resumeTask:(NSURLSessionTask *)task {
-    NSLog(@"resuming task: %@", task.taskDescription ?: [task.originalRequest.URL relativeString]);
-    [self.scheduledTasks removeObject:task];
-    [task resume];
-    [self handleOperationStart:(NSURLSessionDataTask *)task];
-}
-
-#warning REMOVE FROM SDK
-
-- (void)resumeNextTaskAfterDispatch {
-    NSURLSessionTask *task = [self.scheduledTasks firstObject];
-    if (!self.limitHandler.isExceeded) {
-        [self resumeTask:task];
-    }
-}
-
-#warning REMOVE FROM SDK
-
-- (void)consumeScheduledTask {
-    NSURLSessionTask *task = [self.scheduledTasks firstObject];
-    if (task) {
-        if ([self priorityForTask:task] == DRURLSessionTaskPriorityLow) {
-            if (!self.dispatchLowPriorityTaskRunning) {
-                self.dispatchLowPriorityTaskRunning = YES;
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kLowPriorityTaskConsumeDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self resumeNextTaskAfterDispatch];
-                    self.dispatchLowPriorityTaskRunning = NO;
-                });
-            }
-        } else {
-            [self resumeTask:task];
-        }
-    }
-}
 
 #pragma mark - User
 
@@ -371,8 +383,6 @@ void logInteral(NSString *format, ...) {
     [self queueRequest:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbblePutRequest modelClass:[DRBaseModel class] params:nil showError:YES completion:completionHandler errorBlock:errorHandler];
 }
 
-static int i1 = 0, i2 = 0;
-
 - (void)unFollowUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
     [self queueRequest:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbbleDeleteRequest modelClass:[DRBaseModel class] params:nil showError:YES completion:completionHandler errorBlock:errorHandler];
 }
@@ -415,23 +425,13 @@ static int i1 = 0, i2 = 0;
 
 #pragma mark - 
 
-#warning REMOVE FROM SDK
-
-- (void)setTaskPriority:(float)priority forTask:(NSURLSessionTask *)task {
-    [task bk_associateValue:@(priority) withKey:&DRURLSessionTaskPriorityKeyPointer];
+- (void)resetAccessToken {
+    self.accessToken = nil;
 }
 
-#warning REMOVE FROM SDK
-
-- (float)priorityForTask:(NSURLSessionTask *)task {
-    NSNumber *value = [task bk_associatedValueForKey:&DRURLSessionTaskPriorityKeyPointer];
-    return value ? [value floatValue] : DRURLSessionTaskPriorityDefault;
+- (BOOL)isUserAuthorized {
+    return [self.accessToken length];
 }
 
-#warning REMOVE FROM SDK
-
-- (void)loadSavedLimitsForUserId:(NSNumber *)userId {
-    [_limitHandler loadUserLimits];
-}
 
 @end
