@@ -8,12 +8,37 @@
 
 /* Begin PBXBuildFile section */
 		806C7CD51B2052060021C23F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CD41B2052060021C23F /* main.m */; };
-		806C7CD81B2052060021C23F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CD71B2052060021C23F /* AppDelegate.m */; };
-		806C7CDB1B2052060021C23F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CDA1B2052060021C23F /* ViewController.m */; };
+		806C7CD81B2052060021C23F /* DRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CD71B2052060021C23F /* DRAppDelegate.m */; };
 		806C7CDE1B2052060021C23F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 806C7CDC1B2052060021C23F /* Main.storyboard */; };
 		806C7CE01B2052060021C23F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 806C7CDF1B2052060021C23F /* Images.xcassets */; };
 		806C7CE31B2052060021C23F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 806C7CE11B2052060021C23F /* LaunchScreen.xib */; };
 		806C7CEF1B2052060021C23F /* Dribbble_ios_sdkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CEE1B2052060021C23F /* Dribbble_ios_sdkTests.m */; };
+		806C7D0B1B2064D60021C23F /* DRBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CFA1B2064D60021C23F /* DRBaseModel.m */; };
+		806C7D0C1B2064D60021C23F /* DRTransactionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CFC1B2064D60021C23F /* DRTransactionModel.m */; };
+		806C7D0D1B2064D60021C23F /* DRShot.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7CFE1B2064D60021C23F /* DRShot.m */; };
+		806C7D0E1B2064D60021C23F /* DRUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7D001B2064D60021C23F /* DRUser.m */; };
+		806C7D0F1B2064D60021C23F /* DRTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7D021B2064D60021C23F /* DRTeam.m */; };
+		806C7D101B2064D60021C23F /* DRShotCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7D041B2064D60021C23F /* DRShotCategory.m */; };
+		806C7D111B2064D60021C23F /* DRImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7D061B2064D60021C23F /* DRImage.m */; };
+		806C7D121B2064D60021C23F /* DRLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7D081B2064D60021C23F /* DRLink.m */; };
+		806C7D131B2064D60021C23F /* DRFolloweeUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 806C7D0A1B2064D60021C23F /* DRFolloweeUser.m */; };
+		80DC81BB1B206F4600C3023A /* DRBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81AB1B206F4600C3023A /* DRBaseViewController.m */; };
+		80DC81BC1B206F4600C3023A /* DRLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81AD1B206F4600C3023A /* DRLoginViewController.m */; };
+		80DC81BD1B206F4600C3023A /* DRMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81AF1B206F4600C3023A /* DRMainViewController.m */; };
+		80DC81BE1B206F4600C3023A /* DRShotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81B11B206F4600C3023A /* DRShotsViewController.m */; };
+		80DC81BF1B206F4600C3023A /* DRShotsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80DC81B21B206F4600C3023A /* DRShotsViewController.xib */; };
+		80DC81CA1B206F6F00C3023A /* DRCategoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81C81B206F6F00C3023A /* DRCategoryTableViewCell.m */; };
+		80DC81CB1B206F6F00C3023A /* DRCategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80DC81C91B206F6F00C3023A /* DRCategoryTableViewCell.xib */; };
+		80DC81D21B206F7B00C3023A /* DRShotCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81CD1B206F7B00C3023A /* DRShotCardView.m */; };
+		80DC81D31B206F7B00C3023A /* DRShotCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80DC81CE1B206F7B00C3023A /* DRShotCardView.xib */; };
+		80DC81D41B206F7B00C3023A /* DRMyShotCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81D01B206F7B00C3023A /* DRMyShotCollectionViewCell.m */; };
+		80DC81D51B206F7B00C3023A /* DRMyShotCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 80DC81D11B206F7B00C3023A /* DRMyShotCollectionViewCell.xib */; };
+		80DC81EA1B206FEC00C3023A /* DRActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81DC1B206FEC00C3023A /* DRActionManager.m */; };
+		80DC81EB1B206FEC00C3023A /* DRApiService.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81DE1B206FEC00C3023A /* DRApiService.m */; };
+		80DC81EC1B206FEC00C3023A /* DRBaseApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81E01B206FEC00C3023A /* DRBaseApiClient.m */; };
+		80DC81ED1B206FEC00C3023A /* DRApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81E21B206FEC00C3023A /* DRApiClient.m */; };
+		80DC81EF1B206FEC00C3023A /* DROAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC81E61B206FEC00C3023A /* DROAuthManager.m */; };
+		FC0619F5D250E1E02DDA85B0 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87B7AA0C380620F972D7ADB8 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,19 +52,69 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4221551AFF373BC13E40BC0C /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		69DCFBFC799CB38C0172304C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		806C7CCF1B2052060021C23F /* Dribbble-ios-sdk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dribbble-ios-sdk.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		806C7CD31B2052060021C23F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		806C7CD41B2052060021C23F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		806C7CD61B2052060021C23F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		806C7CD71B2052060021C23F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		806C7CD91B2052060021C23F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		806C7CDA1B2052060021C23F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		806C7CD61B2052060021C23F /* DRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DRAppDelegate.h; sourceTree = "<group>"; };
+		806C7CD71B2052060021C23F /* DRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DRAppDelegate.m; sourceTree = "<group>"; };
 		806C7CDD1B2052060021C23F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		806C7CDF1B2052060021C23F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		806C7CE21B2052060021C23F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		806C7CE81B2052060021C23F /* Dribbble-ios-sdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dribbble-ios-sdkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		806C7CED1B2052060021C23F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		806C7CEE1B2052060021C23F /* Dribbble_ios_sdkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Dribbble_ios_sdkTests.m; sourceTree = "<group>"; };
+		806C7CF91B2064D60021C23F /* DRBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRBaseModel.h; sourceTree = "<group>"; };
+		806C7CFA1B2064D60021C23F /* DRBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRBaseModel.m; sourceTree = "<group>"; };
+		806C7CFB1B2064D60021C23F /* DRTransactionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTransactionModel.h; sourceTree = "<group>"; };
+		806C7CFC1B2064D60021C23F /* DRTransactionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTransactionModel.m; sourceTree = "<group>"; };
+		806C7CFD1B2064D60021C23F /* DRShot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRShot.h; sourceTree = "<group>"; };
+		806C7CFE1B2064D60021C23F /* DRShot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRShot.m; sourceTree = "<group>"; };
+		806C7CFF1B2064D60021C23F /* DRUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRUser.h; sourceTree = "<group>"; };
+		806C7D001B2064D60021C23F /* DRUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRUser.m; sourceTree = "<group>"; };
+		806C7D011B2064D60021C23F /* DRTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTeam.h; sourceTree = "<group>"; };
+		806C7D021B2064D60021C23F /* DRTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTeam.m; sourceTree = "<group>"; };
+		806C7D031B2064D60021C23F /* DRShotCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRShotCategory.h; sourceTree = "<group>"; };
+		806C7D041B2064D60021C23F /* DRShotCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRShotCategory.m; sourceTree = "<group>"; };
+		806C7D051B2064D60021C23F /* DRImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRImage.h; sourceTree = "<group>"; };
+		806C7D061B2064D60021C23F /* DRImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRImage.m; sourceTree = "<group>"; };
+		806C7D071B2064D60021C23F /* DRLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRLink.h; sourceTree = "<group>"; };
+		806C7D081B2064D60021C23F /* DRLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRLink.m; sourceTree = "<group>"; };
+		806C7D091B2064D60021C23F /* DRFolloweeUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFolloweeUser.h; sourceTree = "<group>"; };
+		806C7D0A1B2064D60021C23F /* DRFolloweeUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFolloweeUser.m; sourceTree = "<group>"; };
+		80DC81AA1B206F4600C3023A /* DRBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRBaseViewController.h; sourceTree = "<group>"; };
+		80DC81AB1B206F4600C3023A /* DRBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRBaseViewController.m; sourceTree = "<group>"; };
+		80DC81AC1B206F4600C3023A /* DRLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRLoginViewController.h; sourceTree = "<group>"; };
+		80DC81AD1B206F4600C3023A /* DRLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRLoginViewController.m; sourceTree = "<group>"; };
+		80DC81AE1B206F4600C3023A /* DRMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMainViewController.h; sourceTree = "<group>"; };
+		80DC81AF1B206F4600C3023A /* DRMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMainViewController.m; sourceTree = "<group>"; };
+		80DC81B01B206F4600C3023A /* DRShotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRShotsViewController.h; sourceTree = "<group>"; };
+		80DC81B11B206F4600C3023A /* DRShotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRShotsViewController.m; sourceTree = "<group>"; };
+		80DC81B21B206F4600C3023A /* DRShotsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DRShotsViewController.xib; sourceTree = "<group>"; };
+		80DC81C71B206F6F00C3023A /* DRCategoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCategoryTableViewCell.h; sourceTree = "<group>"; };
+		80DC81C81B206F6F00C3023A /* DRCategoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCategoryTableViewCell.m; sourceTree = "<group>"; };
+		80DC81C91B206F6F00C3023A /* DRCategoryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DRCategoryTableViewCell.xib; sourceTree = "<group>"; };
+		80DC81CC1B206F7B00C3023A /* DRShotCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRShotCardView.h; sourceTree = "<group>"; };
+		80DC81CD1B206F7B00C3023A /* DRShotCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRShotCardView.m; sourceTree = "<group>"; };
+		80DC81CE1B206F7B00C3023A /* DRShotCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DRShotCardView.xib; sourceTree = "<group>"; };
+		80DC81CF1B206F7B00C3023A /* DRMyShotCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRMyShotCollectionViewCell.h; sourceTree = "<group>"; };
+		80DC81D01B206F7B00C3023A /* DRMyShotCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRMyShotCollectionViewCell.m; sourceTree = "<group>"; };
+		80DC81D11B206F7B00C3023A /* DRMyShotCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DRMyShotCollectionViewCell.xib; sourceTree = "<group>"; };
+		80DC81D61B206F8E00C3023A /* DREnums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DREnums.h; sourceTree = "<group>"; };
+		80DC81D71B206F8E00C3023A /* DRDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DRDefinitions.h; sourceTree = "<group>"; };
+		80DC81D81B206FC200C3023A /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		80DC81DB1B206FEC00C3023A /* DRActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRActionManager.h; sourceTree = "<group>"; };
+		80DC81DC1B206FEC00C3023A /* DRActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRActionManager.m; sourceTree = "<group>"; };
+		80DC81DD1B206FEC00C3023A /* DRApiService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRApiService.h; sourceTree = "<group>"; };
+		80DC81DE1B206FEC00C3023A /* DRApiService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRApiService.m; sourceTree = "<group>"; };
+		80DC81DF1B206FEC00C3023A /* DRBaseApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRBaseApiClient.h; sourceTree = "<group>"; };
+		80DC81E01B206FEC00C3023A /* DRBaseApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRBaseApiClient.m; sourceTree = "<group>"; };
+		80DC81E11B206FEC00C3023A /* DRApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRApiClient.h; sourceTree = "<group>"; };
+		80DC81E21B206FEC00C3023A /* DRApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRApiClient.m; sourceTree = "<group>"; };
+		80DC81E51B206FEC00C3023A /* DROAuthManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DROAuthManager.h; sourceTree = "<group>"; };
+		80DC81E61B206FEC00C3023A /* DROAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DROAuthManager.m; sourceTree = "<group>"; };
+		87B7AA0C380620F972D7ADB8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC0619F5D250E1E02DDA85B0 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +136,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15D333FF98B51175866858F8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				87B7AA0C380620F972D7ADB8 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		806C7CC61B2052060021C23F = {
 			isa = PBXGroup;
 			children = (
 				806C7CD11B2052060021C23F /* Dribbble-ios-sdk */,
 				806C7CEB1B2052060021C23F /* Dribbble-ios-sdkTests */,
 				806C7CD01B2052060021C23F /* Products */,
+				88DFE7DCE5F467B2FA27A215 /* Pods */,
+				15D333FF98B51175866858F8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,10 +167,14 @@
 		806C7CD11B2052060021C23F /* Dribbble-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
-				806C7CD61B2052060021C23F /* AppDelegate.h */,
-				806C7CD71B2052060021C23F /* AppDelegate.m */,
-				806C7CD91B2052060021C23F /* ViewController.h */,
-				806C7CDA1B2052060021C23F /* ViewController.m */,
+				80DC81A41B206EAA00C3023A /* Services */,
+				80DC81851B206B5900C3023A /* Extra */,
+				806C7CF81B2063580021C23F /* Models */,
+				80DC81A61B206F1E00C3023A /* ViewController */,
+				806C7CD61B2052060021C23F /* DRAppDelegate.h */,
+				806C7CD71B2052060021C23F /* DRAppDelegate.m */,
+				80DC81D61B206F8E00C3023A /* DREnums.h */,
+				80DC81D71B206F8E00C3023A /* DRDefinitions.h */,
 				806C7CDC1B2052060021C23F /* Main.storyboard */,
 				806C7CDF1B2052060021C23F /* Images.xcassets */,
 				806C7CE11B2052060021C23F /* LaunchScreen.xib */,
@@ -98,6 +188,7 @@
 			children = (
 				806C7CD31B2052060021C23F /* Info.plist */,
 				806C7CD41B2052060021C23F /* main.m */,
+				80DC81D81B206FC200C3023A /* PrefixHeader.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -119,6 +210,121 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		806C7CF81B2063580021C23F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				806C7CF91B2064D60021C23F /* DRBaseModel.h */,
+				806C7CFA1B2064D60021C23F /* DRBaseModel.m */,
+				806C7CFB1B2064D60021C23F /* DRTransactionModel.h */,
+				806C7CFC1B2064D60021C23F /* DRTransactionModel.m */,
+				806C7CFD1B2064D60021C23F /* DRShot.h */,
+				806C7CFE1B2064D60021C23F /* DRShot.m */,
+				806C7CFF1B2064D60021C23F /* DRUser.h */,
+				806C7D001B2064D60021C23F /* DRUser.m */,
+				806C7D011B2064D60021C23F /* DRTeam.h */,
+				806C7D021B2064D60021C23F /* DRTeam.m */,
+				806C7D031B2064D60021C23F /* DRShotCategory.h */,
+				806C7D041B2064D60021C23F /* DRShotCategory.m */,
+				806C7D051B2064D60021C23F /* DRImage.h */,
+				806C7D061B2064D60021C23F /* DRImage.m */,
+				806C7D071B2064D60021C23F /* DRLink.h */,
+				806C7D081B2064D60021C23F /* DRLink.m */,
+				806C7D091B2064D60021C23F /* DRFolloweeUser.h */,
+				806C7D0A1B2064D60021C23F /* DRFolloweeUser.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		80DC81851B206B5900C3023A /* Extra */ = {
+			isa = PBXGroup;
+			children = (
+				80DC81921B206BB900C3023A /* RippleButton */,
+			);
+			name = Extra;
+			sourceTree = "<group>";
+		};
+		80DC81921B206BB900C3023A /* RippleButton */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = RippleButton;
+			sourceTree = "<group>";
+		};
+		80DC81A41B206EAA00C3023A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				80DC81F11B20700500C3023A /* OperationQueue */,
+				80DC81DB1B206FEC00C3023A /* DRActionManager.h */,
+				80DC81DC1B206FEC00C3023A /* DRActionManager.m */,
+				80DC81DD1B206FEC00C3023A /* DRApiService.h */,
+				80DC81DE1B206FEC00C3023A /* DRApiService.m */,
+				80DC81DF1B206FEC00C3023A /* DRBaseApiClient.h */,
+				80DC81E01B206FEC00C3023A /* DRBaseApiClient.m */,
+				80DC81E11B206FEC00C3023A /* DRApiClient.h */,
+				80DC81E21B206FEC00C3023A /* DRApiClient.m */,
+				80DC81E51B206FEC00C3023A /* DROAuthManager.h */,
+				80DC81E61B206FEC00C3023A /* DROAuthManager.m */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
+		80DC81A61B206F1E00C3023A /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				80DC81C51B206F5000C3023A /* TableViewCell */,
+				80DC81C61B206F5A00C3023A /* CollectionViewCell */,
+				80DC81AA1B206F4600C3023A /* DRBaseViewController.h */,
+				80DC81AB1B206F4600C3023A /* DRBaseViewController.m */,
+				80DC81AC1B206F4600C3023A /* DRLoginViewController.h */,
+				80DC81AD1B206F4600C3023A /* DRLoginViewController.m */,
+				80DC81AE1B206F4600C3023A /* DRMainViewController.h */,
+				80DC81AF1B206F4600C3023A /* DRMainViewController.m */,
+				80DC81B01B206F4600C3023A /* DRShotsViewController.h */,
+				80DC81B11B206F4600C3023A /* DRShotsViewController.m */,
+				80DC81B21B206F4600C3023A /* DRShotsViewController.xib */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		80DC81C51B206F5000C3023A /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				80DC81C71B206F6F00C3023A /* DRCategoryTableViewCell.h */,
+				80DC81C81B206F6F00C3023A /* DRCategoryTableViewCell.m */,
+				80DC81C91B206F6F00C3023A /* DRCategoryTableViewCell.xib */,
+			);
+			name = TableViewCell;
+			sourceTree = "<group>";
+		};
+		80DC81C61B206F5A00C3023A /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				80DC81CC1B206F7B00C3023A /* DRShotCardView.h */,
+				80DC81CD1B206F7B00C3023A /* DRShotCardView.m */,
+				80DC81CE1B206F7B00C3023A /* DRShotCardView.xib */,
+				80DC81CF1B206F7B00C3023A /* DRMyShotCollectionViewCell.h */,
+				80DC81D01B206F7B00C3023A /* DRMyShotCollectionViewCell.m */,
+				80DC81D11B206F7B00C3023A /* DRMyShotCollectionViewCell.xib */,
+			);
+			name = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		80DC81F11B20700500C3023A /* OperationQueue */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = OperationQueue;
+			sourceTree = "<group>";
+		};
+		88DFE7DCE5F467B2FA27A215 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4221551AFF373BC13E40BC0C /* Pods.debug.xcconfig */,
+				69DCFBFC799CB38C0172304C /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +332,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 806C7CF21B2052060021C23F /* Build configuration list for PBXNativeTarget "Dribbble-ios-sdk" */;
 			buildPhases = (
+				930DF48D5649B02288341D81 /* Check Pods Manifest.lock */,
 				806C7CCB1B2052060021C23F /* Sources */,
 				806C7CCC1B2052060021C23F /* Frameworks */,
 				806C7CCD1B2052060021C23F /* Resources */,
+				3D3F6763F9D0BE3527731836 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -163,6 +371,7 @@
 		806C7CC71B2052060021C23F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = DR;
 				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = Agilie;
 				TargetAttributes = {
@@ -199,7 +408,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80DC81D51B206F7B00C3023A /* DRMyShotCollectionViewCell.xib in Resources */,
+				80DC81CB1B206F6F00C3023A /* DRCategoryTableViewCell.xib in Resources */,
+				80DC81BF1B206F4600C3023A /* DRShotsViewController.xib in Resources */,
 				806C7CDE1B2052060021C23F /* Main.storyboard in Resources */,
+				80DC81D31B206F7B00C3023A /* DRShotCardView.xib in Resources */,
 				806C7CE31B2052060021C23F /* LaunchScreen.xib in Resources */,
 				806C7CE01B2052060021C23F /* Images.xcassets in Resources */,
 			);
@@ -214,13 +427,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3D3F6763F9D0BE3527731836 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		930DF48D5649B02288341D81 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		806C7CCB1B2052060021C23F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				806C7CDB1B2052060021C23F /* ViewController.m in Sources */,
-				806C7CD81B2052060021C23F /* AppDelegate.m in Sources */,
+				80DC81ED1B206FEC00C3023A /* DRApiClient.m in Sources */,
+				806C7D0F1B2064D60021C23F /* DRTeam.m in Sources */,
+				806C7D111B2064D60021C23F /* DRImage.m in Sources */,
+				806C7D121B2064D60021C23F /* DRLink.m in Sources */,
+				80DC81BE1B206F4600C3023A /* DRShotsViewController.m in Sources */,
+				806C7D101B2064D60021C23F /* DRShotCategory.m in Sources */,
+				80DC81EC1B206FEC00C3023A /* DRBaseApiClient.m in Sources */,
+				806C7CD81B2052060021C23F /* DRAppDelegate.m in Sources */,
+				80DC81D21B206F7B00C3023A /* DRShotCardView.m in Sources */,
+				806C7D0B1B2064D60021C23F /* DRBaseModel.m in Sources */,
+				80DC81CA1B206F6F00C3023A /* DRCategoryTableViewCell.m in Sources */,
+				80DC81BC1B206F4600C3023A /* DRLoginViewController.m in Sources */,
+				80DC81BD1B206F4600C3023A /* DRMainViewController.m in Sources */,
+				806C7D0E1B2064D60021C23F /* DRUser.m in Sources */,
+				80DC81BB1B206F4600C3023A /* DRBaseViewController.m in Sources */,
+				80DC81EF1B206FEC00C3023A /* DROAuthManager.m in Sources */,
+				806C7D0D1B2064D60021C23F /* DRShot.m in Sources */,
+				80DC81D41B206F7B00C3023A /* DRMyShotCollectionViewCell.m in Sources */,
+				80DC81EA1B206FEC00C3023A /* DRActionManager.m in Sources */,
+				80DC81EB1B206FEC00C3023A /* DRApiService.m in Sources */,
+				806C7D131B2064D60021C23F /* DRFolloweeUser.m in Sources */,
+				806C7D0C1B2064D60021C23F /* DRTransactionModel.m in Sources */,
 				806C7CD51B2052060021C23F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,8 +611,10 @@
 		};
 		806C7CF31B2052060021C23F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4221551AFF373BC13E40BC0C /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Dribbble-ios-sdk/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -355,8 +623,10 @@
 		};
 		806C7CF41B2052060021C23F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 69DCFBFC799CB38C0172304C /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/PrefixHeader.pch";
 				INFOPLIST_FILE = "Dribbble-ios-sdk/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -416,6 +686,7 @@
 				806C7CF41B2052060021C23F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		806C7CF51B2052060021C23F /* Build configuration list for PBXNativeTarget "Dribbble-ios-sdkTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +695,7 @@
 				806C7CF71B2052060021C23F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
