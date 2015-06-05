@@ -12,6 +12,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <JSONModel/JSONModel.h>
 #import "AFHTTPRequestOperationManager+AutoRetry.h"
+#import <BlocksKit/BlocksKit.h>
 
 #import "DREnums.h"
 #import "DRDefinitions.h"

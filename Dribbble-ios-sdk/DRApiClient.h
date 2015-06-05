@@ -16,7 +16,7 @@
 extern void logInteral(NSString *format, ...);
 extern DRErrorHandler showErrorAlertFailureHandler();
 
-typedef void(^DRRequestOperationHandler)(NSURLSessionDataTask *operation);
+typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 @interface DRApiClient : NSObject
 
@@ -36,22 +36,19 @@ typedef void(^DRRequestOperationHandler)(NSURLSessionDataTask *operation);
 - (void)resetAccessToken;
 - (BOOL)isUserAuthorized;
 
-- (NSURLSessionDataTask *)prepareRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler autoRetryCount:(NSInteger)autoRetryCount;
-- (void)runRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler;
+- (void)prepareRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler autoRetryCount:(NSInteger)autoRetryCount;
+- (void)runRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler;
 
-- (void)startOperation:(NSURLSessionDataTask *)operation;
+- (void)startOperation:(AFHTTPRequestOperation *)operation;
 
-- (void)handleOperationStart:(NSURLSessionDataTask *)operation;
-- (void)handleOperationEnd:(NSURLSessionDataTask *)operation;
-
+- (void)handleOperationStart:(AFHTTPRequestOperation *)operation;
+- (void)handleOperationEnd:(AFHTTPRequestOperation *)operation;
 
 - (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret;
 
 #pragma mark - Setup
 
 - (void)setupOAuthDismissWebViewBlock:(DRHandler)dismissWebViewBlock;
-
-
 
 #pragma mark - oauth handling
 
