@@ -13,6 +13,8 @@
 #import "NXOAuth2.h"
 #import "DribbbleSDK.h"
 
+@class DRShot;
+
 extern void logInteral(NSString *format, ...);
 extern DRErrorHandler showErrorAlertFailureHandler();
 
@@ -29,22 +31,13 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 @property (assign, nonatomic) int autoRetryInterval;
 
 - (instancetype)initWithBaseUrl:(NSString *)baseUrl;
+- (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret;
 
-- (NSURLSessionConfiguration *)configuration;
-- (void)setupApiManager;
 - (void)setupDefaultSettings;
 - (void)resetAccessToken;
 - (BOOL)isUserAuthorized;
 
-- (void)prepareRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler autoRetryCount:(NSInteger)autoRetryCount;
 - (void)runRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler;
-
-- (void)startOperation:(AFHTTPRequestOperation *)operation;
-
-- (void)handleOperationStart:(AFHTTPRequestOperation *)operation;
-- (void)handleOperationEnd:(AFHTTPRequestOperation *)operation;
-
-- (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret;
 
 #pragma mark - Setup
 
@@ -54,8 +47,11 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 - (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler;
 
-- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock;
-- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler;
+#pragma mark - image/giffs loading
+
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock;
+
+#pragma mark - api calls
 
 - (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler;
 - (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler;

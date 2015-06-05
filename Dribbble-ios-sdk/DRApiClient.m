@@ -96,19 +96,6 @@ void logInteral(NSString *format, ...) {
     self.oauthManager.dismissWebViewBlock = dismissWebViewBlock;
 }
 
-
-//- (AFHTTPSessionManager *)apiManager {
-//    if (!_apiManager) {
-//        _apiManager = [self createApiManager];
-//        [self setupApiManager];
-//    }
-//    return _apiManager;
-//}
-
-//- (AFHTTPSessionManager *)createApiManager {
-//    return [[AFHTTPSessionManager alloc] initWithBaseURL:[NSURL URLWithString:_baseApiUrl] sessionConfiguration:[self configuration]];
-//}
-
 //- (NSURLSessionConfiguration *)configuration {
 //    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
 //    return configuration;
@@ -154,17 +141,10 @@ void logInteral(NSString *format, ...) {
 - (void)setAccessToken:(NSString *)accessToken {
     self.accessToken = accessToken;
     [self.apiManager.requestSerializer setValue:[NSString stringWithFormat:@"%@ %@", kBearerString, self.accessToken] forHTTPHeaderField:kAuthorizationHTTPFieldName];
-    
 }
 
 - (BOOL)isUserAuthorized {
     return [self.accessToken length] && ![self.accessToken isEqualToString:self.clientAccessSecret];
-}
-
-- (NSURLSessionConfiguration *)configuration {
-    NSURLSessionConfiguration *configuration = [self configuration];
-    configuration.HTTPMaximumConnectionsPerHost = 1;
-    return configuration;
 }
 
 - (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret {
@@ -232,9 +212,6 @@ void logInteral(NSString *format, ...) {
     [operation start];
     
     if (self.operationStartHandler) self.operationStartHandler(operation);
-    
-//    [self prepareRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorBlock:errorHandler autoRetryCount:self.autoRetryCount];
-    //[self startOperation:requestOperation];
 }
 
 - (void)prepareRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler autoRetryCount:(NSInteger)autoRetryCount {
@@ -352,6 +329,10 @@ void logInteral(NSString *format, ...) {
 
 #warning TODO add one more method - loadShotsWith... - and make same params as in dribbble api doc
 
+- (void)loadShotsWithParams:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
+    [self runRequest:kDribbbleApiMethodShots requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler errorBlock:errorHandler];
+}
+
 - (void)loadShotsFromCategory:(NSString *)category atPage:(int)page completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     if ([category isEqualToString:@"recent"]) {
@@ -363,7 +344,6 @@ void logInteral(NSString *format, ...) {
         dict[@"page"] = @(page);
         dict[@"per_page"] = @(kDefaultShotsPerPageNumber);
     }
-    //[self queueRequest:kDribbbleApiMethodShots requestType:kDribbbleGetRequest modelClass:[DRShot class] params:dict showError:YES completion:completionHandler errorBlock:errorHandler];
 }
 
 - (void)loadUserShots:(NSString *)url params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
@@ -402,11 +382,8 @@ void logInteral(NSString *format, ...) {
 
 #pragma mark - Images/Giffs
 
-
-#warning TODO make method interface like: loadShotImage:(shot) ofQuality:(teaser/full). maybe add progress tracking block
-
-- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    return [self requestImageWithUrl:url completionHandler:completionHandler failureHandler:errorHandler progressBlock:nil];
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
+    return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler failureHandler:errorHandler progressBlock:downLoadProgressBlock];
 }
 
 - (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
@@ -434,21 +411,12 @@ void logInteral(NSString *format, ...) {
 
 #pragma mark - Data response mapping
 
-//- (id)objectFromDictionary:(NSDictionary *)dict modelClass:(Class)modelClass {
-//    return nil;
-//}
-
 - (id)mappedDataFromResponseObject:(id)object modelClass:(Class)modelClass {
-    
     if (modelClass == [NSNull class]) { // then bypass parsing
         return [DRBaseModel modelWithData:object];
     }
-    
     id mappedObject = nil;
-    
     if ([object isKindOfClass:[NSArray class]]) {
-        //JSONModelArray *jsonArray = [[JSONModelArray alloc] initWithArray:object modelClass:modelClass];
-        
         mappedObject = [(NSArray *)object bk_map:^id(id obj) {
             if ([object isKindOfClass:[NSDictionary class]]) {
                 return [[modelClass alloc] initWithDictionary:obj error:nil];
@@ -459,23 +427,6 @@ void logInteral(NSString *format, ...) {
     } else if ([object isKindOfClass:[NSDictionary class]]) {
         mappedObject = [[modelClass alloc] initWithDictionary:object error:nil];
     }
-    
-    
-//    if (modelClass == [NSNull class]) { // then bypass parsing
-//        return [DRBaseModel modelWithData:object];
-//    }
-//    id mappedObject = nil;
-//    if ([object isKindOfClass:[NSDictionary class]]) {
-//        mappedObject = [self objectFromDictionary:object modelClass:modelClass];
-//    } else if ([object isKindOfClass:[NSArray class]]) {
-//        mappedObject = [(NSArray *)object bk_map:^id(id obj) {
-//            if ([obj isKindOfClass:[NSDictionary class]]) {
-//                return [self objectFromDictionary:obj modelClass:modelClass];
-//            } else {
-//                return [NSNull null];
-//            }
-//        }];
-//    }
     return [DRBaseModel modelWithData:mappedObject];
 }
 

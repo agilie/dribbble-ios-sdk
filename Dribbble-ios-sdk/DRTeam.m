@@ -10,12 +10,4 @@
 
 @implementation DRTeam
 
-#pragma mark - Dictionary Serialization
-
-//+ (instancetype)fromDictionary:(NSDictionary *)teamDict {
-//    DRTeam *teamItem = [super fromDictionary:teamDict];
-//    teamItem.teamId = [teamDict obtainNumber:@"id"];
-//    return teamItem;
-//}
-
 @end

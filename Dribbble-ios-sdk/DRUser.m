@@ -10,12 +10,4 @@
 
 @implementation DRUser
 
-#pragma mark - Dictionary Serialization
-
-//+ (instancetype)fromDictionary:(NSDictionary *)userDict {
-//    DRUser *userItem = [super fromDictionary:userDict];
-//    userItem.userId = [userDict obtainNumber:@"id"];
-//    return userItem;
-//}
-
 @end

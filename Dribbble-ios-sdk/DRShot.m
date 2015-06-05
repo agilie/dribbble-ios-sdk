@@ -14,21 +14,6 @@ static NSString * const kFileExtensionGif = @"gif";
 
 @implementation DRShot
 
-#pragma mark - Dictionary Serialization
-
-//+ (instancetype)fromDictionary:(NSDictionary *)shotDict {
-//    DRShot *shotItem = [super fromDictionary:shotDict];
-//    shotItem.shotId = [shotDict obtainNumber:@"id"];
-//    shotItem.shotDescription = [shotDict obtainString:@"description"];
-//    shotItem.user = (DRUser *)[DRUser fromDictionary:[shotDict obtainDictionary:@"user"]];
-//    shotItem.team = (DRTeam *)[DRTeam fromDictionary:[shotDict obtainDictionary:@"team"]];
-//    return shotItem;
-//}
-
-+ (NSArray *)transientProperties {
-    return @[@"defaultUrl", @"fileType", @"db_shot_id", @"db_like_count", @"db_data", @"authorityId", @"isAuthorityFollowed", @"isLiked"];
-}
-
 #pragma mark - Helpers
 
 - (NSNumber *)authorityId {

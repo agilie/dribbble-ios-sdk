@@ -10,7 +10,7 @@
 #import "DRBaseModel.h"
 #import "DRLink.h"
 
-@interface DRUser : JSONModel
+@interface DRUser : DRBaseModel
 
 @property (strong, nonatomic) NSNumber *userId;
 @property (strong, nonatomic) NSString *name;
