@@ -13,22 +13,17 @@
 #import "DRFolloweeUser.h"
 #import "DRShot.h"
 #import "DRTransactionModel.h"
+#import "DRShotCategory.h"
 #import "DribbbleSDK.h"
-
-static NSString * const kInernalServerPattern = @"devdribbble.agilie.com";
 
 static NSString * const kDefaultsKeyLastModified = @"me.agile.ninja.shotbucket.followees_shots_last_modified";
 
 static NSString * const kHttpHeaderLastModifiedKey = @"Last-Modified";
 static NSString * const kHttpHeaderIfModifiedSinceKey = @"If-Modified-Since";
-
-
 static NSString * const kAuthorizationHTTPFieldName = @"Authorization";
 static NSString * const kBearerString = @"Bearer";
 
 static NSInteger const kDefaultShotsPerPageNumber = 20;
-
-static NSTimeInterval kLowPriorityTaskConsumeDelay = 0.5f;
 
 void logInteral(NSString *format, ...) {
     if (DRApiClientLoggingEnabled) {
@@ -43,20 +38,17 @@ void logInteral(NSString *format, ...) {
 @interface DRApiClient ()
 
 @property (strong, nonatomic) NSString *baseApiUrl;
-
-
 @property (strong, nonatomic) DROAuthManager *oauthManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *imageManager;
 @property (strong, nonatomic) NSString *clientAccessSecret;
 
-@property (strong, nonatomic) AFHTTPRequestOperation *lastAddedImageOperation;
-
-@property (strong, nonatomic) NSMutableArray *scheduledTasks;
-
-@property int opInd;
-
-@property BOOL dispatchLowPriorityTaskRunning;
+@property (assign, nonatomic) NSURLRequestCachePolicy imageCachePolicy;
+@property (assign, nonatomic) NSURLRequestCachePolicy apiCachePolicy;
+@property (assign, nonatomic) NSInteger imageManagerMaxConcurrentCount;
+@property (assign, nonatomic) NSInteger apiManagerMaxConcurrentCount;
+@property (strong, nonatomic) AFHTTPResponseSerializer *imageResponseSerializer;
+@property (strong, nonatomic) AFHTTPResponseSerializer *apiResponseSerializer;
 
 @end
 
@@ -76,8 +68,15 @@ void logInteral(NSString *format, ...) {
 //            }
 //        };
         [self restoreAccessToken];
-        self.opInd = 0;
-        self.dispatchLowPriorityTaskRunning = NO;
+    }
+    return self;
+}
+
+- (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret {
+    self = [self init];
+    if (self) {
+        self.clientAccessSecret = clientAccessSecret;
+        [self resetAccessToken];
     }
     return self;
 }
@@ -96,39 +95,16 @@ void logInteral(NSString *format, ...) {
     self.oauthManager.dismissWebViewBlock = dismissWebViewBlock;
 }
 
-//- (NSURLSessionConfiguration *)configuration {
-//    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-//    return configuration;
-//}
-
-//- (void)setupApiManager {
-//    [_apiManager.requestSerializer setHTTPShouldHandleCookies:YES];
-//    _apiManager.securityPolicy.allowInvalidCertificates = YES;
-//    _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
-//    _apiManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-//    _apiManager.responseSerializer = [AFJSONResponseSerializer serializer];
-//    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-//    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status){
-//        logInteral(@"Internet reachability %d", status);
-//    }];
-//    __weak typeof(self)weakSelf = self;
-//    [_apiManager setTaskDidCompleteBlock:^(NSURLSession *session, NSURLSessionTask *task, NSError *error) {
-//        [weakSelf handleOperationEnd:(NSURLSessionDataTask *)task];
-//    }];
-//    
-//}
-
-#pragma mark - Setup
-
-- (void)setupDefaultSettings {
-    self.autoRetryCount = 3;
-    self.autoRetryInterval = 1;
+- (void)setupApiManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count {
+    [self.apiManager.requestSerializer setCachePolicy:policy];
+    [self.apiManager setResponseSerializer:responseSerializer];
+    [self.apiManager.operationQueue setMaxConcurrentOperationCount:count];
 }
 
-#warning REMOVE FROM SDK
-
-- (void)setupCleanBadCredentialsBlock:(DRHandler)cleanBadCredentialsBlock {
-    self.cleanBadCredentialsHandler = cleanBadCredentialsBlock;
+- (void)setupImageManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count {
+    [self.imageManager.requestSerializer setCachePolicy:policy];
+    [self.imageManager setResponseSerializer:responseSerializer];
+    [self.imageManager.operationQueue setMaxConcurrentOperationCount:count];
 }
 
 // use client access secret while no access token retrieved
@@ -147,29 +123,84 @@ void logInteral(NSString *format, ...) {
     return [self.accessToken length] && ![self.accessToken isEqualToString:self.clientAccessSecret];
 }
 
-- (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret {
-    self = [self init];
-    if (self) {
-        self.clientAccessSecret = clientAccessSecret;
-        [self resetAccessToken];
-    }
-    return self;
-}
+#pragma mark - Getters
 
 - (AFHTTPRequestOperationManager *)imageManager {
     if (!_imageManager) {
         _imageManager = [[AFHTTPRequestOperationManager alloc] init];
         _imageManager.securityPolicy.allowInvalidCertificates = YES;
-        _imageManager.requestSerializer.cachePolicy = NSURLRequestReturnCacheDataElseLoad;
-        _imageManager.responseSerializer = [AFCompoundResponseSerializer serializer];
-        [_imageManager.operationQueue setMaxConcurrentOperationCount:10];
+        _imageManager.requestSerializer.cachePolicy = self.imageCachePolicy;
+        _imageManager.responseSerializer = self.imageResponseSerializer;
+        [_imageManager.operationQueue setMaxConcurrentOperationCount:self.imageManagerMaxConcurrentCount];
     }
     return _imageManager;
 }
 
+- (AFHTTPRequestOperationManager *)apiManager {
+    if (!_apiManager) {
+        _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:self.baseApiUrl]];
+        [_apiManager.requestSerializer setHTTPShouldHandleCookies:YES];
+        _apiManager.securityPolicy.allowInvalidCertificates = YES;
+        _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
+        _apiManager.requestSerializer.cachePolicy = self.apiCachePolicy;
+        _apiManager.responseSerializer = self.apiResponseSerializer;
+        [_apiManager.operationQueue setMaxConcurrentOperationCount:self.apiManagerMaxConcurrentCount];
+        [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+        [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status){
+            logInteral(@"Internet reachability %d", status);
+        }];
+    }
+    if (self.accessToken) {
+        [_apiManager.requestSerializer setValue:[NSString stringWithFormat:@"%@ %@", kBearerString, self.accessToken] forHTTPHeaderField:kAuthorizationHTTPFieldName];
+    }
+    return _apiManager;
+}
+
+- (NSURLRequestCachePolicy)imageCachePolicy {
+    if (_imageCachePolicy == NSURLRequestUseProtocolCachePolicy) {
+        _imageCachePolicy = NSURLRequestReturnCacheDataElseLoad;
+    }
+    return _imageCachePolicy;
+}
+
+- (NSURLRequestCachePolicy)apiCachePolicy {
+    if (_apiCachePolicy == NSURLRequestUseProtocolCachePolicy) {
+        _apiCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+    }
+    return _apiCachePolicy;
+}
+
+- (AFHTTPResponseSerializer *)imageResponseSerializer {
+    if (!_imageResponseSerializer) {
+        _imageResponseSerializer = [AFCompoundResponseSerializer serializer];
+    }
+    return _imageResponseSerializer;
+}
+
+- (AFHTTPResponseSerializer *)apiResponseSerializer {
+    if (_apiResponseSerializer) {
+        _apiResponseSerializer = [AFJSONResponseSerializer serializer];
+    }
+    return _apiResponseSerializer;
+}
+
+- (NSInteger)imageManagerMaxConcurrentCount {
+    if (_imageManagerMaxConcurrentCount == 0) {
+        _imageManagerMaxConcurrentCount = 1;
+    }
+    return _imageManagerMaxConcurrentCount;
+}
+
+- (NSInteger)apiManagerMaxConcurrentCount {
+    if (_apiManagerMaxConcurrentCount == 0) {
+        _apiManagerMaxConcurrentCount = 1;
+    }
+    return _apiManagerMaxConcurrentCount;
+}
+
 #pragma mark - OAuth calls
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler {
+- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion errorHandler:(DRErrorHandler)errorHandler {
     __weak typeof(self) weakSelf = self;
     [self.oauthManager requestOAuth2Login:webView completionHandler:^(DRBaseModel *data) {
         if (!data.error) {
@@ -182,19 +213,25 @@ void logInteral(NSString *format, ...) {
             [weakSelf resetAccessToken];
             if (errorHandler) errorHandler(data);
         }
-    } failureHandler:errorHandler];
+    } errorHandler:errorHandler];
 }
 
-- (void)runRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler {
+- (void)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion errorHandler:(DRErrorHandler)errorHandler {
     
     __weak typeof(self)weakSelf = self;
     
     NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:type URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
     AFHTTPRequestOperation *operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        if ([operation.response statusCode] == kHttpAuthErrorCode) {
-            NSError *error = [NSError errorWithDomain:[responseObject objectForKey:@"message"] code:kHttpAuthErrorCode userInfo:nil];
+        if (weakSelf.operationEndHandler) weakSelf.operationEndHandler(operation);
+        
+        if ([operation.response statusCode] == kHttpAuthErrorCode || [operation.response statusCode] == kHttpRateLimitErrorCode) {
+            NSError *error = [NSError errorWithDomain:[responseObject objectForKey:@"message"] code:[operation.response statusCode] userInfo:nil];
             if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error, method, NO);
+        }
+        
+        if ([operation.response statusCode] == kHttpRateLimitErrorCode) {
+            if (weakSelf.operationLimitHandler) weakSelf.operationLimitHandler(operation);
         }
         
         if (completion) {
@@ -202,6 +239,8 @@ void logInteral(NSString *format, ...) {
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (weakSelf.operationEndHandler) weakSelf.operationEndHandler(operation);
         
         if (completion) completion([DRBaseModel modelWithError:error]);
         
@@ -214,68 +253,15 @@ void logInteral(NSString *format, ...) {
     if (self.operationStartHandler) self.operationStartHandler(operation);
 }
 
-- (void)prepareRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler autoRetryCount:(NSInteger)autoRetryCount {
-    
-    
-    
-//    __block NSURLSessionDataTask *dataTask = [self.apiManager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-//        
-//        if (!error) {
-//            //
-//            //            #warning REMOVE FROM SDK
-//            //
-//            //            if ([responseObject isKindOfClass:[NSDictionary class]]) {
-//            //                NSNumber *status = [responseObject obtainNumber:@"success"];
-//            //                NSError *error = nil;
-//            //                if (status) {
-//            //                    responseObject = [responseObject obtainDictionary:@"result"];
-//            //                    if ([status intValue] == 0) {
-//            //                        if (completion) completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
-//            //                    } else  {
-//            //                        error = [NSError errorWithDomain:[responseObject objectForKey:@"message"]?:@"Auth error" code:kHttpAuthErrorCode userInfo:nil];
-//            //                        if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error, response.URL.absoluteString, shouldShowError);
-//            //                        if (completion) completion([DRBaseModel modelWithError:error]);
-//            //                    }
-//            //                } else {
-//            //                    if (completion) completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
-//            //                }
-//            //            } else {
-//            
-//                if (completion) completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
-//            //            }
-//        } else {
-//            
-//            //            if ([(NSHTTPURLResponse *)response statusCode] == kHttpAuthErrorCode) {
-//            //                UIAlertView *alertMessage = [UIAlertView alertWithMessage:kConfirmationRequireText andTitle:@"Info"];
-//            //                [alertMessage bk_setCancelBlock:^{
-//            //
-//            //#warning TODO rename to nonAuthorizedErrorHandler()
-//            //
-//            //                    if (weakSelf.cleanBadCredentialsHandler) {
-//            //                        weakSelf.cleanBadCredentialsHandler();
-//            //                    }
-//            //                }];
-//            //                [alertMessage show];
-//            //            }
-//            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error, response.URL.absoluteString, shouldShowError);
-//            
-//            if (completion) completion([DRBaseModel modelWithError:error]);
-//        }
-//    }];
-//    
-//    return dataTask;
-}
-
-//- (NSURLSessionDataTask *)queueRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler {
-//    return [self queueRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorBlock:errorHandler priority:DRURLSessionTaskPriorityDefault  autoRetryCount:self.autoRetryCount];
+//- (NSURLSessionDataTask *)queueRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorHandler:(DRErrorHandler)errorHandler {
+//    return [self queueRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorHandler:errorHandler priority:DRURLSessionTaskPriorityDefault  autoRetryCount:self.autoRetryCount];
 //}
 //
 
 #warning TODO rename to createRequestWithMethod
 
-//
-//- (NSURLSessionDataTask *)queueRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler priority:(float)priority autoRetryCount:(NSInteger)autoRetryCount {
-//    NSURLSessionDataTask *operation = [self prepareRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorBlock:errorHandler autoRetryCount:autoRetryCount];
+//- (NSURLSessionDataTask *)queueRequest:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params showError:(BOOL)shouldShowError completion:(DRCompletionHandler)completion errorHandler:(DRErrorHandler)errorHandler priority:(float)priority autoRetryCount:(NSInteger)autoRetryCount {
+//    NSURLSessionDataTask *operation = [self prepareRequest:method requestType:type modelClass:class params:params showError:shouldShowError completion:completion errorHandler:errorHandler autoRetryCount:autoRetryCount];
 //    
 //    
 //    [self startOperation:operation];
@@ -284,109 +270,85 @@ void logInteral(NSString *format, ...) {
 
 #warning REMOVE FROM SDK. to run request, user should just call [task resume]
 
-#warning TODO refactor back to NSURLConnection
-
-//- (void)startOperation:(NSURLSessionDataTask *)operation {
-//    if ([self.apiManager.tasks count] ||) {
-//        [self scheduleTask:operation];
-//    } else {
-//        [self resumeTask:operation];
-//    }
-//}
-
-#warning TODO make public blocks: operationStartHandler(operation) and operationEndHandler(operation)
-
-
-//- (void)startOperation:(NSURLSessionDataTask *)operation {
-//    [operation resume];
-//    [self handleOperationStart:operation];
-//}
-//
-//- (void)handleOperationStart:(NSURLSessionDataTask *)operation {
-//    if (self.operationStartHandler) self.operationStartHandler(operation);
-//}
-//
-//
-//- (void)handleOperationEnd:(NSURLSessionDataTask *)operation {
-//    if (self.operationEndHandler) self.operationEndHandler(operation);
-//}
-
 #pragma mark - User
 
-- (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:kDribbbleApiMethodUser requestType:kDribbbleGetRequest modelClass:[DRUser class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:kDribbbleApiMethodUser requestType:kDribbbleGetRequest modelClass:[DRUser class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:[NSString stringWithFormat:kDribbbleApiMethodGetFollowers, userId] requestType:kDribbbleGetRequest modelClass:[DRFolloweeUser class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodGetFollowers, userId] requestType:kDribbbleGetRequest modelClass:[DRFolloweeUser class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:kDribbbleApiMethodGetFolloweesShot requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler errorBlock:errorHandler];
+- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:kDribbbleApiMethodGetFolloweesShot requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler errorHandler:errorHandler];
 }
 
 #pragma mark - Shots
 
 #warning TODO add one more method - loadShotsWith... - and make same params as in dribbble api doc
 
-- (void)loadShotsWithParams:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:kDribbbleApiMethodShots requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler errorBlock:errorHandler];
+- (void)loadShotsWithParams:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:kDribbbleApiMethodShots requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)loadShotsFromCategory:(NSString *)category atPage:(int)page completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
+- (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    if ([category isEqualToString:@"recent"]) {
-        dict[@"sort"] = category;
-    } else if (category && ![category isEqualToString:@"popular"]) {
-        dict[@"list"] = category;
+    if (category) {
+        if ([category.categoryValue isEqualToString:@"recent"]) {
+            dict[@"sort"] = category.categoryValue;
+        } else if (![category.categoryValue isEqualToString:@"popular"]) {
+            dict[@"list"] = category.categoryValue;
+        }
     }
     if (page > 0) {
         dict[@"page"] = @(page);
         dict[@"per_page"] = @(kDefaultShotsPerPageNumber);
     }
+    [self loadShotsWithParams:dict completionHandler:completionHandler errorHandler:errorHandler];
 }
 
-- (void)loadUserShots:(NSString *)url params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:url requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler errorBlock:errorHandler];
+- (void)loadUserShots:(NSString *)url params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:url requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)loadShot:(NSString *)shotId completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:[NSString stringWithFormat:kDribbbleApiMethodShot, shotId] requestType:kDribbbleGetRequest modelClass:[DRShot class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)loadShot:(NSString *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodShot, shotId] requestType:kDribbbleGetRequest modelClass:[DRShot class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)likeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbblePostRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)likeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbblePostRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)unlikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbbleDeleteRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)unlikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbbleDeleteRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:[NSString stringWithFormat:kDribbbleApiMethodCheckShotWasLiked, shotId] requestType:kDribbbleGetRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckShotWasLiked, shotId] requestType:kDribbbleGetRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
 #pragma mark - Following
 
-- (void)followUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbblePutRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)followUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbblePutRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)unFollowUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbbleDeleteRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)unFollowUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbbleDeleteRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
-- (void)checkFollowingUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler {
-    [self runRequest:[NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, userId] requestType:kDribbbleGetRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler errorBlock:errorHandler];
+- (void)checkFollowingUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, userId] requestType:kDribbbleGetRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler errorHandler:errorHandler];
 }
 
 #pragma mark - Images/Giffs
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
-    return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler failureHandler:errorHandler progressBlock:downLoadProgressBlock];
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
+    return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler errorHandler:errorHandler progressBlock:downLoadProgressBlock];
 }
 
-- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler failureHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
+- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
     __weak typeof(self)weakSelf = self;
     if (!url) {
         logInteral(@"Requested image with null url");
