@@ -10,4 +10,8 @@
 
 @implementation DRUser
 
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithDictionary:@{@"id" : @"userId"}];
+}
+
 @end

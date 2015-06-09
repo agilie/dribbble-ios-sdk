@@ -9,6 +9,8 @@
 #import "DRAppDelegate.h"
 
 #import "DribbbleSDK.h"
+#import "DRShotCategory.h"
+#import "DRBaseModel.h"
 
 @interface DRAppDelegate ()
 
@@ -19,7 +21,7 @@
 #pragma mark - Static Methods
 
 + (DRAppDelegate *)appDelegate {
-    return [[UIApplication sharedApplication] delegate];
+    return (DRAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -46,13 +48,16 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
 }
 
-#pragma mark - 
+#pragma mark -
 
 - (void)testApiClient {
-    
     DRApiClient *client = [[DRApiClient alloc] initWithOAuthClientAccessSecret:kIDMOAuth2ClientAccessSecret];
     
-    
+    [client loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 completionHandler:^(DRBaseModel *data) {
+        NSLog(@"");
+    } errorHandler:^(DRBaseModel *data) {
+        NSLog(@"");
+    }];
 }
 
 @end

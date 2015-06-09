@@ -10,4 +10,8 @@
 
 @implementation DRTeam
 
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithDictionary:@{@"id" : @"teamId"}];
+}
+
 @end

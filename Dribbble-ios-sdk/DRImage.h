@@ -8,10 +8,10 @@
 
 #import "DRBaseModel.h"
 
-@interface DRImage : DRBaseModel
+@interface DRImage : JSONModel
 
-@property (strong, nonatomic) NSString *hidpi;
-@property (strong, nonatomic) NSString *normal;
-@property (strong, nonatomic) NSString *teaser;
+@property (strong, nonatomic) NSString <Optional>*hidpi;
+@property (strong, nonatomic) NSString <Optional>*normal;
+@property (strong, nonatomic) NSString <Optional>*teaser;
 
 @end

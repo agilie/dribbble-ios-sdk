@@ -9,12 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "DribbbleSDK.h"
 
-@interface DRBaseModel : JSONModel
+@interface DRBaseModel : NSObject
 
 @property (strong, nonatomic) NSError *error;
-@property (strong, nonatomic) NSString *message;
 @property (strong, nonatomic) id object;
-@property (assign, nonatomic) int code;
 
 + (instancetype)modelWithError:(NSError *)error;
 + (instancetype)modelWithData:(id)data;

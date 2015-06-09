@@ -37,12 +37,8 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 - (instancetype)initWithBaseUrl:(NSString *)baseUrl;
 - (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret;
-
-- (void)setupDefaultSettings;
 - (void)resetAccessToken;
 - (BOOL)isUserAuthorized;
-
-- (void)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion errorBlock:(DRErrorHandler)errorHandler;
 
 #pragma mark - Setup
 
@@ -50,33 +46,37 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 - (void)setupImageManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count;
 - (void)setupOAuthDismissWebViewBlock:(DRHandler)dismissWebViewBlock;
 
-#pragma mark - oauth handling
+#pragma mark - OAuth handling
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion failureHandler:(DRErrorHandler)errorHandler;
+- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion;
 
-#pragma mark - image/giffs loading
+#pragma mark - Image/giffs loading
 
 - (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock;
 
-#pragma mark - api calls
+#pragma mark - API calls
 
-- (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
+// common
 
-- (void)loadShot:(NSString *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)loadShotsWithParams:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)loadUserShots:(NSString *)url params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
+- (void)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion errorHandler:(DRErrorHandler)errorHandler;
 
-- (void)likeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)unlikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
+// rest
 
-- (void)followUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)unFollowUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
-- (void)checkFollowingUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler;
+- (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler;
+- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler;
+- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler;
 
+- (void)loadShot:(NSString *)shotId completionHandler:(DRCompletionHandler)completionHandler;
+- (void)loadShotsWithParams:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler;
+- (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page completionHandler:(DRCompletionHandler)completionHandler;
+- (void)loadUserShots:(NSString *)url params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler;
 
+- (void)likeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler;
+- (void)unlikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler;
+- (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler;
+
+- (void)followUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler;
+- (void)unFollowUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler;
+- (void)checkFollowingUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler;
 
 @end

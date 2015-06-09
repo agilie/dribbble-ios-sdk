@@ -10,7 +10,7 @@
 #import "DRBaseModel.h"
 #import "DRLink.h"
 
-@interface DRUser : DRBaseModel
+@interface DRUser : JSONModel
 
 @property (strong, nonatomic) NSNumber *userId;
 @property (strong, nonatomic) NSString *name;
@@ -18,23 +18,20 @@
 @property (strong, nonatomic) NSString *html_url;
 @property (strong, nonatomic) NSString *avatar_url;
 @property (strong, nonatomic) NSString *bio;
-@property (strong, nonatomic) NSString *location;
+@property (strong, nonatomic) NSString <Optional>*location;
 @property (strong, nonatomic) DRLink *links;
-@property (strong, nonatomic) NSString *web;
-@property (strong, nonatomic) NSString *twitter;
-@property (strong, nonatomic) NSString *userName;
-@property (strong, nonatomic) NSString *buckets_url;
-@property (strong, nonatomic) NSString *followers_url;
-@property (strong, nonatomic) NSString *following_url;
-@property (strong, nonatomic) NSString *likes_url;
-@property (strong, nonatomic) NSString *shots_url;
-@property (strong, nonatomic) NSString *team_shots_url;
-@property (strong, nonatomic) NSString *teams_url;
-@property (strong, nonatomic) NSString *members_url;
-@property (strong, nonatomic) NSString *projects_url;
-@property (strong, nonatomic) NSDate *created_at;
-@property (strong, nonatomic) NSDate *updated_at;
-@property (strong, nonatomic) NSNumber *members_count;
+@property (strong, nonatomic) NSString <Optional>*buckets_url;
+@property (strong, nonatomic) NSString <Optional>*followers_url;
+@property (strong, nonatomic) NSString <Optional>*following_url;
+@property (strong, nonatomic) NSString <Optional>*likes_url;
+@property (strong, nonatomic) NSString <Optional>*shots_url;
+@property (strong, nonatomic) NSString <Optional>*team_shots_url;
+@property (strong, nonatomic) NSString <Optional>*teams_url;
+@property (strong, nonatomic) NSString <Optional>*members_url;
+@property (strong, nonatomic) NSString <Optional>*projects_url;
+@property (strong, nonatomic) NSString *created_at;
+@property (strong, nonatomic) NSString *updated_at;
+@property (strong, nonatomic) NSNumber <Optional>*members_count;
 @property (strong, nonatomic) NSNumber *buckets_count;
 @property (strong, nonatomic) NSNumber *comments_received_count;
 @property (strong, nonatomic) NSNumber *followers_count;
@@ -44,7 +41,7 @@
 @property (strong, nonatomic) NSNumber *projects_count;
 @property (strong, nonatomic) NSNumber *rebounds_received_count;
 @property (strong, nonatomic) NSNumber *shots_count;
-@property (strong, nonatomic) NSNumber *teams_count;
+@property (strong, nonatomic) NSNumber <Optional>*teams_count;
 @property (strong, nonatomic) NSString *type;
 @property (assign, nonatomic) BOOL can_upload_shot;
 @property (assign, nonatomic) BOOL pro;

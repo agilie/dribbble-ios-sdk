@@ -139,6 +139,7 @@ static NSString * const kUserLimitsFileFormat = @"user_limits.dat";
 
 static NSString * const kNotificationReminderText = @"You don't launch app more than 3 days. Check new shots of your followees";
 static NSString * const kInternetConnectionLost = @"Bad internet connection";
+static NSString * const kInvalidAuthData = @"Invalid auth data";
 static NSString * const kConfirmationRequireText = @"Please confirm your email address for using Application, a confirmation message was sent to your email";
 
 #endif

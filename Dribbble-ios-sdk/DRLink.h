@@ -8,9 +8,9 @@
 
 #import "DRBaseModel.h"
 
-@interface DRLink : DRBaseModel
+@interface DRLink : JSONModel
 
-@property (strong, nonatomic) NSString *web;
-@property (strong, nonatomic) NSString *twitter;
+@property (strong, nonatomic) NSString <Optional>*web;
+@property (strong, nonatomic) NSString <Optional>*twitter;
 
 @end

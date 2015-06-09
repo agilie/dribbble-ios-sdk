@@ -21,7 +21,7 @@
 
 #pragma mark - OAuth2 Logic
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion errorHandler:(DRErrorHandler)errorHandler {
+- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion {
     webView.delegate = self;
     NXOAuth2AccountStore *accountStore = [NXOAuth2AccountStore sharedStore];
     [accountStore setClientID:kIDMOAuth2ClientId
@@ -53,14 +53,14 @@
         if (account.accessToken.accessToken) {
             if (completion) completion([DRBaseModel modelWithData:account]);
         } else {
-            if (errorHandler) errorHandler([DRBaseModel modelWithError:[NSError errorWithDomain:@"Invalid auth data" code:kHttpAuthErrorCode userInfo:nil]]);
+            if (completion) completion([DRBaseModel modelWithError:[NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]]);
         }
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authCompletionObserver];
     }];
     self.authErrorObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NSError *error = [aNotification.userInfo objectForKey:NXOAuth2AccountStoreErrorKey];
-        if (errorHandler) {
-            errorHandler([DRBaseModel modelWithError:error]);
+        if (completion) {
+            completion([DRBaseModel modelWithError:error]);
         }
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authErrorObserver];
     }];

@@ -19,6 +19,6 @@
 @property (copy, nonatomic) DRHandler progressHUDShowBlock;
 @property (copy, nonatomic) DRHandler progressHUDDismissBlock;
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion errorHandler:(DRErrorHandler)errorHandler;
+- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion;
 
 @end

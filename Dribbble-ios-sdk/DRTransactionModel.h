@@ -8,7 +8,7 @@
 
 #import "DRBaseModel.h"
 
-@interface DRTransactionModel : DRBaseModel
+@interface DRTransactionModel : JSONModel
 
 @property (strong, nonatomic) NSDate *created_at;
 @property (strong, nonatomic) NSNumber *transactionId;

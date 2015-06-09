@@ -14,6 +14,15 @@ static NSString * const kFileExtensionGif = @"gif";
 
 @implementation DRShot
 
+#pragma mark - Key Mapping
+
++ (JSONKeyMapper *)keyMapper {
+    return [[JSONKeyMapper alloc] initWithDictionary:@{@"id"                : @"shotId",
+                                                       @"description"       : @"shotDescription",
+                                                       @"rebound_source_url": @"rebound_source_url"
+                                                       }];
+}
+
 #pragma mark - Helpers
 
 - (NSNumber *)authorityId {
