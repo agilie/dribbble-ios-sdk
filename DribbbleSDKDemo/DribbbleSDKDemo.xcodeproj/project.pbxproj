@@ -13,6 +13,7 @@
 		4D4245651B29B91A00D0A4CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D4245631B29B91A00D0A4CE /* Main.storyboard */; };
 		4D4245671B29B91A00D0A4CE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D4245661B29B91A00D0A4CE /* Images.xcassets */; };
 		4D42456A1B29B91A00D0A4CE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D4245681B29B91A00D0A4CE /* LaunchScreen.xib */; };
+		4DBB742A1B29D78D00DA95D9 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBB74291B29D78D00DA95D9 /* LoginViewController.m */; };
 		D068CCD78B631DC1F39D4C75 /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FDE10A193BE7C50E14C648F5 /* libPods-ios.a */; };
 /* End PBXBuildFile section */
 
@@ -27,6 +28,8 @@
 		4D4245641B29B91A00D0A4CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4D4245661B29B91A00D0A4CE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4D4245691B29B91A00D0A4CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		4DBB74281B29D78D00DA95D9 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		4DBB74291B29D78D00DA95D9 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		7C07B568D13E7F379FE0DF19 /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		F57F6ECE1D9CB71E8700B462 /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
 		FDE10A193BE7C50E14C648F5 /* libPods-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +93,8 @@
 				4D4245661B29B91A00D0A4CE /* Images.xcassets */,
 				4D4245681B29B91A00D0A4CE /* LaunchScreen.xib */,
 				4D4245591B29B91A00D0A4CE /* Supporting Files */,
+				4DBB74281B29D78D00DA95D9 /* LoginViewController.h */,
+				4DBB74291B29D78D00DA95D9 /* LoginViewController.m */,
 			);
 			path = DribbbleSDKDemo;
 			sourceTree = "<group>";
@@ -208,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DBB742A1B29D78D00DA95D9 /* LoginViewController.m in Sources */,
 				4D4245621B29B91A00D0A4CE /* ViewController.m in Sources */,
 				4D42455F1B29B91A00D0A4CE /* AppDelegate.m in Sources */,
 				4D42455C1B29B91A00D0A4CE /* main.m in Sources */,
