@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DribbbleSDK.h"
 
 @interface LoginViewController : UIViewController
+
+@property (strong, nonatomic) DRApiClient *apiClient;
+
+@property (copy, nonatomic) DRCompletionHandler authCompletionHandler;
 
 @end
