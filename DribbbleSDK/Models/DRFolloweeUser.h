@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DRUser.h"
-#import "DRBaseModel.h"
+#import "JSONModel.h"
+
+@class DRUser;
 
 @interface DRFolloweeUser : JSONModel
 

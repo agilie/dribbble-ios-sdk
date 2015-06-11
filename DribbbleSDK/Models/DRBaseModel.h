@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DribbbleSDK.h"
 
 @interface DRBaseModel : NSObject
 

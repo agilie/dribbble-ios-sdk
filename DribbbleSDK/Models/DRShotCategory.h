@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "DribbbleSDK.h"
+#import "JSONModel.h"
+#import "DREnums.h"
 
 @interface DRShotCategory : NSObject
 

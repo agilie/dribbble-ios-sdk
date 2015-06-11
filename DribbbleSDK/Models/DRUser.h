@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "DRBaseModel.h"
-#import "DRLink.h"
+#import "JSONModel.h"
+
+@class DRLink;
 
 @interface DRUser : JSONModel
 

@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 
+#import "DribbbleSDK.h"
+
 @interface ViewController ()
 
 @end

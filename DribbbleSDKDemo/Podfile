@@ -5,10 +5,7 @@ workspace '../DribbbleSDK'
 inhibit_all_warnings!
 
 def import_pods
-  pod 'AFNetworking', '~> 2.0'
-  pod 'BlocksKit'
-  pod 'NXOAuth2Client'
-  pod 'JSONModel'
+  pod 'DribbbleSDK', :path => '../'
 end
 
 target :ios do

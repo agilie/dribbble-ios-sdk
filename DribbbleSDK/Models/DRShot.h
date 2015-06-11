@@ -6,11 +6,9 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "DRBaseModel.h"
-#import "DRUser.h"
-#import "DRTeam.h"
-#import "DRImage.h"
+#import "JSONModel.h"
+
+@class DRUser, DRUser, DRTeam, DRImage;
 
 @interface DRShot : JSONModel
 
