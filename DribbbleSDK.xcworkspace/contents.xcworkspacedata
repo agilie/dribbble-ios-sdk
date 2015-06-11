@@ -91,4 +91,7 @@
    <FileRef
       location = "group:DribbbleSDKDemo/DribbbleSDKDemo.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:DribbbleSDKDemo/Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>
