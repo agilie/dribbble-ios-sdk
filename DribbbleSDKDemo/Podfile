@@ -1,0 +1,18 @@
+source 'https://github.com/CocoaPods/Specs'
+
+xcodeproj 'DribbbleSDKDemo'
+workspace '../DribbbleSDK'
+inhibit_all_warnings!
+
+def import_pods
+  pod 'AFNetworking', '~> 2.0'
+  pod 'BlocksKit'
+  pod 'NXOAuth2Client'
+  pod 'JSONModel'
+end
+
+target :ios do
+  platform :ios, '7.0'
+  link_with 'DribbbleSDKDemo'
+  import_pods
+end
