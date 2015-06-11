@@ -44,21 +44,22 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 - (void)obtainDelegateForWebView:(UIWebView *)webView;
 - (void)setupApiManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count;
 - (void)setupImageManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count;
-- (void)setupOAuthDismissWebViewBlock:(DRHandler)dismissWebViewBlock;
+- (void)setupOAuthDismissWebViewHandler:(DRHandler)dismissWebViewHandler;
 
 #pragma mark - OAuth handling
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion;
+- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler;
 
 #pragma mark - Image/giffs loading
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock;
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressHandler:(DRDOwnloadProgressBlock)progressHandler;
 
 #pragma mark - API calls
 
 // common
 
-- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion;
+- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler;
+- (void)runRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler;
 
 // rest
 

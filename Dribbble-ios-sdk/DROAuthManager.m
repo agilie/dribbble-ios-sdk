@@ -25,7 +25,7 @@
 
 - (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion {
     self.webView = webView;
-    //self.webView.delegate = self;
+    self.webView.delegate = self;
     NXOAuth2AccountStore *accountStore = [NXOAuth2AccountStore sharedStore];
     [accountStore setClientID:kIDMOAuth2ClientId
                        secret:kIDMOAuth2ClientSecret

@@ -200,7 +200,7 @@ void logInteral(NSString *format, ...) {
 
 #pragma mark - OAuth calls
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion {
+- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler {
     __weak typeof(self) weakSelf = self;
     [self.oauthManager requestOAuth2Login:webView completionHandler:^(DRBaseModel *data) {
         if (!data.error) {
@@ -212,13 +212,13 @@ void logInteral(NSString *format, ...) {
             [weakSelf resetAccessToken];
             if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(data.error, @"OAuth", NO);
         }
-        if (completion) completion(data);
+        if (completionHandler) completionHandler(data);
     }];
 }
 
-- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion {
+- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
     __weak typeof(self)weakSelf = self;
-    NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:type URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
+    NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:requestType URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
     AFHTTPRequestOperation *operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         if (weakSelf.operationEndHandler) weakSelf.operationEndHandler(operation);
@@ -230,41 +230,45 @@ void logInteral(NSString *format, ...) {
         if ([operation.response statusCode] == kHttpRateLimitErrorCode) {
             if (weakSelf.operationLimitHandler) weakSelf.operationLimitHandler(operation);
         }
-        if (completion) {
-            completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
+        if (completionHandler) {
+            completionHandler([weakSelf mappedDataFromResponseObject:responseObject modelClass:modelClass]);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (self.operationEndHandler) self.operationEndHandler(operation);
         if (self.clientErrorHandler) self.clientErrorHandler(error, method, NO);
-        if (completion) completion([DRBaseModel modelWithError:error]);
+        if (completionHandler) completionHandler([DRBaseModel modelWithError:error]);
     }];
     [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{
         
     }];
-    [operation start];
+//    [operation start];
     
     if (self.operationStartHandler) self.operationStartHandler(operation);
     return operation;
 }
 
+- (void)runRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
+    [[self createRequestWithMethod:method requestType:requestType modelClass:modelClass params:params completionHandler:completionHandler] start];
+}
+
 #pragma mark - User
 
 - (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:kDribbbleApiMethodUser requestType:kDribbbleGetRequest modelClass:[DRUser class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:kDribbbleApiMethodUser requestType:kDribbbleGetRequest modelClass:[DRUser class] params:nil completionHandler:completionHandler];
 }
 
 - (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodGetFollowers, userId] requestType:kDribbbleGetRequest modelClass:[DRFolloweeUser class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodGetFollowers, userId] requestType:kDribbbleGetRequest modelClass:[DRFolloweeUser class] params:nil completionHandler:completionHandler];
 }
 
 - (void)loadFolloweesShotsWithParams:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:kDribbbleApiMethodGetFolloweesShot requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler];
+    [self runRequestWithMethod:kDribbbleApiMethodGetFolloweesShot requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completionHandler:completionHandler];
 }
 
 #pragma mark - Shots
 
 - (void)loadShotsWithParams:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:kDribbbleApiMethodShots requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler];
+    [self runRequestWithMethod:kDribbbleApiMethodShots requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completionHandler:completionHandler];
 }
 
 - (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page completionHandler:(DRCompletionHandler)completionHandler {
@@ -284,43 +288,47 @@ void logInteral(NSString *format, ...) {
 }
 
 - (void)loadUserShots:(NSString *)url params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:url requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completion:completionHandler];
+    [self runRequestWithMethod:url requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completionHandler:completionHandler];
 }
 
 - (void)loadShot:(NSString *)shotId completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodShot, shotId] requestType:kDribbbleGetRequest modelClass:[DRShot class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodShot, shotId] requestType:kDribbbleGetRequest modelClass:[DRShot class] params:nil completionHandler:completionHandler];
 }
 
 - (void)likeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbblePostRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbblePostRequest modelClass:[DRTransactionModel class] params:nil completionHandler:completionHandler];
 }
 
 - (void)unlikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbbleDeleteRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbbleDeleteRequest modelClass:[DRTransactionModel class] params:nil completionHandler:completionHandler];
 }
 
 - (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckShotWasLiked, shotId] requestType:kDribbbleGetRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckShotWasLiked, shotId] requestType:kDribbbleGetRequest modelClass:[DRTransactionModel class] params:nil completionHandler:completionHandler];
 }
 
 #pragma mark - Following
 
 - (void)followUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbblePutRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbblePutRequest modelClass:[DRBaseModel class] params:nil completionHandler:completionHandler];
 }
 
 - (void)unFollowUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbbleDeleteRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbbleDeleteRequest modelClass:[DRBaseModel class] params:nil completionHandler:completionHandler];
 }
 
 - (void)checkFollowingUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler {
-    [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, userId] requestType:kDribbbleGetRequest modelClass:[DRBaseModel class] params:nil completion:completionHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, userId] requestType:kDribbbleGetRequest modelClass:[DRBaseModel class] params:nil completionHandler:completionHandler];
 }
 
 #pragma mark - Images/Giffs
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
-    return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler progressBlock:downLoadProgressBlock];
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressBlock:(DRDOwnloadProgressBlock)progressBlock {
+    return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler progressBlock:progressBlock];
+}
+
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler {
+    return [self loadShotImage:shot isHighQuality:isHighQuality completionHandler:completionHandler progressBlock:nil];
 }
 
 - (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
