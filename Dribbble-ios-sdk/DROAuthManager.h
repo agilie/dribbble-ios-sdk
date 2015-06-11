@@ -10,11 +10,8 @@
 #import "NXOAuth2.h"
 #import "DribbbleSDK.h"
 
-@class DRApiClient;
+@interface DROAuthManager : NSObject  <UIWebViewDelegate>
 
-@interface DROAuthManager : NSObject
-
-@property (strong, nonatomic) UIWebView *webView;
 @property (copy, nonatomic) DRHandler dismissWebViewBlock;
 @property (copy, nonatomic) DRHandler progressHUDShowBlock;
 @property (copy, nonatomic) DRHandler progressHUDDismissBlock;

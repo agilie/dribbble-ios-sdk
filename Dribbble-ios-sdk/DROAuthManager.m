@@ -10,7 +10,9 @@
 #import "DRApiClient.h"
 #import "DRBaseModel.h"
 
-@interface DROAuthManager () <UIWebViewDelegate>
+@interface DROAuthManager ()
+
+@property (strong, nonatomic) UIWebView *webView;
 
 @property (strong, nonatomic) id<NSObject> authCompletionObserver;
 @property (strong, nonatomic) id<NSObject> authErrorObserver;
@@ -22,7 +24,8 @@
 #pragma mark - OAuth2 Logic
 
 - (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion {
-    webView.delegate = self;
+    self.webView = webView;
+    //self.webView.delegate = self;
     NXOAuth2AccountStore *accountStore = [NXOAuth2AccountStore sharedStore];
     [accountStore setClientID:kIDMOAuth2ClientId
                        secret:kIDMOAuth2ClientSecret
@@ -47,7 +50,6 @@
     if (self.authErrorObserver) [notificationCenter removeObserver:self.authErrorObserver];
     
     self.authCompletionObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreAccountsDidChangeNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
-        webView.alpha = 0.f;
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
         NSLog(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
         if (account.accessToken.accessToken) {

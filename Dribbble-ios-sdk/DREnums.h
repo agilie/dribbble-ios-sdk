@@ -19,12 +19,4 @@ typedef NS_ENUM(NSUInteger, DRShotCategoryType) {
     DRShotCategoryGifs
 };
 
-typedef NS_ENUM(NSInteger, DRPanDirection) {
-    DRPanDirectionNone,
-    DrPanDirectionUp,
-    DRPanDirectionDown,
-    DRPanDirectionLeft,
-    DRPanDirectionRight
-};
-
 #endif

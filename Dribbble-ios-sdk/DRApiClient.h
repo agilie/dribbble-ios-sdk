@@ -35,13 +35,13 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 @property (strong, nonatomic, readonly) AFHTTPResponseSerializer *imageResponseSerializer;
 @property (strong, nonatomic, readonly) AFHTTPResponseSerializer *apiResponseSerializer;
 
-- (instancetype)initWithBaseUrl:(NSString *)baseUrl;
 - (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret;
 - (void)resetAccessToken;
 - (BOOL)isUserAuthorized;
 
 #pragma mark - Setup
 
+- (void)obtainDelegateForWebView:(UIWebView *)webView;
 - (void)setupApiManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count;
 - (void)setupImageManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count;
 - (void)setupOAuthDismissWebViewBlock:(DRHandler)dismissWebViewBlock;
@@ -52,13 +52,13 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 #pragma mark - Image/giffs loading
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock;
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot ofHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock;
 
 #pragma mark - API calls
 
 // common
 
-- (void)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion errorHandler:(DRErrorHandler)errorHandler;
+- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion;
 
 // rest
 

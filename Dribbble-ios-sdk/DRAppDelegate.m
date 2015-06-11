@@ -14,9 +14,20 @@
 
 @interface DRAppDelegate ()
 
+@property (strong, nonatomic) UIWebView *webView;
+
 @end
 
 @implementation DRAppDelegate
+
+#pragma mark - Getter
+
+- (UIWebView *)webView {
+    if (!_webView) {
+        _webView = [[UIWebView alloc] initWithFrame:self.window.rootViewController.view.frame];
+    }
+    return _webView;
+}
 
 #pragma mark - Static Methods
 
@@ -26,8 +37,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSLog(@"didFinishLaunchingWithOptions");
-    
     [self testApiClient];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [[UIViewController alloc] init];
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
@@ -51,12 +64,26 @@
 #pragma mark -
 
 - (void)testApiClient {
-    DRApiClient *client = [[DRApiClient alloc] initWithOAuthClientAccessSecret:kIDMOAuth2ClientAccessSecret];
+    DRApiClient *client = [[DRApiClient alloc] init];
     
+    __weak typeof(client) weakClient = client;
+    __weak typeof(self) weakSelf = self;
+    
+    client.clientErrorHandler = ^ (NSError *error, NSString *method, BOOL showAlert) {
+        if (![weakClient isUserAuthorized]) {
+            [weakClient obtainDelegateForWebView:weakSelf.webView];
+            [weakSelf.window.rootViewController.view addSubview:weakSelf.webView];
+            [weakClient requestOAuth2Login:weakSelf.webView completionHandler:^(DRBaseModel *data) {
+                    if (!data.error) {
+                        [weakClient loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 completionHandler:^(DRBaseModel *data) {
+                            NSLog(@"response");
+                        }];
+                    }
+                }];
+        }
+    };
     [client loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 completionHandler:^(DRBaseModel *data) {
-        NSLog(@"");
-    } errorHandler:^(DRBaseModel *data) {
-        NSLog(@"");
+        NSLog(@"response");
     }];
 }
 

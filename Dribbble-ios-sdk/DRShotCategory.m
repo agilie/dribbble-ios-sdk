@@ -12,19 +12,20 @@
 
 #pragma mark - Generating
 
-+ (DRShotCategory *)createCategoryWithName:(NSString *)name type:(DRShotCategoryType)type {
++ (DRShotCategory *)createCategoryWithName:(NSString *)name value:(NSString *)value type:(DRShotCategoryType)type {
     DRShotCategory *category = [DRShotCategory new];
     category.categoryName = name;
     category.categoryType = type;
-    category.categoryValue = [name lowercaseString];
-    if ([category.categoryValue rangeOfString:@"gifs"].location != NSNotFound) {
-        category.categoryValue = @"animated";
-    }
+    category.categoryValue = value;
     return category;
 }
 
 + (NSArray *)allCategoriesNames {
     return @[@"Featured", @"Popular", @"Recent", @"Teams", @"Debuts", @"Playoffs", @"Animated GIFs"];
+}
+
++ (NSArray *)allCategoriesValues {
+    return @[@"featured", @"popular", @"recent", @"teams", @"debuts", @"playoffs", @"animated"];
 }
 
 + (NSArray *)allCategoriesTypes {
@@ -39,7 +40,7 @@
     dispatch_once(&once, ^{
         categories = [NSMutableArray array];
         [[DRShotCategory allCategoriesTypes] enumerateObjectsUsingBlock:^(NSNumber *type, NSUInteger idx, BOOL *stop) {
-            [categories addObject:[DRShotCategory createCategoryWithName:[[DRShotCategory allCategoriesNames] objectAtIndex:idx] type:[type integerValue]]];
+            [categories addObject:[DRShotCategory createCategoryWithName:[[DRShotCategory allCategoriesNames] objectAtIndex:idx] value:[[DRShotCategory allCategoriesValues] objectAtIndex:idx] type:[type integerValue]]];
         }];
     });
     return categories;

@@ -61,11 +61,6 @@ void logInteral(NSString *format, ...) {
     if (self) {
         self.baseApiUrl = kBaseApiUrl;
         self.oauthManager = [DROAuthManager new];
-//        self.oauthManager.passErrorToClientBlock = ^ (NSError *error, NSString *method, BOOL showAlert) {
-//            if (weakSelf.clientErrorHandler) {
-//                weakSelf.clientErrorHandler (error, method, showAlert);
-//            }
-//        };
         [self restoreAccessToken];
     }
     return self;
@@ -91,6 +86,10 @@ void logInteral(NSString *format, ...) {
 }
 
 #pragma mark - Setup
+
+- (void)obtainDelegateForWebView:(UIWebView *)webView {
+    webView.delegate = self.oauthManager;
+}
 
 - (void)setupOAuthDismissWebViewBlock:(DRHandler)dismissWebViewBlock {
     self.oauthManager.dismissWebViewBlock = dismissWebViewBlock;
@@ -211,13 +210,13 @@ void logInteral(NSString *format, ...) {
             }
         } else {
             [weakSelf resetAccessToken];
-            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(data.error, @"Oauth", NO);
+            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(data.error, @"OAuth", NO);
         }
         if (completion) completion(data);
     }];
 }
 
-- (void)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion {
+- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)type modelClass:(Class)class params:(NSDictionary *)params completion:(DRCompletionHandler)completion {
     __weak typeof(self)weakSelf = self;
     NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:type URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
     AFHTTPRequestOperation *operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -235,7 +234,8 @@ void logInteral(NSString *format, ...) {
             completion([weakSelf mappedDataFromResponseObject:responseObject modelClass:class]);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (weakSelf.operationEndHandler) weakSelf.operationEndHandler(operation);
+        if (self.operationEndHandler) self.operationEndHandler(operation);
+        if (self.clientErrorHandler) self.clientErrorHandler(error, method, NO);
         if (completion) completion([DRBaseModel modelWithError:error]);
     }];
     [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{
@@ -244,6 +244,7 @@ void logInteral(NSString *format, ...) {
     [operation start];
     
     if (self.operationStartHandler) self.operationStartHandler(operation);
+    return operation;
 }
 
 #pragma mark - User
@@ -298,7 +299,7 @@ void logInteral(NSString *format, ...) {
     [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbbleDeleteRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler];
 }
 
-- (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler errorHandler:(DRErrorHandler)errorHandler {
+- (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler {
     [self createRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckShotWasLiked, shotId] requestType:kDribbbleGetRequest modelClass:[DRTransactionModel class] params:nil completion:completionHandler];
 }
 
