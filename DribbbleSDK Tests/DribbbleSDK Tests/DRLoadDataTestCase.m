@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import <DribbbleSDK.h>
 
 @interface LoadDataHTTPOperationTests : XCTestCase
+
+@property (nonatomic, strong) NSURL *baseURL;
 
 @end
 
@@ -17,6 +20,7 @@
 
 - (void)setUp {
     [super setUp];
+    self.baseURL = @"https://api.dribbble.com/v1/";;
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 

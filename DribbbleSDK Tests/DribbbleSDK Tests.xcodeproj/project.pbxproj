@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		437F61318532C3A3F5DA3F62 /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECB13A8BF0BEFE440A0A290 /* libPods-ios.a */; };
 		808044001B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 808043FF1B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m */; };
+		80DCDF171B2ACCDD00E04FF1 /* DRLoadDataTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DCDF161B2ACCDD00E04FF1 /* DRLoadDataTestCase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,8 @@
 		808043FE1B29E5ED00B6BCA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		808043FF1B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DribbbleSDK_Tests.m; sourceTree = "<group>"; };
 		808044041B29E67500B6BCA2 /* DribbbleSDK Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DribbbleSDK Tests-Prefix.pch"; sourceTree = "<group>"; };
+		80DCDF161B2ACCDD00E04FF1 /* DRLoadDataTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRLoadDataTestCase.m; sourceTree = "<group>"; };
+		80DCDF181B2AD82A00E04FF1 /* DRLoadDataTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRLoadDataTestCase.h; sourceTree = "<group>"; };
 		8ECB13A8BF0BEFE440A0A290 /* libPods-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC4C4CE68759C78DA5A63A16 /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,6 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				808043FF1B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m */,
+				80DCDF181B2AD82A00E04FF1 /* DRLoadDataTestCase.h */,
+				80DCDF161B2ACCDD00E04FF1 /* DRLoadDataTestCase.m */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				808044001B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m in Sources */,
+				80DCDF171B2ACCDD00E04FF1 /* DRLoadDataTestCase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
