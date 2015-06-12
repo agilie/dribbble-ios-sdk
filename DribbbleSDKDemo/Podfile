@@ -1,7 +1,8 @@
 source 'https://github.com/CocoaPods/Specs'
 
-xcodeproj 'DribbbleSDKDemo'
 workspace '../DribbbleSDK'
+xcodeproj 'DribbbleSDKDemo'
+xcodeproj '../DribbbleSDK Tests/DribbbleSDK Tests'
 inhibit_all_warnings!
 
 def import_pods
@@ -10,6 +11,6 @@ end
 
 target :ios do
   platform :ios, '7.0'
-  link_with 'DribbbleSDKDemo'
+  link_with 'DribbbleSDKDemo', 'DribbbleSDK Tests'
   import_pods
 end
