@@ -40,11 +40,13 @@ PODS:
     - BlocksKit
     - JSONModel
     - NXOAuth2Client
+  - Expecta (1.0.0)
   - JSONModel (1.1.0)
   - NXOAuth2Client (1.2.8)
 
 DEPENDENCIES:
   - DribbbleSDK (from `../`)
+  - Expecta (~> 1.0.0)
 
 EXTERNAL SOURCES:
   DribbbleSDK:
@@ -54,6 +56,7 @@ SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   DribbbleSDK: 71a58277d428eec63cf68f7f51760dc32d23a0e4
+  Expecta: 32604574add2c46a36f8d2f716b6c5736eb75024
   JSONModel: ec77e9865236a7a09d9cf7668df6b4b328d9ec1d
   NXOAuth2Client: 98c4d4c594edd2b289cfc34a8928653e1dab7adf
 

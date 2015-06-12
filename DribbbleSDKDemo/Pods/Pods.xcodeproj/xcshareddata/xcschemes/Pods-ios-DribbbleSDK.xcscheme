@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D1CC9CFD965C1A65F9055359"
+               BlueprintIdentifier = "BBF2C89EC9373ADD1D7C4D50"
                BuildableName = "libPods-ios-DribbbleSDK.a"
                BlueprintName = "Pods-ios-DribbbleSDK"
                ReferencedContainer = "container:Pods.xcodeproj">
