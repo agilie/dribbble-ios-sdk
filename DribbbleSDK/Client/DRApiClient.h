@@ -52,7 +52,7 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 #pragma mark - Image/giffs loading
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressHandler:(DRDOwnloadProgressBlock)progressHandler;
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler;
 
 #pragma mark - API calls
 

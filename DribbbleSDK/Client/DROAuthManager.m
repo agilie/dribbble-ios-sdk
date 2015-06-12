@@ -37,10 +37,7 @@
                forAccountType:kIDMOAccountType];
     __weak typeof(self)weakSelf = self;
     [accountStore requestAccessToAccountWithType:kIDMOAccountType withPreparedAuthorizationURLHandler:^(NSURL *preparedURL) {
-        NSURLRequest *request = [NSURLRequest requestWithURL:preparedURL];
-        
-#warning TODO don't delete all cache, keep media
-
+        NSURLRequest *request = [NSURLRequest requestWithURL:preparedURL];        
         [[NSURLCache sharedURLCache] removeAllCachedResponses];
         [webView loadRequest:request];
     }];
@@ -71,13 +68,13 @@
 #pragma mark - WebView Delegate
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    if (self.progressHUDShowBlock) {
-        self.progressHUDShowBlock();
+    if (self.progressHUDShowHandler) {
+        self.progressHUDShowHandler();
     }
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (self.progressHUDDismissBlock) self.progressHUDDismissBlock();
+    if (self.progressHUDDismissHandler) self.progressHUDDismissHandler();
     //if the UIWebView is showing our authorization URL, show the UIWebView control
     if ([webView.request.URL.absoluteString rangeOfString:kIDMOAuth2RedirectURL options:NSCaseInsensitiveSearch].location != NSNotFound) {
         self.webView.userInteractionEnabled = YES;
@@ -91,14 +88,14 @@
             self.webView.userInteractionEnabled = NO;
         }
     } else if ([webView.request.URL.absoluteString rangeOfString:kUnacceptableWebViewUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        if (self.dismissWebViewBlock) {
-            self.dismissWebViewBlock();
+        if (self.dismissWebViewHandler) {
+            self.dismissWebViewHandler();
         }
     }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if (self.progressHUDDismissBlock) self.progressHUDDismissBlock();
+    if (self.progressHUDDismissHandler) self.progressHUDDismissHandler();
 }
 
 #pragma mark - Helpers

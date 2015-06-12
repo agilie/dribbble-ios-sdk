@@ -12,9 +12,9 @@
 
 @interface DROAuthManager : NSObject  <UIWebViewDelegate>
 
-@property (copy, nonatomic) DRHandler dismissWebViewBlock;
-@property (copy, nonatomic) DRHandler progressHUDShowBlock;
-@property (copy, nonatomic) DRHandler progressHUDDismissBlock;
+@property (copy, nonatomic) DRHandler dismissWebViewHandler;
+@property (copy, nonatomic) DRHandler progressHUDShowHandler;
+@property (copy, nonatomic) DRHandler progressHUDDismissHandler;
 
 - (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion;
 

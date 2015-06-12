@@ -91,8 +91,8 @@ void logInteral(NSString *format, ...) {
     webView.delegate = self.oauthManager;
 }
 
-- (void)setupOAuthDismissWebViewBlock:(DRHandler)dismissWebViewBlock {
-    self.oauthManager.dismissWebViewBlock = dismissWebViewBlock;
+- (void)setupOAuthDismissWebViewHandler:(DRHandler)dismissWebViewHandler {
+    self.oauthManager.dismissWebViewHandler = dismissWebViewHandler;
 }
 
 - (void)setupApiManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count {
@@ -323,15 +323,15 @@ void logInteral(NSString *format, ...) {
 
 #pragma mark - Images/Giffs
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressBlock:(DRDOwnloadProgressBlock)progressBlock {
-    return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler progressBlock:progressBlock];
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler {
+    return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler progressHandler:progressHandler];
 }
 
 - (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler {
-    return [self loadShotImage:shot isHighQuality:isHighQuality completionHandler:completionHandler progressBlock:nil];
+    return [self loadShotImage:shot isHighQuality:isHighQuality completionHandler:completionHandler progressHandler:nil];
 }
 
-- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler progressBlock:(DRDOwnloadProgressBlock)downLoadProgressBlock {
+- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler {
     __weak typeof(self)weakSelf = self;
     if (!url) {
         logInteral(@"Requested image with null url");
@@ -348,7 +348,7 @@ void logInteral(NSString *format, ...) {
             completionHandler([DRBaseModel modelWithError:error], operation);
         }
     }];
-    [requestOperation setDownloadProgressBlock:downLoadProgressBlock];
+    [requestOperation setDownloadProgressBlock:progressHandler];
     [self.imageManager.operationQueue addOperation:requestOperation];
     return requestOperation;
 }

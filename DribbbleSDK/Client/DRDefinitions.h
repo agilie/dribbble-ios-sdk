@@ -26,7 +26,7 @@ typedef void(^DRCompletionHandler)(id data);
 typedef void(^DRCompletionBackGroundFetchHandler)(UIBackgroundFetchResult);
 typedef void(^DRErrorHandler)(id data);
 typedef void(^DRGeneralErrorHandler)(NSError *error, NSString *method, BOOL showAlert);
-typedef void(^DRDOwnloadProgressBlock)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead);
+typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead);
 
 // App Groups
 static NSString *const kAppGroupName = @"group.me.agile.ninja.shotbucket";
