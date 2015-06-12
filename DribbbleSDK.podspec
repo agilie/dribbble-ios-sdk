@@ -18,7 +18,7 @@ Uses latest Dribbble HTTP API !
     * Markdown format.
     * Don't worry about the indent, we strip it!
     DESC
-    s.homepage         = "http://github.com/agilie/dribbble-ios-sdk"
+    s.homepage         = "https://github.com/agilie/dribbble-ios-sdk"
     # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
     s.license          = { :type => 'MIT', :file => 'DribbbleSDK/LICENSE' }
     s.authors           = { 'Agilie' => 'info@agilie.com' }
