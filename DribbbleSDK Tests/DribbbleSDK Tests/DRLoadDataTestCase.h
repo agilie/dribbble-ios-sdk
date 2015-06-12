@@ -1,13 +1,18 @@
 //
-//  DRLOadDataTestCase.h
+//  DRLoadDataTestCase.h
 //  DribbbleSDK Tests
 //
 //  Created by zgonik vova on 12.06.15.
 //
 //
 
-#ifndef DribbbleSDK_Tests_DRLOadDataTestCase_h
-#define DribbbleSDK_Tests_DRLOadDataTestCase_h
+#import <XCTest/XCTest.h>
+#import "Expecta.h"
 
+extern NSString * const DribbbleSDKTestsBaseURLString;
 
-#endif
+@interface DRLoadDataTestCase : XCTestCase
+
+@property (nonatomic, strong, readonly) NSURL *baseURL; 
+
+@end
