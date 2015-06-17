@@ -25,6 +25,12 @@
          <FileRef
             location = "group:DROAuthManager.m">
          </FileRef>
+         <FileRef
+            location = "group:DRApiClientSettings.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRApiClientSettings.m">
+         </FileRef>
       </Group>
       <FileRef
          location = "group:DribbbleSDK.h">
@@ -88,6 +94,9 @@
          </FileRef>
       </Group>
    </Group>
+   <FileRef
+      location = "group:DribbbleSDKDev/DribbbleSDKDev.xcodeproj">
+   </FileRef>
    <FileRef
       location = "group:DribbbleSDKDemo/DribbbleSDKDemo.xcodeproj">
    </FileRef>

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A880A030245EE0F1246F44CA"
+               BlueprintIdentifier = "BC3B729C1D8E56AA8D2F914E"
                BuildableName = "libPods-ios-DribbbleSDK.a"
                BlueprintName = "Pods-ios-DribbbleSDK"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -39,15 +39,6 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A880A030245EE0F1246F44CA"
-            BuildableName = "libPods-ios-DribbbleSDK.a"
-            BlueprintName = "Pods-ios-DribbbleSDK"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

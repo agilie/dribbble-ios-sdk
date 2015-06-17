@@ -28,17 +28,25 @@ typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBy
 static NSString * const kIDMOAuth2ClientId = @"d1bf57813d51b916e816894683371d2bcfaff08a5a5f389965f1cf779e7da6f8";
 static NSString * const kIDMOAuth2ClientSecret = @"305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
 static NSString * const kIDMOAuth2ClientAccessSecret =@"ebc7adb327f3ae4cf2517de0a37b483a0973d932b3187578501c55b9f5ede17b";
+
+// OAuth
+
 static NSString * const kIDMOAuth2RedirectURL = @"apitestapp://authorize";
+static NSString * const kIDMOAuth2AuthorizationURL = @"https://dribbble.com/oauth/authorize";
+static NSString * const kIDMOAuth2TokenURL = @"https://dribbble.com/oauth/token";
 
 // Dribbble API
 
-static NSString * const kUnacceptableWebViewUrl = @"session/new";
-static NSString * const kIDMOAuth2AuthorizationURL = @"https://dribbble.com/oauth/authorize";
-static NSString * const kIDMOAuth2TokenURL = @"https://dribbble.com/oauth/token";
-static NSString * const kIDMOAccountType = @"DribbleAuth";
 static NSString * const kBaseApiUrl = @"https://api.dribbble.com/v1/";
 
+
+
+
+
+
+
 // Dribbble API methods
+
 
 static NSString * const kDribbbleApiMethodUser = @"user";
 static NSString * const kDribbbleApiMethodShots = @"shots";
@@ -50,8 +58,6 @@ static NSString * const kDribbbleApiMethodCheckIfUserFollowing = @"user/followin
 static NSString * const kDribbbleApiMethodGetFollowers = @"users/%@/following";
 static NSString * const kDribbbleApiMethodGetFolloweesShot = @"user/following/shots";
 static NSString * const kDribbbleApiMethodGetLikes = @"users/%@/likes";
-
-static NSString * const kRedirectUrlDribbbleFormat = @"%@&state=%@";
 
 // Http request methods
 
@@ -73,5 +79,13 @@ static NSInteger const kHttpCannotConnectToHost = -1004;
 static NSInteger const kHttpConnectionLost = -1005;
 
 static NSString * const kInvalidAuthData = @"Invalid auth data";
+
+// Keychain
+
+static NSString * const kIDMOAccountType = @"DribbleAuth";
+
+// Misc
+
+static NSString * const kUnacceptableWebViewUrl = @"session/new";
 
 #endif

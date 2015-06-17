@@ -15,6 +15,7 @@
 #import "DRTransactionModel.h"
 #import "DRShotCategory.h"
 #import "DribbbleSDK.h"
+#import "DRApiClientSettings.h"
 
 
 static NSInteger const kDefaultShotsPerPageNumber = 20;
@@ -31,7 +32,8 @@ void logInteral(NSString *format, ...) {
 
 @interface DRApiClient ()
 
-@property (strong, nonatomic) NSString *baseApiUrl;
+@property (strong, nonatomic) DRApiClientSettings *settings;
+
 @property (strong, nonatomic) DROAuthManager *oauthManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *imageManager;
@@ -53,7 +55,6 @@ void logInteral(NSString *format, ...) {
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.baseApiUrl = kBaseApiUrl;
         self.oauthManager = [DROAuthManager new];
         [self restoreAccessToken];
     }
@@ -70,6 +71,14 @@ void logInteral(NSString *format, ...) {
     }
     return self;
 }
+
+- (instancetype)initWithSettings:(DRApiClientSettings *)settings {
+    if (self = [self init]) {
+        self.settings = settings;
+    }
+    return self;
+}
+
 
 - (void)restoreAccessToken {
     NXOAuth2Account *account = [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType: kIDMOAccountType] lastObject];

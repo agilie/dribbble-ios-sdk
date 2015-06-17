@@ -18,6 +18,8 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 @interface DRApiClient : NSObject
 
+@property (strong, nonatomic) NSString *baseApiUrl;
+
 @property (strong, nonatomic) NSString *accessToken;
 @property (copy, nonatomic) DRRequestOperationHandler operationStartHandler;
 @property (copy, nonatomic) DRRequestOperationHandler operationEndHandler;
