@@ -16,12 +16,6 @@
 #import "DRShotCategory.h"
 #import "DribbbleSDK.h"
 
-static NSString * const kDefaultsKeyLastModified = @"me.agile.ninja.shotbucket.followees_shots_last_modified";
-
-static NSString * const kHttpHeaderLastModifiedKey = @"Last-Modified";
-static NSString * const kHttpHeaderIfModifiedSinceKey = @"If-Modified-Since";
-static NSString * const kAuthorizationHTTPFieldName = @"Authorization";
-static NSString * const kBearerString = @"Bearer";
 
 static NSInteger const kDefaultShotsPerPageNumber = 20;
 

@@ -6,9 +6,6 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#define DRApiClientLoggingEnabled 1
-#define DribbbleApiServiceLogTag @"[API Service] "
-
 #import <Foundation/Foundation.h>
 #import "NXOAuth2.h"
 #import "DribbbleSDK.h"

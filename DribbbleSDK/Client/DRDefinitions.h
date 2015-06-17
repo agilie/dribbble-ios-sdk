@@ -9,6 +9,12 @@
 #ifndef DribbbleRunner_OAuthDefinitions_h
 #define DribbbleRunner_OAuthDefinitions_h
 
+
+// Override to disable logging
+#define DRApiClientLoggingEnabled 1
+
+#define DribbbleApiServiceLogTag @"[DribbbleSDK] "
+
 // Block definitions
 
 typedef void(^DRHandler)(void);
@@ -53,6 +59,9 @@ static NSString * kDribbbleGetRequest = @"GET";
 static NSString * kDribbblePostRequest = @"POST";
 static NSString * kDribbblePutRequest = @"PUT";
 static NSString * kDribbbleDeleteRequest = @"DELETE";
+
+static NSString * const kAuthorizationHTTPFieldName = @"Authorization";
+static NSString * const kBearerString = @"Bearer";
 
 // Http errors
 
