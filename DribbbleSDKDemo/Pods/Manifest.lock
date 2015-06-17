@@ -44,7 +44,11 @@ PODS:
   - NXOAuth2Client (1.2.8)
 
 DEPENDENCIES:
+  - AFNetworking (~> 2.3)
+  - BlocksKit
   - DribbbleSDK (from `../`)
+  - JSONModel
+  - NXOAuth2Client
 
 EXTERNAL SOURCES:
   DribbbleSDK:

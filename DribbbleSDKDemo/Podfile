@@ -14,7 +14,7 @@ target :DribbbleSDKDemo do
     import_sdk_pod
 end
 
-target :DribbbleSDK Tests do
+target :'DribbbleSDK Tests' do
     xcodeproj '../DribbbleSDK Tests/DribbbleSDK Tests'
     import_sdk_pod
 end
