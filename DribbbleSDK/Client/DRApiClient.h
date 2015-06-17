@@ -16,7 +16,6 @@
 @class DRShot, DRShotCategory;
 
 extern void logInteral(NSString *format, ...);
-extern DRErrorHandler showErrorAlertFailureHandler();
 
 typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
