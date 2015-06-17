@@ -1,0 +1,17 @@
+source 'https://github.com/CocoaPods/Specs'
+
+workspace '../DribbbleSDK'
+xcodeproj 'DribbbleSDKDemo'
+xcodeproj '../DribbbleSDK Tests/DribbbleSDK Tests'
+inhibit_all_warnings!
+
+def import_pods
+  pod 'DribbbleSDK', :path => '../'
+  pod 'Expecta', '~> 1.0.0' 
+end
+
+target :ios do
+  platform :ios, '7.0'
+  link_with 'DribbbleSDKDemo', 'DribbbleSDK Tests'
+  import_pods
+end

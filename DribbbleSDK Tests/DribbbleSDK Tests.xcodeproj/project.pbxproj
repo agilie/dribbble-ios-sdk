@@ -1,0 +1,344 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		437F61318532C3A3F5DA3F62 /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECB13A8BF0BEFE440A0A290 /* libPods-ios.a */; };
+		808044001B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 808043FF1B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m */; };
+		80DCDF171B2ACCDD00E04FF1 /* DRLoadDataTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DCDF161B2ACCDD00E04FF1 /* DRLoadDataTestCase.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3AF1C3BA72F4E41B947F6FB2 /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
+		808043FA1B29E5ED00B6BCA2 /* DribbbleSDK Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DribbbleSDK Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		808043FE1B29E5ED00B6BCA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		808043FF1B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DribbbleSDK_Tests.m; sourceTree = "<group>"; };
+		808044041B29E67500B6BCA2 /* DribbbleSDK Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DribbbleSDK Tests-Prefix.pch"; sourceTree = "<group>"; };
+		80DCDF161B2ACCDD00E04FF1 /* DRLoadDataTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRLoadDataTestCase.m; sourceTree = "<group>"; };
+		80DCDF181B2AD82A00E04FF1 /* DRLoadDataTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRLoadDataTestCase.h; sourceTree = "<group>"; };
+		8ECB13A8BF0BEFE440A0A290 /* libPods-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC4C4CE68759C78DA5A63A16 /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		808043F71B29E5ED00B6BCA2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				437F61318532C3A3F5DA3F62 /* libPods-ios.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1A2B39E9992E17223D6B51CE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8ECB13A8BF0BEFE440A0A290 /* libPods-ios.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		808043EF1B29E5B900B6BCA2 = {
+			isa = PBXGroup;
+			children = (
+				808043FC1B29E5ED00B6BCA2 /* DribbbleSDK Tests */,
+				808043FB1B29E5ED00B6BCA2 /* Products */,
+				FF73C4BBEB17565BA4F74AEC /* Pods */,
+				1A2B39E9992E17223D6B51CE /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		808043FB1B29E5ED00B6BCA2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				808043FA1B29E5ED00B6BCA2 /* DribbbleSDK Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		808043FC1B29E5ED00B6BCA2 /* DribbbleSDK Tests */ = {
+			isa = PBXGroup;
+			children = (
+				808044051B29E7B200B6BCA2 /* Tests */,
+				808043FD1B29E5ED00B6BCA2 /* Supporting Files */,
+			);
+			path = "DribbbleSDK Tests";
+			sourceTree = "<group>";
+		};
+		808043FD1B29E5ED00B6BCA2 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				808043FE1B29E5ED00B6BCA2 /* Info.plist */,
+				808044041B29E67500B6BCA2 /* DribbbleSDK Tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		808044051B29E7B200B6BCA2 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				808043FF1B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m */,
+				80DCDF181B2AD82A00E04FF1 /* DRLoadDataTestCase.h */,
+				80DCDF161B2ACCDD00E04FF1 /* DRLoadDataTestCase.m */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		FF73C4BBEB17565BA4F74AEC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CC4C4CE68759C78DA5A63A16 /* Pods-ios.debug.xcconfig */,
+				3AF1C3BA72F4E41B947F6FB2 /* Pods-ios.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		808043F91B29E5ED00B6BCA2 /* DribbbleSDK Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 808044011B29E5ED00B6BCA2 /* Build configuration list for PBXNativeTarget "DribbbleSDK Tests" */;
+			buildPhases = (
+				9F416019BD55083F118DE427 /* Check Pods Manifest.lock */,
+				808043F61B29E5ED00B6BCA2 /* Sources */,
+				808043F71B29E5ED00B6BCA2 /* Frameworks */,
+				808043F81B29E5ED00B6BCA2 /* Resources */,
+				48B31AB484A50B10D15A0AE2 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DribbbleSDK Tests";
+			productName = "DribbbleSDK Tests";
+			productReference = 808043FA1B29E5ED00B6BCA2 /* DribbbleSDK Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		808043F01B29E5B900B6BCA2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				TargetAttributes = {
+					808043F91B29E5ED00B6BCA2 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
+			};
+			buildConfigurationList = 808043F31B29E5B900B6BCA2 /* Build configuration list for PBXProject "DribbbleSDK Tests" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 808043EF1B29E5B900B6BCA2;
+			productRefGroup = 808043FB1B29E5ED00B6BCA2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				808043F91B29E5ED00B6BCA2 /* DribbbleSDK Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		808043F81B29E5ED00B6BCA2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		48B31AB484A50B10D15A0AE2 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../DribbbleSDKDemo/Pods/Target Support Files/Pods-ios/Pods-ios-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9F416019BD55083F118DE427 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		808043F61B29E5ED00B6BCA2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				808044001B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m in Sources */,
+				80DCDF171B2ACCDD00E04FF1 /* DRLoadDataTestCase.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		808043F41B29E5B900B6BCA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "DribbbleSDK Tests/DribbbleSDK Tests-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		808043F51B29E5B900B6BCA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREFIX_HEADER = "DribbbleSDK Tests/DribbbleSDK Tests-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		808044021B29E5ED00B6BCA2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC4C4CE68759C78DA5A63A16 /* Pods-ios.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "DribbbleSDK Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		808044031B29E5ED00B6BCA2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3AF1C3BA72F4E41B947F6FB2 /* Pods-ios.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "DribbbleSDK Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		808043F31B29E5B900B6BCA2 /* Build configuration list for PBXProject "DribbbleSDK Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				808043F41B29E5B900B6BCA2 /* Debug */,
+				808043F51B29E5B900B6BCA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		808044011B29E5ED00B6BCA2 /* Build configuration list for PBXNativeTarget "DribbbleSDK Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				808044021B29E5ED00B6BCA2 /* Debug */,
+				808044031B29E5ED00B6BCA2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 808043F01B29E5B900B6BCA2 /* Project object */;
+}

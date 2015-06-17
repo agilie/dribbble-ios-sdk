@@ -1,0 +1,1 @@
+PODS_IOS_DRIBBBLESDK_OTHER_LDFLAGS = -framework "Foundation"
