@@ -11,11 +11,8 @@
 
 
 // Override to disable logging
-#define DRApiClientLoggingEnabled 1
-
-#define DribbbleApiServiceLogTag @"[DribbbleSDK] "
-
-#define DRLog(format, ...) NSLog(@"%@", [NSString stringWithFormat:format, ## __VA_ARGS__ ])
+#define DribbbleSDKLogsEnabled 1
+#define DribbbleSDKLogPrefix @"[DribbbleSDK]"
 
 // Block definitions
 

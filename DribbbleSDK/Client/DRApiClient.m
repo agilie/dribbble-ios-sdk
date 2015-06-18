@@ -19,10 +19,10 @@
 static NSInteger const kDefaultShotsPerPageNumber = 20;
 
 void logInteral(NSString *format, ...) {
-    if (DRApiClientLoggingEnabled) {
+    if (DribbbleSDKLogsEnabled) {
         va_list argList;
         va_start(argList, format);
-        NSString *string = [DribbbleApiServiceLogTag stringByAppendingString:format];
+        NSString *string = [NSString stringWithFormat:@"%@ %@", DribbbleSDKLogPrefix, format];
         NSLogv(string, argList);
         va_end(argList);
     }
@@ -72,7 +72,7 @@ void logInteral(NSString *format, ...) {
 - (void)restoreAccessToken {
     NXOAuth2Account *account = [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType: kIDMOAccountType] lastObject];
     if (account) {
-        NSLog(@"We have token restored: %@", account.accessToken.accessToken);
+        logInteral(@"We have token restored: %@", account.accessToken.accessToken);
         self.accessToken = account.accessToken.accessToken;
     }
 }
@@ -194,7 +194,7 @@ void logInteral(NSString *format, ...) {
 
 - (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler {
     __weak typeof(self) weakSelf = self;
-    [self.oauthManager requestOAuth2Login:webView settings:self.settings completionHandler:^(DRBaseModel *data) {
+    [self.oauthManager authorizeWithWebView:webView settings:self.settings completionHandler:^(DRBaseModel *data) {
         if (!data.error) {
             NXOAuth2Account *account = data.object;
             if (account.accessToken.accessToken.length > 0) {

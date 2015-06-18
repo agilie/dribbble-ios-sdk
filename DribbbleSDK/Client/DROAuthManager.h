@@ -11,12 +11,12 @@
 #import "DribbbleSDK.h"
 #import "DRApiClientSettings.h"
 
-@interface DROAuthManager : NSObject  <UIWebViewDelegate>
+@interface DROAuthManager : NSObject <UIWebViewDelegate>
 
 @property (copy, nonatomic) DRHandler dismissWebViewHandler;
 @property (copy, nonatomic) DRHandler progressHUDShowHandler;
 @property (copy, nonatomic) DRHandler progressHUDDismissHandler;
 
-- (void)requestOAuth2Login:(UIWebView *)webView settings:(DRApiClientSettings *)settings completionHandler:(DRCompletionHandler)completion;
+- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings completionHandler:(DRCompletionHandler)completion;
 
 @end

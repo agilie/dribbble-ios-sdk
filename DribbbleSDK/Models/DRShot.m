@@ -28,9 +28,6 @@ static NSString * const kFileExtensionGif = @"gif";
 #pragma mark - Helpers
 
 - (NSNumber *)authorityId {
-    if (!self.user.userId && !self.team.teamId) {
-        NSLog(@"found shot with no authority, shot id: %@", self.shotId);
-    }
     return self.user ? self.user.userId : self.team.teamId;
 }
 

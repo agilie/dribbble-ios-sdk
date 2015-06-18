@@ -25,7 +25,7 @@
 
 #pragma mark - OAuth2 Logic
 
-- (void)requestOAuth2Login:(UIWebView *)webView settings:(DRApiClientSettings *)settings completionHandler:(DRCompletionHandler)completion {
+- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings completionHandler:(DRCompletionHandler)completion {
     self.webView = webView;
     self.webView.delegate = self;
     NXOAuth2AccountStore *accountStore = [NXOAuth2AccountStore sharedStore];
@@ -52,7 +52,7 @@
     
     self.authCompletionObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreAccountsDidChangeNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
-        NSLog(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
+        logInteral(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
         if (account.accessToken.accessToken) {
             if (completion) completion([DRBaseModel modelWithData:account]);
         } else {
