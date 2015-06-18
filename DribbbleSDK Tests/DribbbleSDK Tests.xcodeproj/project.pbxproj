@@ -7,18 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04179FFDB84F4B135C3F458C /* libPods-DribbbleSDK Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6E9DB6156CA4EF393F90BF3 /* libPods-DribbbleSDK Tests.a */; };
 		437F61318532C3A3F5DA3F62 /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ECB13A8BF0BEFE440A0A290 /* libPods-ios.a */; };
 		808044001B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 808043FF1B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3AF1C3BA72F4E41B947F6FB2 /* Pods-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.release.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig"; sourceTree = "<group>"; };
+		5D653BEFCFF97512DBF6891D /* Pods-DribbbleSDK Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDK Tests.release.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDK Tests/Pods-DribbbleSDK Tests.release.xcconfig"; sourceTree = "<group>"; };
 		808043FA1B29E5ED00B6BCA2 /* DribbbleSDK Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DribbbleSDK Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		808043FE1B29E5ED00B6BCA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		808043FF1B29E5ED00B6BCA2 /* DribbbleSDK_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DribbbleSDK_Tests.m; sourceTree = "<group>"; };
 		808044041B29E67500B6BCA2 /* DribbbleSDK Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DribbbleSDK Tests-Prefix.pch"; sourceTree = "<group>"; };
 		8ECB13A8BF0BEFE440A0A290 /* libPods-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6E9DB6156CA4EF393F90BF3 /* libPods-DribbbleSDK Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DribbbleSDK Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC4C4CE68759C78DA5A63A16 /* Pods-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios.debug.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		E94AF80C0DAAB533ED55D1CC /* Pods-DribbbleSDK Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDK Tests.debug.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDK Tests/Pods-DribbbleSDK Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +31,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				437F61318532C3A3F5DA3F62 /* libPods-ios.a in Frameworks */,
+				04179FFDB84F4B135C3F458C /* libPods-DribbbleSDK Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -37,6 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				8ECB13A8BF0BEFE440A0A290 /* libPods-ios.a */,
+				A6E9DB6156CA4EF393F90BF3 /* libPods-DribbbleSDK Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -90,6 +96,8 @@
 			children = (
 				CC4C4CE68759C78DA5A63A16 /* Pods-ios.debug.xcconfig */,
 				3AF1C3BA72F4E41B947F6FB2 /* Pods-ios.release.xcconfig */,
+				E94AF80C0DAAB533ED55D1CC /* Pods-DribbbleSDK Tests.debug.xcconfig */,
+				5D653BEFCFF97512DBF6891D /* Pods-DribbbleSDK Tests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -169,7 +177,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../DribbbleSDKDemo/Pods/Target Support Files/Pods-ios/Pods-ios-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDK Tests/Pods-DribbbleSDK Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9F416019BD55083F118DE427 /* Check Pods Manifest.lock */ = {
@@ -219,7 +227,7 @@
 		};
 		808044021B29E5ED00B6BCA2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC4C4CE68759C78DA5A63A16 /* Pods-ios.debug.xcconfig */;
+			baseConfigurationReference = E94AF80C0DAAB533ED55D1CC /* Pods-DribbbleSDK Tests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -269,7 +277,7 @@
 		};
 		808044031B29E5ED00B6BCA2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3AF1C3BA72F4E41B947F6FB2 /* Pods-ios.release.xcconfig */;
+			baseConfigurationReference = 5D653BEFCFF97512DBF6891D /* Pods-DribbbleSDK Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
