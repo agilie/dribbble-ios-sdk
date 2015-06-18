@@ -30,6 +30,8 @@ void logInteral(NSString *format, ...) {
 
 @interface DRApiClient ()
 
+@property (strong, nonatomic) NSString *baseApiUrl;
+
 @property (strong, nonatomic) DROAuthManager *oauthManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *imageManager;
@@ -57,28 +59,15 @@ void logInteral(NSString *format, ...) {
     return self;
 }
 
-- (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret {
-    self = [self init];
-    if (self) {
-        self.clientAccessSecret = clientAccessSecret;
-        if (!_accessToken) {
-            [self resetAccessToken];
-        }
-    }
-    return self;
-}
-
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings {
     if (self = [self init]) {
         _settings = settings;
-        self.clientAccessSecret = settings.clientAccessToken;
         if (!_accessToken) {
             [self resetAccessToken];
         }
     }
     return self;
 }
-
 
 - (void)restoreAccessToken {
     NXOAuth2Account *account = [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType: kIDMOAccountType] lastObject];
@@ -114,7 +103,7 @@ void logInteral(NSString *format, ...) {
 // also call this method on logout
 
 - (void)resetAccessToken {
-    self.accessToken = self.clientAccessSecret;
+    self.accessToken = self.settings.clientAccessToken;
 }
 
 - (void)setAccessToken:(NSString *)accessToken {
@@ -205,7 +194,7 @@ void logInteral(NSString *format, ...) {
 
 - (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler {
     __weak typeof(self) weakSelf = self;
-    [self.oauthManager requestOAuth2Login:webView completionHandler:^(DRBaseModel *data) {
+    [self.oauthManager requestOAuth2Login:webView settings:self.settings completionHandler:^(DRBaseModel *data) {
         if (!data.error) {
             NXOAuth2Account *account = data.object;
             if (account.accessToken.accessToken.length > 0) {

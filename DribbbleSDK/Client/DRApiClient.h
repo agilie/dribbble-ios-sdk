@@ -22,8 +22,6 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 @property (strong, readonly) DRApiClientSettings *settings;
 
-@property (strong, nonatomic) NSString *baseApiUrl;
-
 @property (strong, nonatomic) NSString *accessToken;
 @property (copy, nonatomic) DRRequestOperationHandler operationStartHandler;
 @property (copy, nonatomic) DRRequestOperationHandler operationEndHandler;
@@ -39,7 +37,6 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings;
 
-- (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret;
 - (void)resetAccessToken;
 - (BOOL)isUserAuthorized;
 

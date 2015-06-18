@@ -17,24 +17,28 @@
 @property (strong, nonatomic) id<NSObject> authCompletionObserver;
 @property (strong, nonatomic) id<NSObject> authErrorObserver;
 
+@property (strong, nonatomic) NSString *redirectUrl;
+
 @end
 
 @implementation DROAuthManager
 
 #pragma mark - OAuth2 Logic
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completion {
+- (void)requestOAuth2Login:(UIWebView *)webView settings:(DRApiClientSettings *)settings completionHandler:(DRCompletionHandler)completion {
     self.webView = webView;
     self.webView.delegate = self;
     NXOAuth2AccountStore *accountStore = [NXOAuth2AccountStore sharedStore];
-    [accountStore setClientID:kIDMOAuth2ClientId
-                       secret:kIDMOAuth2ClientSecret
+    [accountStore setClientID:settings.clientId
+                       secret:settings.clientSecret
                         scope:[NSSet setWithObjects: @"public", @"write", nil]
-             authorizationURL:[NSURL URLWithString:kIDMOAuth2AuthorizationURL]
-                     tokenURL:[NSURL URLWithString:kIDMOAuth2TokenURL]
-                  redirectURL:[NSURL URLWithString:kIDMOAuth2RedirectURL]
+             authorizationURL:[NSURL URLWithString:settings.oAuth2AuthorizationUrl]
+                     tokenURL:[NSURL URLWithString:settings.oAuth2TokenUrl]
+                  redirectURL:[NSURL URLWithString:settings.oAuth2RedirectUrl]
                 keyChainGroup:kIDMOAccountType
                forAccountType:kIDMOAccountType];
+    self.redirectUrl = settings.oAuth2RedirectUrl;
+    
     __weak typeof(self)weakSelf = self;
     [accountStore requestAccessToAccountWithType:kIDMOAccountType withPreparedAuthorizationURLHandler:^(NSURL *preparedURL) {
         NSURLRequest *request = [NSURLRequest requestWithURL:preparedURL];        
@@ -76,7 +80,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     if (self.progressHUDDismissHandler) self.progressHUDDismissHandler();
     //if the UIWebView is showing our authorization URL, show the UIWebView control
-    if ([webView.request.URL.absoluteString rangeOfString:kIDMOAuth2RedirectURL options:NSCaseInsensitiveSearch].location != NSNotFound) {
+    if ([webView.request.URL.absoluteString rangeOfString:self.redirectUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
         self.webView.userInteractionEnabled = YES;
         NSDictionary *params = [self grabUrlParameters:webView.request.URL];
         if ([params objectForKey:@"code"]) {
