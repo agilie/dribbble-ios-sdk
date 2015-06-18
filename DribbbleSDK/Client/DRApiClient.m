@@ -15,8 +15,6 @@
 #import "DRTransactionModel.h"
 #import "DRShotCategory.h"
 #import "DribbbleSDK.h"
-#import "DRApiClientSettings.h"
-
 
 static NSInteger const kDefaultShotsPerPageNumber = 20;
 
@@ -31,8 +29,6 @@ void logInteral(NSString *format, ...) {
 }
 
 @interface DRApiClient ()
-
-@property (strong, nonatomic) DRApiClientSettings *settings;
 
 @property (strong, nonatomic) DROAuthManager *oauthManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
@@ -74,7 +70,11 @@ void logInteral(NSString *format, ...) {
 
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings {
     if (self = [self init]) {
-        self.settings = settings;
+        _settings = settings;
+        self.clientAccessSecret = settings.clientAccessToken;
+        if (!_accessToken) {
+            [self resetAccessToken];
+        }
     }
     return self;
 }

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "NXOAuth2.h"
 #import "DribbbleSDK.h"
+#import "DRApiClientSettings.h"
+
 
 @class DRShot, DRShotCategory;
 
@@ -17,6 +19,8 @@ extern void logInteral(NSString *format, ...);
 typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 @interface DRApiClient : NSObject
+
+@property (strong, readonly) DRApiClientSettings *settings;
 
 @property (strong, nonatomic) NSString *baseApiUrl;
 
@@ -32,6 +36,8 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 @property (assign, nonatomic, readonly) NSInteger apiManagerMaxConcurrentCount;
 @property (strong, nonatomic, readonly) AFHTTPResponseSerializer *imageResponseSerializer;
 @property (strong, nonatomic, readonly) AFHTTPResponseSerializer *apiResponseSerializer;
+
+- (instancetype)initWithSettings:(DRApiClientSettings *)settings;
 
 - (instancetype)initWithOAuthClientAccessSecret:(NSString *)clientAccessSecret;
 - (void)resetAccessToken;
