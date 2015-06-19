@@ -28,6 +28,8 @@
         if (!data.error) {
             weakSelf.authCompletionHandler(@YES);
         }
+    } cancellationHandler:^{
+        [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     }];
 }
 

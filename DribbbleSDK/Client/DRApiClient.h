@@ -16,52 +16,20 @@
 
 extern void logInteral(NSString *format, ...);
 
-typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
-
 @interface DRApiClient : NSObject
 
 @property (strong, nonatomic, readonly) DRApiClientSettings *settings;
-
 @property (nonatomic, readonly, getter=isUserAuthorized) BOOL userAuthorized;
-
-@property (strong, nonatomic) NSString *accessToken;
-@property (copy, nonatomic) DRRequestOperationHandler operationStartHandler;
-@property (copy, nonatomic) DRRequestOperationHandler operationEndHandler;
-@property (copy, nonatomic) DRRequestOperationHandler operationLimitHandler;
 @property (copy, nonatomic) DRErrorHandler clientErrorHandler;
 
-@property (assign, nonatomic, readonly) NSURLRequestCachePolicy imageCachePolicy;
-@property (assign, nonatomic, readonly) NSURLRequestCachePolicy apiCachePolicy;
-@property (assign, nonatomic, readonly) NSInteger imageManagerMaxConcurrentCount;
-@property (assign, nonatomic, readonly) NSInteger apiManagerMaxConcurrentCount;
-@property (strong, nonatomic, readonly) AFHTTPResponseSerializer *imageResponseSerializer;
-@property (strong, nonatomic, readonly) AFHTTPResponseSerializer *apiResponseSerializer;
-
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings;
-
 - (void)resetAccessToken;
 
-#pragma mark - Setup
+#pragma mark - Auth
 
-- (void)obtainDelegateForWebView:(UIWebView *)webView;
-- (void)setupApiManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count;
-- (void)setupImageManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count;
-- (void)setupOAuthDismissWebViewHandler:(DRHandler)dismissWebViewHandler;
+- (void)authorizeWithWebView:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler cancellationHandler:(DRHandler)cancellationHandler;
 
-#pragma mark - OAuth handling
-
-- (void)authorizeWithWebView:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler;
-
-#pragma mark - Image/giffs loading
-
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DRCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler;
-
-#pragma mark - API calls
-
-// common
-
-- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler;
-- (void)runRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler;
+#pragma mark - API methods
 
 // rest
 

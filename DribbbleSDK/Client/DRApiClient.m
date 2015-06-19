@@ -30,17 +30,9 @@ void logInteral(NSString *format, ...) {
 
 @interface DRApiClient ()
 
+@property (strong, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) DROAuthManager *oauthManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
-@property (strong, nonatomic) AFHTTPRequestOperationManager *imageManager;
-@property (strong, nonatomic) NSString *clientAccessSecret;
-
-@property (assign, nonatomic) NSURLRequestCachePolicy imageCachePolicy;
-@property (assign, nonatomic) NSURLRequestCachePolicy apiCachePolicy;
-@property (assign, nonatomic) NSInteger imageManagerMaxConcurrentCount;
-@property (assign, nonatomic) NSInteger apiManagerMaxConcurrentCount;
-@property (strong, nonatomic) AFHTTPResponseSerializer *imageResponseSerializer;
-@property (strong, nonatomic) AFHTTPResponseSerializer *apiResponseSerializer;
 
 @end
 
@@ -51,6 +43,7 @@ void logInteral(NSString *format, ...) {
 - (instancetype)init {
     self = [super init];
     if (self) {
+        [self setupDefaults];
         self.oauthManager = [DROAuthManager new];
         [self restoreAccessToken];
     }
@@ -65,6 +58,10 @@ void logInteral(NSString *format, ...) {
         }
     }
     return self;
+}
+
+- (void)setupDefaults {
+    
 }
 
 #pragma mark - Authorization
@@ -89,11 +86,12 @@ void logInteral(NSString *format, ...) {
 }
 
 - (BOOL)isUserAuthorized {
-    return [self.accessToken length] && ![self.accessToken isEqualToString:self.clientAccessSecret];
+    return [self.accessToken length] && ![self.accessToken isEqualToString:self.settings.clientAccessToken];
 }
 
-- (void)authorizeWithWebView:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler {
+- (void)authorizeWithWebView:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler cancellationHandler:(DRHandler)cancellationHandler {
     __weak typeof(self) weakSelf = self;
+    self.oauthManager.dismissWebViewHandler = cancellationHandler;
     [self.oauthManager authorizeWithWebView:webView settings:self.settings completionHandler:^(DRBaseModel *data) {
         if (!data.error) {
             NXOAuth2Account *account = data.object;
@@ -111,137 +109,39 @@ void logInteral(NSString *format, ...) {
 
 #pragma mark - Setup
 
-- (void)obtainDelegateForWebView:(UIWebView *)webView {
-    webView.delegate = self.oauthManager;
-}
-
-- (void)setupOAuthDismissWebViewHandler:(DRHandler)dismissWebViewHandler {
-    self.oauthManager.dismissWebViewHandler = dismissWebViewHandler;
-}
-
-- (void)setupApiManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count {
-    [self.apiManager.requestSerializer setCachePolicy:policy];
-    [self.apiManager setResponseSerializer:responseSerializer];
-    [self.apiManager.operationQueue setMaxConcurrentOperationCount:count];
-}
-
-- (void)setupImageManagerWithCachePolicy:(NSURLRequestCachePolicy)policy responseSerializer:(AFHTTPResponseSerializer *)responseSerializer andMaxConcurrentOperations:(NSInteger)count {
-    [self.imageManager.requestSerializer setCachePolicy:policy];
-    [self.imageManager setResponseSerializer:responseSerializer];
-    [self.imageManager.operationQueue setMaxConcurrentOperationCount:count];
-}
-
-
-#pragma mark - Getters
-
-- (AFHTTPRequestOperationManager *)imageManager {
-    if (!_imageManager) {
-        _imageManager = [[AFHTTPRequestOperationManager alloc] init];
-        _imageManager.securityPolicy.allowInvalidCertificates = YES;
-        _imageManager.requestSerializer.cachePolicy = self.imageCachePolicy;
-        _imageManager.responseSerializer = self.imageResponseSerializer;
-        [_imageManager.operationQueue setMaxConcurrentOperationCount:self.imageManagerMaxConcurrentCount];
-    }
-    return _imageManager;
-}
-
 - (AFHTTPRequestOperationManager *)apiManager {
     if (!_apiManager) {
         _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:self.settings.baseUrl]];
         [_apiManager.requestSerializer setHTTPShouldHandleCookies:YES];
-        _apiManager.securityPolicy.allowInvalidCertificates = YES;
         _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
-        _apiManager.requestSerializer.cachePolicy = self.apiCachePolicy;
-        _apiManager.responseSerializer = self.apiResponseSerializer;
-        [_apiManager.operationQueue setMaxConcurrentOperationCount:self.apiManagerMaxConcurrentCount];
-        [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-        [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status){
-            logInteral(@"Internet reachability %d", status);
-        }];
-    }
-    if (self.accessToken) {
-        [_apiManager.requestSerializer setValue:[NSString stringWithFormat:@"%@ %@", kBearerString, self.accessToken] forHTTPHeaderField:kAuthorizationHTTPFieldName];
+        _apiManager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+        _apiManager.responseSerializer = [AFJSONResponseSerializer serializer];
     }
     return _apiManager;
 }
 
-- (NSURLRequestCachePolicy)imageCachePolicy {
-    if (_imageCachePolicy == NSURLRequestUseProtocolCachePolicy) {
-        _imageCachePolicy = NSURLRequestReturnCacheDataElseLoad;
-    }
-    return _imageCachePolicy;
-}
-
-- (NSURLRequestCachePolicy)apiCachePolicy {
-    if (_apiCachePolicy == NSURLRequestUseProtocolCachePolicy) {
-        _apiCachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-    }
-    return _apiCachePolicy;
-}
-
-- (AFHTTPResponseSerializer *)imageResponseSerializer {
-    if (!_imageResponseSerializer) {
-        _imageResponseSerializer = [AFCompoundResponseSerializer serializer];
-    }
-    return _imageResponseSerializer;
-}
-
-- (AFHTTPResponseSerializer *)apiResponseSerializer {
-    if (!_apiResponseSerializer) {
-        _apiResponseSerializer = [AFJSONResponseSerializer serializer];
-    }
-    return _apiResponseSerializer;
-}
-
-- (NSInteger)imageManagerMaxConcurrentCount {
-    if (_imageManagerMaxConcurrentCount == 0) {
-        _imageManagerMaxConcurrentCount = 1;
-    }
-    return _imageManagerMaxConcurrentCount;
-}
-
-- (NSInteger)apiManagerMaxConcurrentCount {
-    if (_apiManagerMaxConcurrentCount == 0) {
-        _apiManagerMaxConcurrentCount = 1;
-    }
-    return _apiManagerMaxConcurrentCount;
-}
 
 #pragma mark - OAuth calls
-
 
 - (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
     __weak typeof(self)weakSelf = self;
     NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:requestType URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
     AFHTTPRequestOperation *operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        if (weakSelf.operationEndHandler) weakSelf.operationEndHandler(operation);
-        
         if ([operation.response statusCode] == kHttpAuthErrorCode || [operation.response statusCode] == kHttpRateLimitErrorCode) {
             NSError *error = [NSError errorWithDomain:[responseObject objectForKey:@"message"] code:[operation.response statusCode] userInfo:nil];
             if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error);
         }
         if ([operation.response statusCode] == kHttpRateLimitErrorCode) {
-            if (weakSelf.operationLimitHandler) weakSelf.operationLimitHandler(operation);
+#warning TODO ???
         }
         if (completionHandler) {
             completionHandler([weakSelf mappedDataFromResponseObject:responseObject modelClass:modelClass]);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (self.operationEndHandler) self.operationEndHandler(operation);
+
         if (self.clientErrorHandler) self.clientErrorHandler(error);
         if (completionHandler) completionHandler([DRBaseModel modelWithError:error]);
     }];
-    
-#warning TODO WTF???
-    
-    [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{
-        
-    }];
-
-#warning INCORRECT! operation isn't started here
-    
-    if (self.operationStartHandler) self.operationStartHandler(operation);
     return operation;
 }
 
@@ -249,6 +149,29 @@ void logInteral(NSString *format, ...) {
     [[self createRequestWithMethod:method requestType:requestType modelClass:modelClass params:params completionHandler:completionHandler] start];
 }
 
+#pragma mark - Data response mapping
+
+- (id)mappedDataFromResponseObject:(id)object modelClass:(Class)modelClass {
+    if (modelClass == [NSNull class]) { // then bypass parsing
+        return [DRBaseModel modelWithData:object];
+    }
+    id mappedObject = nil;
+    if ([object isKindOfClass:[NSArray class]]) {
+        mappedObject = [(NSArray *)object bk_map:^id(id obj) {
+            if ([obj isKindOfClass:[NSDictionary class]]) {
+                return [[modelClass alloc] initWithDictionary:obj error:nil];
+            } else {
+                return [NSNull null];
+            }
+        }];
+    } else if ([object isKindOfClass:[NSDictionary class]]) {
+        mappedObject = [[modelClass alloc] initWithDictionary:object error:nil];
+    }
+    return [DRBaseModel modelWithData:mappedObject];
+}
+
+
+#pragma mark - API CALLS 
 #pragma mark - User
 
 - (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler {
@@ -317,59 +240,6 @@ void logInteral(NSString *format, ...) {
 
 - (void)checkFollowingUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, userId] requestType:kDribbbleGetRequest modelClass:[DRBaseModel class] params:nil completionHandler:completionHandler];
-}
-
-#pragma mark - Images/Gifs
-
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DRCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler {
-    return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler progressHandler:progressHandler];
-}
-
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DRCompletionHandler)completionHandler {
-    return [self loadShotImage:shot isHighQuality:isHighQuality completionHandler:completionHandler progressHandler:nil];
-}
-
-- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DRCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler {
-    __weak typeof(self)weakSelf = self;
-    if (!url) {
-        logInteral(@"Requested image with null url");
-        return nil;
-    }
-    NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60.f];
-    AFHTTPRequestOperation *requestOperation = [self.imageManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if (completionHandler) completionHandler([DRBaseModel modelWithData:responseObject]);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (weakSelf.clientErrorHandler) {
-            weakSelf.clientErrorHandler(error);
-        }
-        if (completionHandler) {
-            completionHandler([DRBaseModel modelWithError:error]);
-        }
-    }];
-    [requestOperation setDownloadProgressBlock:progressHandler];
-    [self.imageManager.operationQueue addOperation:requestOperation];
-    return requestOperation;
-}
-
-#pragma mark - Data response mapping
-
-- (id)mappedDataFromResponseObject:(id)object modelClass:(Class)modelClass {
-    if (modelClass == [NSNull class]) { // then bypass parsing
-        return [DRBaseModel modelWithData:object];
-    }
-    id mappedObject = nil;
-    if ([object isKindOfClass:[NSArray class]]) {
-        mappedObject = [(NSArray *)object bk_map:^id(id obj) {
-            if ([obj isKindOfClass:[NSDictionary class]]) {
-                return [[modelClass alloc] initWithDictionary:obj error:nil];
-            } else {
-                return [NSNull null];
-            }
-        }];
-    } else if ([object isKindOfClass:[NSDictionary class]]) {
-        mappedObject = [[modelClass alloc] initWithDictionary:object error:nil];
-    }
-    return [DRBaseModel modelWithData:mappedObject];
 }
 
 @end

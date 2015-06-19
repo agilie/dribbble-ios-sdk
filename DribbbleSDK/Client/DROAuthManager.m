@@ -94,6 +94,7 @@
     } else if ([webView.request.URL.absoluteString rangeOfString:kUnacceptableWebViewUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
         if (self.dismissWebViewHandler) {
             self.dismissWebViewHandler();
+            self.dismissWebViewHandler = nil;
         }
     }
 }
