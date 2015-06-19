@@ -30,8 +30,6 @@ void logInteral(NSString *format, ...) {
 
 @interface DRApiClient ()
 
-@property (strong, nonatomic) NSString *baseApiUrl;
-
 @property (strong, nonatomic) DROAuthManager *oauthManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
 @property (strong, nonatomic) AFHTTPRequestOperationManager *imageManager;
@@ -69,13 +67,47 @@ void logInteral(NSString *format, ...) {
     return self;
 }
 
+#pragma mark - Authorization
+
+- (void)setAccessToken:(NSString *)accessToken {
+    _accessToken = accessToken;
+    [self.apiManager.requestSerializer setValue:[NSString stringWithFormat:@"%@ %@", kBearerString, self.accessToken] forHTTPHeaderField:kAuthorizationHTTPFieldName];
+}
+
+// use client access secret while no access token retrieved
+// also call this method on logout
+- (void)resetAccessToken {
+    self.accessToken = self.settings.clientAccessToken;
+}
+
 - (void)restoreAccessToken {
     NXOAuth2Account *account = [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType: kIDMOAccountType] lastObject];
     if (account) {
-        logInteral(@"We have token restored: %@", account.accessToken.accessToken);
+        logInteral(@"token restored: %@", account.accessToken.accessToken);
         self.accessToken = account.accessToken.accessToken;
     }
 }
+
+- (BOOL)isUserAuthorized {
+    return [self.accessToken length] && ![self.accessToken isEqualToString:self.clientAccessSecret];
+}
+
+- (void)authorizeWithWebView:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler {
+    __weak typeof(self) weakSelf = self;
+    [self.oauthManager authorizeWithWebView:webView settings:self.settings completionHandler:^(DRBaseModel *data) {
+        if (!data.error) {
+            NXOAuth2Account *account = data.object;
+            if (account.accessToken.accessToken.length > 0) {
+                weakSelf.accessToken = account.accessToken.accessToken;
+            }
+        } else {
+            [weakSelf resetAccessToken];
+            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(data.error);
+        }
+        if (completionHandler) completionHandler(data);
+    }];
+}
+
 
 #pragma mark - Setup
 
@@ -99,21 +131,6 @@ void logInteral(NSString *format, ...) {
     [self.imageManager.operationQueue setMaxConcurrentOperationCount:count];
 }
 
-// use client access secret while no access token retrieved
-// also call this method on logout
-
-- (void)resetAccessToken {
-    self.accessToken = self.settings.clientAccessToken;
-}
-
-- (void)setAccessToken:(NSString *)accessToken {
-    _accessToken = accessToken;
-    [self.apiManager.requestSerializer setValue:[NSString stringWithFormat:@"%@ %@", kBearerString, self.accessToken] forHTTPHeaderField:kAuthorizationHTTPFieldName];
-}
-
-- (BOOL)isUserAuthorized {
-    return [self.accessToken length] && ![self.accessToken isEqualToString:self.clientAccessSecret];
-}
 
 #pragma mark - Getters
 
@@ -130,7 +147,7 @@ void logInteral(NSString *format, ...) {
 
 - (AFHTTPRequestOperationManager *)apiManager {
     if (!_apiManager) {
-        _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:self.baseApiUrl]];
+        _apiManager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:self.settings.baseUrl]];
         [_apiManager.requestSerializer setHTTPShouldHandleCookies:YES];
         _apiManager.securityPolicy.allowInvalidCertificates = YES;
         _apiManager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -192,21 +209,6 @@ void logInteral(NSString *format, ...) {
 
 #pragma mark - OAuth calls
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler {
-    __weak typeof(self) weakSelf = self;
-    [self.oauthManager authorizeWithWebView:webView settings:self.settings completionHandler:^(DRBaseModel *data) {
-        if (!data.error) {
-            NXOAuth2Account *account = data.object;
-            if (account.accessToken.accessToken.length > 0) {
-                weakSelf.accessToken = account.accessToken.accessToken;
-            }
-        } else {
-            [weakSelf resetAccessToken];
-            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(data.error, @"OAuth", NO);
-        }
-        if (completionHandler) completionHandler(data);
-    }];
-}
 
 - (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
     __weak typeof(self)weakSelf = self;
@@ -217,7 +219,7 @@ void logInteral(NSString *format, ...) {
         
         if ([operation.response statusCode] == kHttpAuthErrorCode || [operation.response statusCode] == kHttpRateLimitErrorCode) {
             NSError *error = [NSError errorWithDomain:[responseObject objectForKey:@"message"] code:[operation.response statusCode] userInfo:nil];
-            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error, method, NO);
+            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error);
         }
         if ([operation.response statusCode] == kHttpRateLimitErrorCode) {
             if (weakSelf.operationLimitHandler) weakSelf.operationLimitHandler(operation);
@@ -227,13 +229,17 @@ void logInteral(NSString *format, ...) {
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (self.operationEndHandler) self.operationEndHandler(operation);
-        if (self.clientErrorHandler) self.clientErrorHandler(error, method, NO);
+        if (self.clientErrorHandler) self.clientErrorHandler(error);
         if (completionHandler) completionHandler([DRBaseModel modelWithError:error]);
     }];
+    
+#warning TODO WTF???
+    
     [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{
         
     }];
-//    [operation start];
+
+#warning INCORRECT! operation isn't started here
     
     if (self.operationStartHandler) self.operationStartHandler(operation);
     return operation;
@@ -313,17 +319,17 @@ void logInteral(NSString *format, ...) {
     [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, userId] requestType:kDribbbleGetRequest modelClass:[DRBaseModel class] params:nil completionHandler:completionHandler];
 }
 
-#pragma mark - Images/Giffs
+#pragma mark - Images/Gifs
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler {
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DRCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler {
     return [self requestImageWithUrl:isHighQuality ? shot.defaultUrl:shot.images.teaser completionHandler:completionHandler progressHandler:progressHandler];
 }
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler {
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DRCompletionHandler)completionHandler {
     return [self loadShotImage:shot isHighQuality:isHighQuality completionHandler:completionHandler progressHandler:nil];
 }
 
-- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DROperationCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler {
+- (AFHTTPRequestOperation *)requestImageWithUrl:(NSString *)url completionHandler:(DRCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler {
     __weak typeof(self)weakSelf = self;
     if (!url) {
         logInteral(@"Requested image with null url");
@@ -331,13 +337,13 @@ void logInteral(NSString *format, ...) {
     }
     NSURLRequest * request = [NSURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:60.f];
     AFHTTPRequestOperation *requestOperation = [self.imageManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        if (completionHandler) completionHandler([DRBaseModel modelWithData:responseObject], operation);
+        if (completionHandler) completionHandler([DRBaseModel modelWithData:responseObject]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (weakSelf.clientErrorHandler) {
-            weakSelf.clientErrorHandler(error, operation.request.URL.absoluteString, NO);
+            weakSelf.clientErrorHandler(error);
         }
         if (completionHandler) {
-            completionHandler([DRBaseModel modelWithError:error], operation);
+            completionHandler([DRBaseModel modelWithError:error]);
         }
     }];
     [requestOperation setDownloadProgressBlock:progressHandler];

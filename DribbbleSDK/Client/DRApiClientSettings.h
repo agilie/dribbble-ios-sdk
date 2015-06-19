@@ -10,16 +10,16 @@
 
 @interface DRApiClientSettings : NSObject
 
-@property (strong, readonly) NSString *baseUrl;
-@property (strong, readonly) NSString *oAuth2RedirectUrl;
-@property (strong, readonly) NSString *oAuth2AuthorizationUrl;
-@property (strong, readonly) NSString *oAuth2TokenUrl;
+@property (strong, nonatomic, readonly) NSString *baseUrl;
+@property (strong, nonatomic, readonly) NSString *oAuth2RedirectUrl;
+@property (strong, nonatomic, readonly) NSString *oAuth2AuthorizationUrl;
+@property (strong, nonatomic, readonly) NSString *oAuth2TokenUrl;
 
 // Dribbble App Settings
 
-@property (strong, readonly) NSString *clientId;
-@property (strong, readonly) NSString *clientSecret;
-@property (strong, readonly) NSString *clientAccessToken;
+@property (strong, nonatomic, readonly) NSString *clientId;
+@property (strong, nonatomic, readonly) NSString *clientSecret;
+@property (strong, nonatomic, readonly) NSString *clientAccessToken;
 
 - (instancetype)initWithBaseUrl:(NSString *)baseUrl
               oAuth2RedirectUrl:(NSString *)oAuth2RedirectUrl

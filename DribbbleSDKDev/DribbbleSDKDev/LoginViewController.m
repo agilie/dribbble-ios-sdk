@@ -24,7 +24,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     __weak typeof(self) weakSelf = self;
-    [self.apiClient requestOAuth2Login:self.webView completionHandler:^(DRBaseModel *data) {
+    [self.apiClient authorizeWithWebView:self.webView completionHandler:^(DRBaseModel *data) {
         if (!data.error) {
             weakSelf.authCompletionHandler(@YES);
         }

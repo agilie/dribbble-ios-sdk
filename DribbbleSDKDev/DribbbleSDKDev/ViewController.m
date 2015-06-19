@@ -53,7 +53,7 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
     
     self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
     __weak typeof(self) weakSelf = self;
-    self.apiClient.clientErrorHandler = ^ (NSError *error, NSString *method, BOOL showAlert) {
+    self.apiClient.clientErrorHandler = ^ (NSError *error) {
         if (![weakSelf.apiClient isUserAuthorized]) {
             [weakSelf performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
         }

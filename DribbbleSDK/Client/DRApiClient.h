@@ -20,13 +20,15 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 @interface DRApiClient : NSObject
 
-@property (strong, readonly) DRApiClientSettings *settings;
+@property (strong, nonatomic, readonly) DRApiClientSettings *settings;
+
+@property (nonatomic, readonly, getter=isUserAuthorized) BOOL userAuthorized;
 
 @property (strong, nonatomic) NSString *accessToken;
 @property (copy, nonatomic) DRRequestOperationHandler operationStartHandler;
 @property (copy, nonatomic) DRRequestOperationHandler operationEndHandler;
 @property (copy, nonatomic) DRRequestOperationHandler operationLimitHandler;
-@property (copy, nonatomic) DRGeneralErrorHandler clientErrorHandler;
+@property (copy, nonatomic) DRErrorHandler clientErrorHandler;
 
 @property (assign, nonatomic, readonly) NSURLRequestCachePolicy imageCachePolicy;
 @property (assign, nonatomic, readonly) NSURLRequestCachePolicy apiCachePolicy;
@@ -38,7 +40,6 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings;
 
 - (void)resetAccessToken;
-- (BOOL)isUserAuthorized;
 
 #pragma mark - Setup
 
@@ -49,11 +50,11 @@ typedef void(^DRRequestOperationHandler)(AFHTTPRequestOperation *operation);
 
 #pragma mark - OAuth handling
 
-- (void)requestOAuth2Login:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler;
+- (void)authorizeWithWebView:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler;
 
 #pragma mark - Image/giffs loading
 
-- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DROperationCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler;
+- (AFHTTPRequestOperation *)loadShotImage:(DRShot *)shot isHighQuality:(BOOL)isHighQuality completionHandler:(DRCompletionHandler)completionHandler progressHandler:(DRDownloadProgressHandler)progressHandler;
 
 #pragma mark - API calls
 

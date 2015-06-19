@@ -17,9 +17,8 @@
 // Block definitions
 
 typedef void(^DRHandler)(void);
-typedef void(^DROperationCompletionHandler)(id data, AFHTTPRequestOperation *operation);
 typedef void(^DRCompletionHandler)(id data);
-typedef void(^DRGeneralErrorHandler)(NSError *error, NSString *method, BOOL showAlert);
+typedef void(^DRErrorHandler)(NSError *error);
 typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead);
 
 // Dribbble API methods
