@@ -50,6 +50,9 @@ static NSString * const kBearerString = @"Bearer";
 static NSInteger const kHttpAuthErrorCode = 401;
 static NSInteger const kHttpRateLimitErrorCode = 429;
 static NSInteger const kHttpContentNotModifiedCode = 304;
+
+#warning TODO use NS constants
+
 static NSInteger const kHttpCannotFindHost = -1003;
 static NSInteger const kHttpCannotConnectToHost = -1004;
 static NSInteger const kHttpConnectionLost = -1005;
