@@ -17,6 +17,6 @@
 @property (copy, nonatomic) DRHandler progressHUDShowHandler;
 @property (copy, nonatomic) DRHandler progressHUDDismissHandler;
 
-- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings completionHandler:(DRCompletionHandler)completion;
+- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings responseHandler:(DRResponseHandler)completion;
 
 @end

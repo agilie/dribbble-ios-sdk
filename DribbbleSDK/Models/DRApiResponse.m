@@ -10,19 +10,19 @@
 
 @implementation DRApiResponse
 
-+ (instancetype)modelWithError:(NSError *)error {
++ (instancetype)responseWithError:(NSError *)error {
     DRApiResponse *model = [DRApiResponse new];
     model.error = error;
     return model;
 }
 
-+ (instancetype)modelWithData:(id)data {
++ (instancetype)responseWithData:(id)data {
     DRApiResponse *model = [DRApiResponse new];
     model.object = data;
     return model;
 }
 
-+ (instancetype)modelWithData:(id)data error:(NSError *)error {
++ (instancetype)responseWithData:(id)data error:(NSError *)error {
     DRApiResponse *model = [DRApiResponse new];
     model.object = data;
     model.error = error;

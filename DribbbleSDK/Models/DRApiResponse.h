@@ -13,8 +13,8 @@
 @property (strong, nonatomic) NSError *error;
 @property (strong, nonatomic) id object;
 
-+ (instancetype)modelWithError:(NSError *)error;
-+ (instancetype)modelWithData:(id)data;
-+ (instancetype)modelWithData:(id)data error:(NSError *)error;
++ (instancetype)responseWithError:(NSError *)error;
++ (instancetype)responseWithData:(id)data;
++ (instancetype)responseWithData:(id)data error:(NSError *)error;
 
 @end

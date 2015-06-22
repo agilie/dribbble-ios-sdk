@@ -27,27 +27,27 @@ extern void logInteral(NSString *format, ...);
 
 #pragma mark - Auth
 
-- (void)authorizeWithWebView:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler cancellationHandler:(DRHandler)cancellationHandler;
+- (void)authorizeWithWebView:(UIWebView *)webView responseHandler:(DRResponseHandler)responseHandler cancellationHandler:(DRHandler)cancellationHandler;
 
 #pragma mark - API methods
 
 // rest
 
-- (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler;
-- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler;
-- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler;
+- (void)loadUserInfoWithResponseHandler:(DRResponseHandler)responseHandler;
+- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withResponseHandler:(DRResponseHandler)responseHandler;
+- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withResponseHandler:(DRResponseHandler)responseHandler;
 
-- (void)loadShot:(NSString *)shotId completionHandler:(DRCompletionHandler)completionHandler;
-- (void)loadShotsWithParams:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler;
-- (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page completionHandler:(DRCompletionHandler)completionHandler;
-- (void)loadUserShots:(NSString *)url params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler;
+- (void)loadShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadUserShots:(NSString *)url params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
-- (void)likeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler;
-- (void)unlikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler;
-- (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler;
+- (void)likeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
+- (void)unlikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
+- (void)checkLikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 
-- (void)followUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler;
-- (void)unFollowUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler;
-- (void)checkFollowingUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler;
+- (void)followUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
+- (void)unFollowUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
+- (void)checkFollowingUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 
 @end

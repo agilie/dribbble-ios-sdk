@@ -57,7 +57,7 @@
 		4D0B80561B31C9F700F3FB48 /* DribbbleSDKDevTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DribbbleSDKDevTests.m; sourceTree = "<group>"; };
 		4D0B80601B31CA6400F3FB48 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		4D0B80611B31CA6400F3FB48 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		4D0B80651B31CB2B00F3FB48 /* DRApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRApiClient.h; sourceTree = "<group>"; };
+		4D0B80651B31CB2B00F3FB48 /* DRApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRApiClient.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D0B80661B31CB2B00F3FB48 /* DRApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DRApiClient.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4D0B80671B31CB2B00F3FB48 /* DRApiClientSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRApiClientSettings.h; sourceTree = "<group>"; };
 		4D0B80681B31CB2B00F3FB48 /* DRApiClientSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRApiClientSettings.m; sourceTree = "<group>"; };

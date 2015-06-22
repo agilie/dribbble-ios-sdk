@@ -17,7 +17,7 @@
 // Block definitions
 
 typedef void(^DRHandler)(void);
-typedef void(^DRCompletionHandler)(id data);
+typedef void(^DRResponseHandler)(id data);
 typedef void(^DRErrorHandler)(NSError *error);
 typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead);
 

@@ -13,6 +13,6 @@
 
 @property (strong, nonatomic) DRApiClient *apiClient;
 
-@property (copy, nonatomic) DRCompletionHandler authCompletionHandler;
+@property (copy, nonatomic) DRResponseHandler authCompletionHandler;
 
 @end
