@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "DRBaseModel.h"
+#import "JSONModel.h"
 
 @class DRLink;
 
-@interface DRUser : DRBaseModel
+@interface DRUser : JSONModel
 
 @property (strong, nonatomic) NSNumber *userId;
 @property (strong, nonatomic) NSString *name;

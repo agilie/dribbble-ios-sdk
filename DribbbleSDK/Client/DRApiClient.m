@@ -45,9 +45,7 @@ void logInteral(NSString *format, ...) {
     if (self) {
         self.oauthManager = [DROAuthManager new];
         [self restoreAccessToken];
-        
-//        [JSONKeyMapper ]
-        
+        [JSONModel setGlobalKeyMapper:[JSONKeyMapper mapperFromUnderscoreCaseToCamelCase]];
     }
     return self;
 }

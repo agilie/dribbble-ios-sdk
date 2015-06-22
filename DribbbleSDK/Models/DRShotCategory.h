@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "DRBaseModel.h"
+#import "JSONModel.h"
 #import "DREnums.h"
 
-@interface DRShotCategory : DRBaseModel
+@interface DRShotCategory : JSONModel
 
 @property(strong, nonatomic) NSString *categoryName;
 @property(nonatomic) DRShotCategoryType categoryType;

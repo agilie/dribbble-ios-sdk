@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "DRBaseModel.h"
+#import "JSONModel.h"
 
 @class DRUser, DRUser, DRTeam, DRImage;
 
-@interface DRShot : DRBaseModel
+@interface DRShot : JSONModel
 
 @property (strong, nonatomic) NSNumber *shotId;
 @property (strong, nonatomic) NSNumber *width;

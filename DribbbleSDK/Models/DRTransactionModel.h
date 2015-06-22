@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "DRBaseModel.h"
+#import "JSONModel.h"
 
-@interface DRTransactionModel : DRBaseModel
+@interface DRTransactionModel : JSONModel
 
 @property (strong, nonatomic) NSDate *created_at;
 @property (strong, nonatomic) NSNumber *transactionId;

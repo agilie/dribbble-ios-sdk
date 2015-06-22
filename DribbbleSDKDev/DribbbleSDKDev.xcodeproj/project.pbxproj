@@ -28,7 +28,7 @@
 		4D0B808C1B31CB2B00F3FB48 /* DRTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B807D1B31CB2B00F3FB48 /* DRTeam.m */; };
 		4D0B808D1B31CB2B00F3FB48 /* DRTransactionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B807F1B31CB2B00F3FB48 /* DRTransactionModel.m */; };
 		4D0B808E1B31CB2B00F3FB48 /* DRUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80811B31CB2B00F3FB48 /* DRUser.m */; };
-		4D680C7C1B381887005E501E /* DRBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D680C7B1B381887005E501E /* DRBaseModel.m */; };
+		4D680C7F1B381B08005E501E /* DRCombinedJSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D680C7E1B381B08005E501E /* DRCombinedJSONKeyMapper.m */; };
 		E618F33605AC37AD18F75A06 /* libPods-DribbbleSDKDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 898B80CF5E634A6F14792E1D /* libPods-DribbbleSDKDev.a */; };
 /* End PBXBuildFile section */
 
@@ -72,22 +72,22 @@
 		4D0B80711B31CB2B00F3FB48 /* DRApiResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRApiResponse.m; sourceTree = "<group>"; };
 		4D0B80721B31CB2B00F3FB48 /* DRFolloweeUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFolloweeUser.h; sourceTree = "<group>"; };
 		4D0B80731B31CB2B00F3FB48 /* DRFolloweeUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFolloweeUser.m; sourceTree = "<group>"; };
-		4D0B80741B31CB2B00F3FB48 /* DRImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRImage.h; sourceTree = "<group>"; };
+		4D0B80741B31CB2B00F3FB48 /* DRImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRImage.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D0B80751B31CB2B00F3FB48 /* DRImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRImage.m; sourceTree = "<group>"; };
-		4D0B80761B31CB2B00F3FB48 /* DRLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRLink.h; sourceTree = "<group>"; };
+		4D0B80761B31CB2B00F3FB48 /* DRLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRLink.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D0B80771B31CB2B00F3FB48 /* DRLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRLink.m; sourceTree = "<group>"; };
-		4D0B80781B31CB2B00F3FB48 /* DRShot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRShot.h; sourceTree = "<group>"; };
+		4D0B80781B31CB2B00F3FB48 /* DRShot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRShot.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D0B80791B31CB2B00F3FB48 /* DRShot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRShot.m; sourceTree = "<group>"; };
-		4D0B807A1B31CB2B00F3FB48 /* DRShotCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRShotCategory.h; sourceTree = "<group>"; };
+		4D0B807A1B31CB2B00F3FB48 /* DRShotCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRShotCategory.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D0B807B1B31CB2B00F3FB48 /* DRShotCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRShotCategory.m; sourceTree = "<group>"; };
-		4D0B807C1B31CB2B00F3FB48 /* DRTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTeam.h; sourceTree = "<group>"; };
+		4D0B807C1B31CB2B00F3FB48 /* DRTeam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRTeam.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D0B807D1B31CB2B00F3FB48 /* DRTeam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTeam.m; sourceTree = "<group>"; };
-		4D0B807E1B31CB2B00F3FB48 /* DRTransactionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRTransactionModel.h; sourceTree = "<group>"; };
+		4D0B807E1B31CB2B00F3FB48 /* DRTransactionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRTransactionModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D0B807F1B31CB2B00F3FB48 /* DRTransactionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTransactionModel.m; sourceTree = "<group>"; };
-		4D0B80801B31CB2B00F3FB48 /* DRUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRUser.h; sourceTree = "<group>"; };
+		4D0B80801B31CB2B00F3FB48 /* DRUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRUser.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		4D0B80811B31CB2B00F3FB48 /* DRUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRUser.m; sourceTree = "<group>"; };
-		4D680C7A1B381887005E501E /* DRBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRBaseModel.h; sourceTree = "<group>"; };
-		4D680C7B1B381887005E501E /* DRBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRBaseModel.m; sourceTree = "<group>"; };
+		4D680C7D1B381B08005E501E /* DRCombinedJSONKeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCombinedJSONKeyMapper.h; sourceTree = "<group>"; };
+		4D680C7E1B381B08005E501E /* DRCombinedJSONKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCombinedJSONKeyMapper.m; sourceTree = "<group>"; };
 		634E60F17D4CBD63B98BF83A /* Pods-DribbbleSDKDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDKDev.release.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDKDev/Pods-DribbbleSDKDev.release.xcconfig"; sourceTree = "<group>"; };
 		898B80CF5E634A6F14792E1D /* libPods-DribbbleSDKDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DribbbleSDKDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		943273C57BC3D6EACA3EF09E /* Pods-DribbbleSDKDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDKDev.debug.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDKDev/Pods-DribbbleSDKDev.debug.xcconfig"; sourceTree = "<group>"; };
@@ -208,6 +208,8 @@
 				4D0B806A1B31CB2B00F3FB48 /* DREnums.h */,
 				4D0B806B1B31CB2B00F3FB48 /* DROAuthManager.h */,
 				4D0B806C1B31CB2B00F3FB48 /* DROAuthManager.m */,
+				4D680C7D1B381B08005E501E /* DRCombinedJSONKeyMapper.h */,
+				4D680C7E1B381B08005E501E /* DRCombinedJSONKeyMapper.m */,
 			);
 			path = Client;
 			sourceTree = "<group>";
@@ -217,8 +219,6 @@
 			children = (
 				4D0B80701B31CB2B00F3FB48 /* DRApiResponse.h */,
 				4D0B80711B31CB2B00F3FB48 /* DRApiResponse.m */,
-				4D680C7A1B381887005E501E /* DRBaseModel.h */,
-				4D680C7B1B381887005E501E /* DRBaseModel.m */,
 				4D0B80721B31CB2B00F3FB48 /* DRFolloweeUser.h */,
 				4D0B80731B31CB2B00F3FB48 /* DRFolloweeUser.m */,
 				4D0B80741B31CB2B00F3FB48 /* DRImage.h */,
@@ -388,6 +388,7 @@
 				4D0B80891B31CB2B00F3FB48 /* DRLink.m in Sources */,
 				4D0B808A1B31CB2B00F3FB48 /* DRShot.m in Sources */,
 				4D0B80821B31CB2B00F3FB48 /* DRApiClient.m in Sources */,
+				4D680C7F1B381B08005E501E /* DRCombinedJSONKeyMapper.m in Sources */,
 				4D0B80861B31CB2B00F3FB48 /* DRApiResponse.m in Sources */,
 				4D0B80841B31CB2B00F3FB48 /* DROAuthManager.m in Sources */,
 				4D0B808B1B31CB2B00F3FB48 /* DRShotCategory.m in Sources */,
@@ -399,7 +400,6 @@
 				4D0B80871B31CB2B00F3FB48 /* DRFolloweeUser.m in Sources */,
 				4D0B80401B31C9F600F3FB48 /* AppDelegate.m in Sources */,
 				4D0B803D1B31C9F600F3FB48 /* main.m in Sources */,
-				4D680C7C1B381887005E501E /* DRBaseModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
