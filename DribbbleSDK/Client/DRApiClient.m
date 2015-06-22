@@ -43,7 +43,6 @@ void logInteral(NSString *format, ...) {
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self setupDefaults];
         self.oauthManager = [DROAuthManager new];
         [self restoreAccessToken];
     }
@@ -58,10 +57,6 @@ void logInteral(NSString *format, ...) {
         }
     }
     return self;
-}
-
-- (void)setupDefaults {
-    
 }
 
 #pragma mark - Authorization
@@ -106,6 +101,9 @@ void logInteral(NSString *format, ...) {
     }];
 }
 
+- (void)logout {
+    [self resetAccessToken];
+}
 
 #pragma mark - Setup
 

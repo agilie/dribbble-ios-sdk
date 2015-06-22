@@ -23,7 +23,6 @@ extern void logInteral(NSString *format, ...);
 @property (copy, nonatomic) DRErrorHandler clientErrorHandler;
 
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings;
-- (void)resetAccessToken;
 
 #pragma mark - Auth
 
@@ -49,5 +48,7 @@ extern void logInteral(NSString *format, ...);
 - (void)followUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)unFollowUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkFollowingUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
+
+- (void)logout;
 
 @end
