@@ -23,11 +23,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     __weak typeof(self) weakSelf = self;
-    [self.apiClient authorizeWithWebView:self.webView responseHandler:^(DROAuthHandler *data, BOOL success) {
-        if (!data.error) {
+    [self.apiClient authorizeWithWebView:self.webView authHandler:^(NXOAuth2Account *account, NSError *error) {
+        if (account) {
             weakSelf.authCompletionHandler(YES);
-        }
-        if (!success) {
+        } else {
            [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil]; 
         }
     }];

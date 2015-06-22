@@ -19,15 +19,15 @@ extern void logInteral(NSString *format, ...);
 
 @property (strong, nonatomic, readonly) DRApiClientSettings *settings;
 @property (nonatomic, readonly, getter=isUserAuthorized) BOOL userAuthorized;
-@property (copy, nonatomic) DRErrorHandler clientErrorHandler;
-
 @property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
+
+@property (copy, nonatomic) DRErrorHandler defaultErrorHandler;
 
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings;
 
 #pragma mark - Auth
 
-- (void)authorizeWithWebView:(UIWebView *)webView responseHandler:(DRResponseHandler)responseHandler cancellationHandler:(DRHandler)cancellationHandler;
+- (void)authorizeWithWebView:(UIWebView *)webView authHandler:(DROAuthHandler)authHandler;
 
 #pragma mark - API methods
 

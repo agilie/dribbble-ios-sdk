@@ -16,11 +16,11 @@
 
 // Block definitions
 
-@class DRApiResponse;
+@class DRApiResponse, NXOAuth2Account;
 
 typedef void(^DRHandler)(void);
 typedef void(^DRResponseHandler)(DRApiResponse *response);
-typedef void(^DROAuthHandler)(DRApiResponse *response, BOOL success);
+typedef void(^DROAuthHandler)(NXOAuth2Account *account, NSError *error);
 typedef void(^DRErrorHandler)(NSError *error);
 typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead);
 

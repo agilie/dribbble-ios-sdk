@@ -93,19 +93,18 @@ void logInteral(NSString *format, ...) {
     return [self.accessToken length] && ![self.accessToken isEqualToString:self.settings.clientAccessToken];
 }
 
-- (void)authorizeWithWebView:(UIWebView *)webView responseHandler:(DROAuthHandler)responseHandler {
+- (void)authorizeWithWebView:(UIWebView *)webView authHandler:(DROAuthHandler)authHandler {
     __weak typeof(self) weakSelf = self;
-    [self.oauthManager authorizeWithWebView:webView settings:self.settings responseHandler:^(DRApiResponse *data, BOOL success) {
-        if (!data.error) {
-            NXOAuth2Account *account = data.object;
+    [self.oauthManager authorizeWithWebView:webView settings:self.settings authHandler:^(NXOAuth2Account *account, NSError *error) {
+        if (!error && account) {
             if (account.accessToken.accessToken.length > 0) {
                 weakSelf.accessToken = account.accessToken.accessToken;
             }
         } else {
             [weakSelf resetAccessToken];
-            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(data.error);
+            if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         }
-        if (responseHandler) responseHandler(data, success);
+        if (authHandler) authHandler(account, error);
     }];
 }
 
@@ -135,17 +134,14 @@ void logInteral(NSString *format, ...) {
     AFHTTPRequestOperation *operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if ([operation.response statusCode] == kHttpAuthErrorCode || [operation.response statusCode] == kHttpRateLimitErrorCode) {
             NSError *error = [NSError errorWithDomain:[responseObject objectForKey:@"message"] code:[operation.response statusCode] userInfo:nil];
-            if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error);
-        }
-        if ([operation.response statusCode] == kHttpRateLimitErrorCode) {
-#warning TODO ???
+            if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         }
         if (responseHandler) {
             responseHandler([weakSelf mappedDataFromResponseObject:responseObject modelClass:modelClass]);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
-        if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error);
+        if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
     }];
     return operation;
