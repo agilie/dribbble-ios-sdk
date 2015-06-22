@@ -17,9 +17,9 @@
 @property (strong, nonatomic) id<NSObject> authCompletionObserver;
 @property (strong, nonatomic) id<NSObject> authErrorObserver;
 
-@property (copy, nonatomic) DRHandler unacceptableUrlHandler;
-
 @property (strong, nonatomic) NSString *redirectUrl;
+
+@property (copy, nonatomic) DROAuthHandler authHandler;
 
 @end
 
@@ -28,43 +28,38 @@
 #pragma mark - OAuth2 Logic
 
 - (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings authHandler:(DROAuthHandler)authHandler {
-    [self adjustAuthorizationWebView:webView withSettings:settings];
+    self.authHandler = authHandler;
+    
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     if (self.authCompletionObserver) [notificationCenter removeObserver:self.authCompletionObserver];
     if (self.authErrorObserver) [notificationCenter removeObserver:self.authErrorObserver];
     __weak typeof(self)weakSelf = self;
-    self.unacceptableUrlHandler = ^ {
-        NSError *error = [NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil];
-        if (authHandler) {
-            authHandler(nil, error);
-        }
-    };
     self.authCompletionObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreAccountsDidChangeNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
         logInteral(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
         if (account.accessToken.accessToken) {
-            if (authHandler) authHandler(account, nil);
+            [weakSelf finalizeAuthWithAccount:account error:nil];
         } else {
-            if (authHandler) authHandler(nil, [NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]);
+            [weakSelf finalizeAuthWithAccount:nil error:[NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]];
         }
+        
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authCompletionObserver];
     }];
     self.authErrorObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NSError *error = [aNotification.userInfo objectForKey:NXOAuth2AccountStoreErrorKey];
-        if (authHandler) {
-            authHandler(nil, error);
-        }
+        [weakSelf finalizeAuthWithAccount:nil error:error];
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authErrorObserver];
     }];
+
+    [self requestAuthorizationWebView:webView withSettings:settings];
 }
 
 #pragma mark - WebView Delegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    //if the UIWebView is showing our authorization URL, show the UIWebView control
     if ([webView.request.URL.absoluteString rangeOfString:self.redirectUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
         self.webView.userInteractionEnabled = YES;
-        NSDictionary *params = [self grabUrlParameters:webView.request.URL];
+        NSDictionary *params = [self paramsFromUrl:webView.request.URL];
         if ([params objectForKey:@"code"]) {
             [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType:kIDMOAccountType] enumerateObjectsUsingBlock:^(NXOAuth2Account * obj, NSUInteger idx, BOOL *stop) {
                 [[NXOAuth2AccountStore sharedStore] removeAccount:obj];
@@ -74,20 +69,31 @@
             self.webView.userInteractionEnabled = NO;
         }
     } else if ([webView.request.URL.absoluteString rangeOfString:kUnacceptableWebViewUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        if (self.unacceptableUrlHandler) {
-            self.unacceptableUrlHandler();
-            self.unacceptableUrlHandler = nil;
-        }
+        NSError *error = [NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil];
+        [self finalizeAuthWithAccount:nil error:error];
     }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    logInteral(@"Erorr - %@", [error description]);
+    [self finalizeAuthWithAccount:nil error:error];
 }
 
 #pragma mark - Helpers
 
-- (void)adjustAuthorizationWebView:(UIWebView *)webView withSettings:(DRApiClientSettings *)settings {
+- (void)finalizeAuthWithAccount:(NXOAuth2Account *)account error:(NSError *)error {
+    if (self.authHandler) {
+        self.authHandler(account, error);
+        self.authHandler = nil;
+
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        if (self.authCompletionObserver) [notificationCenter removeObserver:self.authCompletionObserver];
+        if (self.authErrorObserver) [notificationCenter removeObserver:self.authErrorObserver];
+        self.authCompletionObserver = nil;
+        self.authErrorObserver = nil;
+    }
+}
+
+- (void)requestAuthorizationWebView:(UIWebView *)webView withSettings:(DRApiClientSettings *)settings {
     self.webView = webView;
     self.webView.delegate = self;
     
@@ -109,17 +115,15 @@
     }];
 }
 
-- (NSMutableDictionary *)grabUrlParameters:(NSURL *) url {
+
+- (NSMutableDictionary *)paramsFromUrl:(NSURL *)url {
     NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    NSString *tmpKey = [url query];
-    for (NSString *param in [[url query] componentsSeparatedByString:@"="]) {
-        if ([tmpKey rangeOfString:param].location == NSNotFound) {
-            [params setValue:param forKey:tmpKey];
-            tmpKey = nil;
+    for (NSString *param in [[url query] componentsSeparatedByString:@"&"]) {
+        NSArray *elts = [param componentsSeparatedByString:@"="];
+        if ([elts count] == 2) {
+            [params setObject:[elts lastObject] forKey:[elts firstObject]];
         }
-        tmpKey = param;
     }
     return params;
 }
-
 @end
