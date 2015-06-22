@@ -141,7 +141,7 @@ void logInteral(NSString *format, ...) {
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
         if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error);
-        if (completionHandler) completionHandler([DRBaseModel modelWithError:error]);
+        if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
     }];
     return operation;
 }
