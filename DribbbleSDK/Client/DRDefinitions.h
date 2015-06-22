@@ -26,16 +26,28 @@ typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBy
 
 // Dribbble API methods
 
-static NSString * const kDribbbleApiMethodUser = @"user";
-static NSString * const kDribbbleApiMethodShots = @"shots";
-static NSString * const kDribbbleApiMethodShot = @"shots/%@";
-static NSString * const kDribbbleApiMethodLikeShot = @"shots/%@/like";
-static NSString * const kDribbbleApiMethodFollowUser = @"users/%@/follow";
-static NSString * const kDribbbleApiMethodCheckShotWasLiked = @"shots/%@/like";
-static NSString * const kDribbbleApiMethodCheckIfUserFollowing = @"user/following/%@";
-static NSString * const kDribbbleApiMethodGetFollowers = @"users/%@/following";
-static NSString * const kDribbbleApiMethodGetFolloweesShot = @"user/following/shots";
-static NSString * const kDribbbleApiMethodGetLikes = @"users/%@/likes";
+static NSString * const kDRApiMethodUser = @"user";
+static NSString * const kDRApiMethodShots = @"shots";
+static NSString * const kDRApiMethodShot = @"shots/%@";
+static NSString * const kDRApiMethodLikeShot = @"shots/%@/like";
+static NSString * const kDRApiMethodFollowUser = @"users/%@/follow";
+static NSString * const kDRApiMethodCheckShotWasLiked = @"shots/%@/like";
+static NSString * const kDRApiMethodCheckIfUserFollowing = @"user/following/%@";
+static NSString * const kDRApiMethodGetFollowers = @"users/%@/following";
+static NSString * const kDRApiMethodGetFolloweesShot = @"user/following/shots";
+static NSString * const kDRApiMethodGetLikes = @"users/%@/likes";
+
+// Dribbble API params keys
+
+static NSString * const kDRParamPage = @"page";
+static NSString * const kDRParamPerPage = @"per_page";
+
+// Dribbble API permission keys
+
+static NSString * const kDRPublicScope = @"public";
+static NSString * const kDRWriteScope = @"write";
+static NSString * const kDRCommentScope = @"comment";
+static NSString * const kDRUploadScope = @"upload";
 
 // Http errors
 

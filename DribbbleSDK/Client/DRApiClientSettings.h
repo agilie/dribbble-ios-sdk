@@ -17,6 +17,8 @@
 
 // Dribbble App Settings
 
+@property (strong, nonatomic, readonly) NSSet *scopes;
+
 @property (strong, nonatomic, readonly) NSString *clientId;
 @property (strong, nonatomic, readonly) NSString *clientSecret;
 @property (strong, nonatomic, readonly) NSString *clientAccessToken;
@@ -27,6 +29,7 @@
                  oAuth2TokenUrl:(NSString *)oAuth2TokenUrl
                        clientId:(NSString *)clientId
                    clientSecret:(NSString *)clientSecret
-              clientAccessToken:(NSString *)clientAccessToken;
+              clientAccessToken:(NSString *)clientAccessToken
+                         scopes:(NSSet *)scopes;
 
 @end

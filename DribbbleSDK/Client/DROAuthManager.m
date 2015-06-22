@@ -100,7 +100,7 @@
     NXOAuth2AccountStore *accountStore = [NXOAuth2AccountStore sharedStore];
     [accountStore setClientID:settings.clientId
                        secret:settings.clientSecret
-                        scope:[NSSet setWithObjects: @"public", @"write", nil]
+                        scope:settings.scopes
              authorizationURL:[NSURL URLWithString:settings.oAuth2AuthorizationUrl]
                      tokenURL:[NSURL URLWithString:settings.oAuth2TokenUrl]
                   redirectURL:[NSURL URLWithString:settings.oAuth2RedirectUrl]

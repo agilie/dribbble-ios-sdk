@@ -49,7 +49,8 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
                                                                   oAuth2TokenUrl:kIDMOAuth2TokenURL
                                                                         clientId:kIDMOAuth2ClientId
                                                                     clientSecret:kIDMOAuth2ClientSecret
-                                                               clientAccessToken:kIDMOAuth2ClientAccessToken];
+                                                               clientAccessToken:kIDMOAuth2ClientAccessToken
+                                                                          scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, nil]];
     
     self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
     __weak typeof(self) weakSelf = self;

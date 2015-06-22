@@ -18,7 +18,8 @@
                  oAuth2TokenUrl:(NSString *)oAuth2TokenUrl
                        clientId:(NSString *)clientId
                    clientSecret:(NSString *)clientSecret
-              clientAccessToken:(NSString *)clientAccessToken {
+              clientAccessToken:(NSString *)clientAccessToken
+                         scopes:(NSSet *)scopes {
     
     if (self = [super init]) {
         _baseUrl = baseUrl;
@@ -28,6 +29,7 @@
         _clientId = clientId;
         _clientSecret = clientSecret;
         _clientAccessToken = clientAccessToken;
+        _scopes = scopes;
     }
     return self;
 }
