@@ -10,7 +10,7 @@
 
 @interface DRTransactionModel : JSONModel
 
-@property (strong, nonatomic) NSDate *created_at;
+@property (strong, nonatomic) NSDate *createdAt;
 @property (strong, nonatomic) NSNumber *transactionId;
 
 @end
