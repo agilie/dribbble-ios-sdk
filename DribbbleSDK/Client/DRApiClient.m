@@ -139,7 +139,7 @@ void logInteral(NSString *format, ...) {
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
-        if (self.clientErrorHandler) self.clientErrorHandler(error);
+        if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(error);
         if (completionHandler) completionHandler([DRBaseModel modelWithError:error]);
     }];
     return operation;
