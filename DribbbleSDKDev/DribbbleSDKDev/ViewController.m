@@ -72,8 +72,8 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
         LoginViewController *loginViewController = (LoginViewController *)segue.destinationViewController;
         loginViewController.apiClient = self.apiClient;
         __weak typeof(self) weakSelf = self;
-        loginViewController.authCompletionHandler = ^(NSNumber *authSucceeded) {
-            if ([authSucceeded boolValue]) {
+        loginViewController.authCompletionHandler = ^(BOOL success) {
+            if (success) {
                 [weakSelf loadSomeData];
             }
         };

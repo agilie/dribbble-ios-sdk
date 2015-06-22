@@ -16,8 +16,10 @@
 
 // Block definitions
 
+@class DRApiResponse;
+
 typedef void(^DRHandler)(void);
-typedef void(^DRResponseHandler)(id data);
+typedef void(^DRResponseHandler)(DRApiResponse *response);
 typedef void(^DRErrorHandler)(NSError *error);
 typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead);
 

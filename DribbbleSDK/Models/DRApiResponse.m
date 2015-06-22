@@ -16,13 +16,13 @@
     return model;
 }
 
-+ (instancetype)responseWithData:(id)data {
++ (instancetype)responseWithObject:(id)data {
     DRApiResponse *model = [DRApiResponse new];
     model.object = data;
     return model;
 }
 
-+ (instancetype)responseWithData:(id)data error:(NSError *)error {
++ (instancetype)responseWithObject:(id)data error:(NSError *)error {
     DRApiResponse *model = [DRApiResponse new];
     model.object = data;
     model.error = error;

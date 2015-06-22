@@ -153,7 +153,7 @@ void logInteral(NSString *format, ...) {
 
 - (id)mappedDataFromResponseObject:(id)object modelClass:(Class)modelClass {
     if (modelClass == [NSNull class]) { // then bypass parsing
-        return [DRApiResponse responseWithData:object];
+        return [DRApiResponse responseWithObject:object];
     }
     id mappedObject = nil;
     if ([object isKindOfClass:[NSArray class]]) {
@@ -167,7 +167,7 @@ void logInteral(NSString *format, ...) {
     } else if ([object isKindOfClass:[NSDictionary class]]) {
         mappedObject = [[modelClass alloc] initWithDictionary:object error:nil];
     }
-    return [DRApiResponse responseWithData:mappedObject];
+    return [DRApiResponse responseWithObject:mappedObject];
 }
 
 

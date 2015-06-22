@@ -54,7 +54,7 @@
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
         logInteral(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
         if (account.accessToken.accessToken) {
-            if (completion) completion([DRApiResponse responseWithData:account]);
+            if (completion) completion([DRApiResponse responseWithObject:account]);
         } else {
             if (completion) completion([DRApiResponse responseWithError:[NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]]);
         }
