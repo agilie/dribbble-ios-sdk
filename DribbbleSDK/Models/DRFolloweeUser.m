@@ -8,8 +8,6 @@
 
 #import "DRFolloweeUser.h"
 #import "DRUser.h"
-#import "DRBaseModel.h"
-
 
 @implementation DRFolloweeUser
 

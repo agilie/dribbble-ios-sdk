@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "JSONModel.h"
+#import "DRBaseModel.h"
 
-@interface DRLink : JSONModel
+@interface DRLink : DRBaseModel
 
 @property (strong, nonatomic) NSString <Optional>*web;
 @property (strong, nonatomic) NSString <Optional>*twitter;

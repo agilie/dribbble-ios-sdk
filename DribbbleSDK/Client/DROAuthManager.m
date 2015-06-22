@@ -8,7 +8,7 @@
 
 #import "DROAuthManager.h"
 #import "DRApiClient.h"
-#import "DRBaseModel.h"
+#import "DRApiResponse.h"
 
 @interface DROAuthManager ()
 
@@ -25,7 +25,7 @@
 
 #pragma mark - OAuth2 Logic
 
-- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings completionHandler:(DRCompletionHandler)completion {
+- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings responseHandler:(DRResponseHandler)completion {
     self.webView = webView;
     self.webView.delegate = self;
     NXOAuth2AccountStore *accountStore = [NXOAuth2AccountStore sharedStore];
@@ -54,16 +54,16 @@
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
         logInteral(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
         if (account.accessToken.accessToken) {
-            if (completion) completion([DRBaseModel modelWithData:account]);
+            if (completion) completion([DRApiResponse responseWithObject:account]);
         } else {
-            if (completion) completion([DRBaseModel modelWithError:[NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]]);
+            if (completion) completion([DRApiResponse responseWithError:[NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]]);
         }
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authCompletionObserver];
     }];
     self.authErrorObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NSError *error = [aNotification.userInfo objectForKey:NXOAuth2AccountStoreErrorKey];
         if (completion) {
-            completion([DRBaseModel modelWithError:error]);
+            completion([DRApiResponse responseWithError:error]);
         }
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authErrorObserver];
     }];

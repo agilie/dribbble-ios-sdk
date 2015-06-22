@@ -61,7 +61,7 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 }
 
 - (void)loadSomeData {
-    [self.apiClient loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 completionHandler:^(DRBaseModel *data) {
+    [self.apiClient loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 responseHandler:^(DRApiResponse *data) {
         NSLog(@"response: %@", data.object);
     }];
     
@@ -72,8 +72,8 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
         LoginViewController *loginViewController = (LoginViewController *)segue.destinationViewController;
         loginViewController.apiClient = self.apiClient;
         __weak typeof(self) weakSelf = self;
-        loginViewController.authCompletionHandler = ^(NSNumber *authSucceeded) {
-            if ([authSucceeded boolValue]) {
+        loginViewController.authCompletionHandler = ^(BOOL success) {
+            if (success) {
                 [weakSelf loadSomeData];
             }
         };

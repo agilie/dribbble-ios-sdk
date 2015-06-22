@@ -39,10 +39,10 @@
          location = "group:Models"
          name = "Models">
          <FileRef
-            location = "group:DRBaseModel.h">
+            location = "group:/Users/mitya/work/git/dribbble-ios-sdk/DribbbleSDK/Models/DRApiResponse.h">
          </FileRef>
          <FileRef
-            location = "group:DRBaseModel.m">
+            location = "group:/Users/mitya/work/git/dribbble-ios-sdk/DribbbleSDK/Models/DRApiResponse.m">
          </FileRef>
          <FileRef
             location = "group:DRFolloweeUser.h">

@@ -116,7 +116,7 @@
 		332ADBE70F27BAEF4A3F4F0C /* DRLink.h in Headers */ = {isa = PBXBuildFile; fileRef = E55CA907E8A0CC3903BAC72B /* DRLink.h */; };
 		332C48B07F8834507E545835 /* AFHTTPSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 15FD1E028553889A99E71473 /* AFHTTPSessionManager.h */; };
 		3379D86E816F633BEECBFA38 /* DROAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 53FF67C7ECE555BABD8417E3 /* DROAuthManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
-		339E79ED44B624C5FE9A5E14 /* DRBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C537DAC4661DD2E6BE924B6 /* DRBaseModel.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
+		339E79ED44B624C5FE9A5E14 /* DRApiResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C537DAC4661DD2E6BE924B6 /* DRApiResponse.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		34FA906ED36EEFBF80D9AA0C /* NSInvocation+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 941FF14A4C68046E8A5EC83A /* NSInvocation+BlocksKit.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		3511E7DAE4AAE8E4EAFC7D05 /* AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 4A222064F29D0CC3E61988A5 /* AFNetworking.h */; };
 		3520B4B60D2321327D0F19C8 /* BlocksKit+UIKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 12E2F65389D201107B0BCE21 /* BlocksKit+UIKit.h */; };
@@ -144,7 +144,7 @@
 		414E3B3042F4555F1E68B78F /* NSOrderedSet+BlocksKit.h in Headers */ = {isa = PBXBuildFile; fileRef = F6F22AF3ED8938FF2D6E82CA /* NSOrderedSet+BlocksKit.h */; };
 		41AD16F7C9EE659187392D13 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BD3AD030FFD23327ECC9F6 /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		41CC58273DB548775863CB48 /* A2BlockInvocation.m in Sources */ = {isa = PBXBuildFile; fileRef = DD60B5311DF125D885FC0CFD /* A2BlockInvocation.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
-		41E32E2DCDC8B4A1016C6BB7 /* DRBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C537DAC4661DD2E6BE924B6 /* DRBaseModel.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
+		41E32E2DCDC8B4A1016C6BB7 /* DRApiResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C537DAC4661DD2E6BE924B6 /* DRApiResponse.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		424FFF7E7A87655BA22B257C /* NSData+NXOAuth2.m in Sources */ = {isa = PBXBuildFile; fileRef = 62F5F5470277B252303FBE35 /* NSData+NXOAuth2.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0 -w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		42C2746EB00F38F0CDAEA309 /* UIControl+BlocksKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7CB0EBE9EFEE21D11A3FAE /* UIControl+BlocksKit.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		43163B0198294F52957B06EA /* JSONModelClassProperty.h in Headers */ = {isa = PBXBuildFile; fileRef = E2694C171D08F2630F801CB4 /* JSONModelClassProperty.h */; };
@@ -304,7 +304,7 @@
 		8DA4A123A22AFC797C5B016B /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6DB018F7A4AF261AA2DD94 /* AFHTTPSessionManager.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		8DB75B1A137DEC1D22440B62 /* NSData+NXOAuth2.h in Headers */ = {isa = PBXBuildFile; fileRef = 094C739DB3BD8A5B4CBE1C24 /* NSData+NXOAuth2.h */; };
 		8E1AEC3115554492002C4926 /* NSCache+BlocksKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 09B985AEE9ED8F7773D2F87F /* NSCache+BlocksKit.h */; };
-		8F5FA0CA9095701EC913402B /* DRBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C078564AE9AB13FB30A43E71 /* DRBaseModel.h */; };
+		8F5FA0CA9095701EC913402B /* DRApiResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = C078564AE9AB13FB30A43E71 /* DRApiResponse.h */; };
 		8F7911D080E20869457170F9 /* DROAuthManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AD5B377B91742C23E305E968 /* DROAuthManager.h */; };
 		8F80208CDBA6785781299BAA /* UIAlertView+BlocksKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B13242222D9489CE547AFE66 /* UIAlertView+BlocksKit.h */; };
 		901FB4DF4E6980A2FECD629D /* NSObject+BKBlockObservation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A603288A1CB263DF71EF3C9 /* NSObject+BKBlockObservation.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
@@ -358,7 +358,7 @@
 		A203E0DDDE11F9BDC201D5C5 /* NSMutableIndexSet+BlocksKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 4929E541280ABAEA227B9A85 /* NSMutableIndexSet+BlocksKit.h */; };
 		A2CA99C3FF3448DC7A40938A /* DRShot.m in Sources */ = {isa = PBXBuildFile; fileRef = E37448E741B949FF59AE2E2A /* DRShot.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		A3D6C4547A9466E5867B48CA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBD854C87F20A93C6BD8A551 /* Foundation.framework */; };
-		A49B043224BA54BCAD2B338F /* DRBaseModel.h in Headers */ = {isa = PBXBuildFile; fileRef = C078564AE9AB13FB30A43E71 /* DRBaseModel.h */; };
+		A49B043224BA54BCAD2B338F /* DRApiResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = C078564AE9AB13FB30A43E71 /* DRApiResponse.h */; };
 		A4C10EC60494EB80F13B8059 /* NXOAuth2TrustDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = BFB31E0372AA7D23A49ACBCF /* NXOAuth2TrustDelegate.h */; };
 		A52BC6A9507EB92579B04083 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = EC7FAA4F67250AA3A7E61518 /* UIAlertView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-checker -Xanalyzer deadcode"; }; };
 		A5AD2DB4C693F5F2DBCEA890 /* DRFolloweeUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 7796708265BF25BE409B2D0E /* DRFolloweeUser.h */; };
@@ -806,7 +806,7 @@
 		2F5F0228EE0F23749FDCD8A9 /* UIView+BlocksKit.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+BlocksKit.m"; path = "BlocksKit/UIKit/UIView+BlocksKit.m"; sourceTree = "<group>"; };
 		2F866BCBBA7EF8D1BC483FAD /* NSArray+BlocksKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+BlocksKit.h"; path = "BlocksKit/Core/NSArray+BlocksKit.h"; sourceTree = "<group>"; };
 		2FB1BFE348D9F6A02AC1AF21 /* NSMutableSet+BlocksKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSMutableSet+BlocksKit.h"; path = "BlocksKit/Core/NSMutableSet+BlocksKit.h"; sourceTree = "<group>"; };
-		30455D17B559F6F7ABD59E8F /* DRApiClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DRApiClient.h; sourceTree = "<group>"; };
+		30455D17B559F6F7ABD59E8F /* DRApiClient.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DRApiClient.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3199A3A15F70379F43DDB85E /* Pods-DribbbleSDKDemo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DribbbleSDKDemo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		3211D47B58B293A91B5E9B77 /* NSObject+BKBlockObservation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSObject+BKBlockObservation.h"; path = "BlocksKit/Core/NSObject+BKBlockObservation.h"; sourceTree = "<group>"; };
 		322CE276BFC79D9EE75F7756 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFSecurityPolicy.h; path = AFNetworking/AFSecurityPolicy.h; sourceTree = "<group>"; };
@@ -912,7 +912,7 @@
 		8A8AC967828D888D4E58D313 /* NXOAuth2Request.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NXOAuth2Request.h; path = Sources/OAuth2Client/NXOAuth2Request.h; sourceTree = "<group>"; };
 		8B2299BD7E2F6093BDD2AE96 /* NXOAuth2FileStreamWrapper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NXOAuth2FileStreamWrapper.h; path = Sources/OAuth2Client/NXOAuth2FileStreamWrapper.h; sourceTree = "<group>"; };
 		8C24667FBB675C12FFCEFA6E /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIWebView+AFNetworking.h"; path = "UIKit+AFNetworking/UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
-		8C537DAC4661DD2E6BE924B6 /* DRBaseModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = DRBaseModel.m; sourceTree = "<group>"; };
+		8C537DAC4661DD2E6BE924B6 /* DRApiResponse.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = DRApiResponse.m; sourceTree = "<group>"; };
 		8E5EDE6C4FEA4292EAED261B /* NXOAuth2PostBodyStream.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = NXOAuth2PostBodyStream.m; path = Sources/OAuth2Client/NXOAuth2PostBodyStream.m; sourceTree = "<group>"; };
 		904C3C6DF97A514B87C0E6F6 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFNetworkReachabilityManager.h; path = AFNetworking/AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
 		913963845909970AA2D8113F /* MFMailComposeViewController+BlocksKit.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "MFMailComposeViewController+BlocksKit.m"; path = "BlocksKit/MessageUI/MFMailComposeViewController+BlocksKit.m"; sourceTree = "<group>"; };
@@ -965,7 +965,7 @@
 		BFB31E0372AA7D23A49ACBCF /* NXOAuth2TrustDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = NXOAuth2TrustDelegate.h; path = Sources/OAuth2Client/NXOAuth2TrustDelegate.h; sourceTree = "<group>"; };
 		C04F646170E4920E9FF90AEF /* Pods-DribbbleSDKDemo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DribbbleSDKDemo-dummy.m"; sourceTree = "<group>"; };
 		C06B38B8C931A2212B88DC43 /* Pods-DribbbleSDKDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DribbbleSDKDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		C078564AE9AB13FB30A43E71 /* DRBaseModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DRBaseModel.h; sourceTree = "<group>"; };
+		C078564AE9AB13FB30A43E71 /* DRApiResponse.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DRApiResponse.h; sourceTree = "<group>"; };
 		C10817EDD8860E494E14141E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		C2C93AB9E0220A9E017786C7 /* Pods-DribbbleSDKDemo-BlocksKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "Pods-DribbbleSDKDemo-BlocksKit-dummy.m"; path = "../Pods-DribbbleSDKDemo-BlocksKit/Pods-DribbbleSDKDemo-BlocksKit-dummy.m"; sourceTree = "<group>"; };
 		C455E966DFEE07EFBFA3D5EB /* Pods-DribbbleSDKDev-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-DribbbleSDKDev-resources.sh"; sourceTree = "<group>"; };
@@ -1493,8 +1493,8 @@
 		740A514933503ECAE0AEBE68 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C078564AE9AB13FB30A43E71 /* DRBaseModel.h */,
-				8C537DAC4661DD2E6BE924B6 /* DRBaseModel.m */,
+				C078564AE9AB13FB30A43E71 /* DRApiResponse.h */,
+				8C537DAC4661DD2E6BE924B6 /* DRApiResponse.m */,
 				7796708265BF25BE409B2D0E /* DRFolloweeUser.h */,
 				E94C9BEA96AE8B245951D568 /* DRFolloweeUser.m */,
 				7FE7851DFCD41FE84894A165 /* DRImage.h */,
@@ -1803,7 +1803,7 @@
 			files = (
 				B3AB0ED3CAC3A2E5DB3B72B9 /* DRApiClient.h in Headers */,
 				9055FC2591174683B7ED8FC5 /* DRApiClientSettings.h in Headers */,
-				A49B043224BA54BCAD2B338F /* DRBaseModel.h in Headers */,
+				A49B043224BA54BCAD2B338F /* DRApiResponse.h in Headers */,
 				61A0EAC22EBBDA1A85653EC1 /* DRDefinitions.h in Headers */,
 				3C62AB64335D2038B9745DA0 /* DREnums.h in Headers */,
 				A5AD2DB4C693F5F2DBCEA890 /* DRFolloweeUser.h in Headers */,
@@ -1970,7 +1970,7 @@
 			files = (
 				013375271BE3107834764DBF /* DRApiClient.h in Headers */,
 				B53946363F9CF20C7F3A1412 /* DRApiClientSettings.h in Headers */,
-				8F5FA0CA9095701EC913402B /* DRBaseModel.h in Headers */,
+				8F5FA0CA9095701EC913402B /* DRApiResponse.h in Headers */,
 				6C52022A325F1B9D0FF5359B /* DRDefinitions.h in Headers */,
 				5F9D2BAC33EBD6D31B220AED /* DREnums.h in Headers */,
 				5C11EC83F12E1CC366775965 /* DRFolloweeUser.h in Headers */,
@@ -2557,7 +2557,7 @@
 			files = (
 				14E67AD58ECE39E0B64F2905 /* DRApiClient.m in Sources */,
 				52036BAA84CB1AEA10412DE7 /* DRApiClientSettings.m in Sources */,
-				41E32E2DCDC8B4A1016C6BB7 /* DRBaseModel.m in Sources */,
+				41E32E2DCDC8B4A1016C6BB7 /* DRApiResponse.m in Sources */,
 				D9C9475D7A1E54B8421D8D3F /* DRFolloweeUser.m in Sources */,
 				68AE4328F2B12757BEA5B9E2 /* DRImage.m in Sources */,
 				50118647F1860D256E83ABDF /* DRLink.m in Sources */,
@@ -2602,7 +2602,7 @@
 			files = (
 				172BE30319258A4B6CD3053E /* DRApiClient.m in Sources */,
 				4892D7A8B0F0E8C1E2A29090 /* DRApiClientSettings.m in Sources */,
-				339E79ED44B624C5FE9A5E14 /* DRBaseModel.m in Sources */,
+				339E79ED44B624C5FE9A5E14 /* DRApiResponse.m in Sources */,
 				9F25E3D49E73786B9827EC09 /* DRFolloweeUser.m in Sources */,
 				9A4CA33D861A607A81745342 /* DRImage.m in Sources */,
 				B75BBBBB50D486578AFCB91F /* DRLink.m in Sources */,

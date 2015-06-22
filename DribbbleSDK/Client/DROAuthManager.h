@@ -15,6 +15,6 @@
 
 @property (copy, nonatomic) DRHandler dismissWebViewHandler;
 
-- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings completionHandler:(DRCompletionHandler)completion;
+- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings responseHandler:(DRResponseHandler)completion;
 
 @end

@@ -9,7 +9,7 @@
 #import "DRApiClient.h"
 #import "DROAuthManager.h"
 #import "DribbbleSDK.h"
-#import "DRBaseModel.h"
+#import "DRApiResponse.h"
 #import "DRFolloweeUser.h"
 #import "DRShot.h"
 #import "DRTransactionModel.h"
@@ -43,9 +43,11 @@ void logInteral(NSString *format, ...) {
 - (instancetype)init {
     self = [super init];
     if (self) {
-        [self setupDefaults];
         self.oauthManager = [DROAuthManager new];
         [self restoreAccessToken];
+        
+//        [JSONKeyMapper ]
+        
     }
     return self;
 }
@@ -58,10 +60,6 @@ void logInteral(NSString *format, ...) {
         }
     }
     return self;
-}
-
-- (void)setupDefaults {
-    
 }
 
 #pragma mark - Authorization
@@ -89,10 +87,10 @@ void logInteral(NSString *format, ...) {
     return [self.accessToken length] && ![self.accessToken isEqualToString:self.settings.clientAccessToken];
 }
 
-- (void)authorizeWithWebView:(UIWebView *)webView completionHandler:(DRCompletionHandler)completionHandler cancellationHandler:(DRHandler)cancellationHandler {
+- (void)authorizeWithWebView:(UIWebView *)webView responseHandler:(DRResponseHandler)responseHandler cancellationHandler:(DRHandler)cancellationHandler {
     __weak typeof(self) weakSelf = self;
     self.oauthManager.dismissWebViewHandler = cancellationHandler;
-    [self.oauthManager authorizeWithWebView:webView settings:self.settings completionHandler:^(DRBaseModel *data) {
+    [self.oauthManager authorizeWithWebView:webView settings:self.settings responseHandler:^(DRApiResponse *data) {
         if (!data.error) {
             NXOAuth2Account *account = data.object;
             if (account.accessToken.accessToken.length > 0) {
@@ -102,10 +100,13 @@ void logInteral(NSString *format, ...) {
             [weakSelf resetAccessToken];
             if (weakSelf.clientErrorHandler) weakSelf.clientErrorHandler(data.error);
         }
-        if (completionHandler) completionHandler(data);
+        if (responseHandler) responseHandler(data);
     }];
 }
 
+- (void)logout {
+    [self resetAccessToken];
+}
 
 #pragma mark - Setup
 
@@ -123,7 +124,7 @@ void logInteral(NSString *format, ...) {
 
 #pragma mark - OAuth calls
 
-- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
+- (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     __weak typeof(self)weakSelf = self;
     NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:requestType URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
     AFHTTPRequestOperation *operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -134,8 +135,8 @@ void logInteral(NSString *format, ...) {
         if ([operation.response statusCode] == kHttpRateLimitErrorCode) {
 #warning TODO ???
         }
-        if (completionHandler) {
-            completionHandler([weakSelf mappedDataFromResponseObject:responseObject modelClass:modelClass]);
+        if (responseHandler) {
+            responseHandler([weakSelf mappedDataFromResponseObject:responseObject modelClass:modelClass]);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
 
@@ -145,15 +146,15 @@ void logInteral(NSString *format, ...) {
     return operation;
 }
 
-- (void)runRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
-    [[self createRequestWithMethod:method requestType:requestType modelClass:modelClass params:params completionHandler:completionHandler] start];
+- (void)runRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [[self createRequestWithMethod:method requestType:requestType modelClass:modelClass params:params responseHandler:responseHandler] start];
 }
 
 #pragma mark - Data response mapping
 
 - (id)mappedDataFromResponseObject:(id)object modelClass:(Class)modelClass {
     if (modelClass == [NSNull class]) { // then bypass parsing
-        return [DRBaseModel modelWithData:object];
+        return [DRApiResponse responseWithObject:object];
     }
     id mappedObject = nil;
     if ([object isKindOfClass:[NSArray class]]) {
@@ -167,32 +168,32 @@ void logInteral(NSString *format, ...) {
     } else if ([object isKindOfClass:[NSDictionary class]]) {
         mappedObject = [[modelClass alloc] initWithDictionary:object error:nil];
     }
-    return [DRBaseModel modelWithData:mappedObject];
+    return [DRApiResponse responseWithObject:mappedObject];
 }
 
 
 #pragma mark - API CALLS 
 #pragma mark - User
 
-- (void)loadUserInfoWithCompletionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:kDribbbleApiMethodUser requestType:kDribbbleGetRequest modelClass:[DRUser class] params:nil completionHandler:completionHandler];
+- (void)loadUserInfoWithResponseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:kDribbbleApiMethodUser requestType:kDribbbleGetRequest modelClass:[DRUser class] params:nil responseHandler:responseHandler];
 }
 
-- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodGetFollowers, userId] requestType:kDribbbleGetRequest modelClass:[DRFolloweeUser class] params:params completionHandler:completionHandler];
+- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodGetFollowers, userId] requestType:kDribbbleGetRequest modelClass:[DRFolloweeUser class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withCompletionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:kDribbbleApiMethodGetFolloweesShot requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completionHandler:completionHandler];
+- (void)loadFolloweesShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:kDribbbleApiMethodGetFolloweesShot requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params responseHandler:responseHandler];
 }
 
 #pragma mark - Shots
 
-- (void)loadShotsWithParams:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:kDribbbleApiMethodShots requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completionHandler:completionHandler];
+- (void)loadShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:kDribbbleApiMethodShots requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page completionHandler:(DRCompletionHandler)completionHandler {
+- (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page responseHandler:(DRResponseHandler)responseHandler {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     if (category) {
         if ([category.categoryValue isEqualToString:@"recent"]) {
@@ -205,41 +206,41 @@ void logInteral(NSString *format, ...) {
         dict[@"page"] = @(page);
         dict[@"per_page"] = @(kDefaultShotsPerPageNumber);
     }
-    [self loadShotsWithParams:dict completionHandler:completionHandler];
+    [self loadShotsWithParams:dict responseHandler:responseHandler];
 }
 
-- (void)loadUserShots:(NSString *)url params:(NSDictionary *)params completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:url requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params completionHandler:completionHandler];
+- (void)loadUserShots:(NSString *)url params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:url requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadShot:(NSString *)shotId completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodShot, shotId] requestType:kDribbbleGetRequest modelClass:[DRShot class] params:nil completionHandler:completionHandler];
+- (void)loadShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodShot, shotId] requestType:kDribbbleGetRequest modelClass:[DRShot class] params:nil responseHandler:responseHandler];
 }
 
-- (void)likeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbblePostRequest modelClass:[DRTransactionModel class] params:nil completionHandler:completionHandler];
+- (void)likeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbblePostRequest modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
-- (void)unlikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbbleDeleteRequest modelClass:[DRTransactionModel class] params:nil completionHandler:completionHandler];
+- (void)unlikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodLikeShot, shotId] requestType:kDribbbleDeleteRequest modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
-- (void)checkLikeShot:(NSNumber *)shotId completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckShotWasLiked, shotId] requestType:kDribbbleGetRequest modelClass:[DRTransactionModel class] params:nil completionHandler:completionHandler];
+- (void)checkLikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckShotWasLiked, shotId] requestType:kDribbbleGetRequest modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
 #pragma mark - Following
 
-- (void)followUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbblePutRequest modelClass:[DRBaseModel class] params:nil completionHandler:completionHandler];
+- (void)followUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbblePutRequest modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
-- (void)unFollowUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbbleDeleteRequest modelClass:[DRBaseModel class] params:nil completionHandler:completionHandler];
+- (void)unFollowUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodFollowUser, userId] requestType:kDribbbleDeleteRequest modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
-- (void)checkFollowingUser:(NSNumber *)userId completionHandler:(DRCompletionHandler)completionHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, userId] requestType:kDribbbleGetRequest modelClass:[DRBaseModel class] params:nil completionHandler:completionHandler];
+- (void)checkFollowingUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodCheckIfUserFollowing, userId] requestType:kDribbbleGetRequest modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
 @end
