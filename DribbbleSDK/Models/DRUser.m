@@ -7,11 +7,12 @@
 //
 
 #import "DRUser.h"
+#import "DRCombinedJSONKeyMapper.h"
 
 @implementation DRUser
 
 + (JSONKeyMapper *)keyMapper {
-    return [[JSONKeyMapper alloc] initWithDictionary:@{@"id" : @"userId"}];
+    return [[DRCombinedJSONKeyMapper alloc] initWithDictionary:@{@"id" : @"userId"}];
 }
 
 @end

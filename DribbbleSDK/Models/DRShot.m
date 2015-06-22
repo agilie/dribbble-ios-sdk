@@ -11,6 +11,7 @@
 #import "DRShot.h"
 #import "DRUser.h"
 #import "DRTeam.h"
+#import "DRCombinedJSONKeyMapper.h"
 
 static NSString * const kFileExtensionGif = @"gif";
 
@@ -19,7 +20,7 @@ static NSString * const kFileExtensionGif = @"gif";
 #pragma mark - Key Mapping
 
 + (JSONKeyMapper *)keyMapper {
-    return [[JSONKeyMapper alloc] initWithDictionary:@{@"id"                : @"shotId",
+    return [[DRCombinedJSONKeyMapper alloc] initWithDictionary:@{@"id"                : @"shotId",
                                                        @"description"       : @"shotDescription",
                                                        @"rebound_source_url": @"rebound_source_url"
                                                        }];

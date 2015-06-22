@@ -40,7 +40,7 @@ void logInteral(NSString *format, ...) {
 
 @property (strong, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) DROAuthManager *oauthManager;
-@property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
+
 
 @end
 
@@ -53,9 +53,7 @@ void logInteral(NSString *format, ...) {
     if (self) {
         self.oauthManager = [DROAuthManager new];
         [self restoreAccessToken];
-        
-//        [JSONKeyMapper ]
-        
+        [JSONModel setGlobalKeyMapper:[JSONKeyMapper mapperFromUnderscoreCaseToCamelCase]];
     }
     return self;
 }

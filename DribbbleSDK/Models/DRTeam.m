@@ -7,11 +7,12 @@
 //
 
 #import "DRTeam.h"
+#import "DRCombinedJSONKeyMapper.h"
 
 @implementation DRTeam
 
 + (JSONKeyMapper *)keyMapper {
-    return [[JSONKeyMapper alloc] initWithDictionary:@{@"id" : @"teamId"}];
+    return [[DRCombinedJSONKeyMapper alloc] initWithDictionary:@{@"id" : @"teamId"}];
 }
 
 @end
