@@ -13,6 +13,6 @@
 
 @interface DROAuthManager : NSObject <UIWebViewDelegate>
 
-- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings responseHandler:(DROAuthHandler)handler;
+- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings authHandler:(DROAuthHandler)authHandler;
 
 @end

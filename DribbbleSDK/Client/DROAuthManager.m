@@ -27,7 +27,7 @@
 
 #pragma mark - OAuth2 Logic
 
-- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings responseHandler:(DROAuthHandler)responseHandler {
+- (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings authHandler:(DROAuthHandler)authHandler {
     [self adjustAuthorizationWebView:webView withSettings:settings];
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     if (self.authCompletionObserver) [notificationCenter removeObserver:self.authCompletionObserver];
@@ -35,24 +35,24 @@
     __weak typeof(self)weakSelf = self;
     self.unacceptableUrlHandler = ^ {
         NSError *error = [NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil];
-        if (responseHandler) {
-            responseHandler([DRApiResponse responseWithError:error], NO);
+        if (authHandler) {
+            authHandler(nil, error);
         }
     };
     self.authCompletionObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreAccountsDidChangeNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
         logInteral(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
         if (account.accessToken.accessToken) {
-            if (responseHandler) responseHandler([DRApiResponse responseWithObject:account], YES);
+            if (authHandler) authHandler(account, nil);
         } else {
-            if (responseHandler) responseHandler([DRApiResponse responseWithError:[NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]], NO);
+            if (authHandler) authHandler(nil, [NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]);
         }
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authCompletionObserver];
     }];
     self.authErrorObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NSError *error = [aNotification.userInfo objectForKey:NXOAuth2AccountStoreErrorKey];
-        if (responseHandler) {
-            responseHandler([DRApiResponse responseWithError:error], NO);
+        if (authHandler) {
+            authHandler(nil, error);
         }
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authErrorObserver];
     }];
