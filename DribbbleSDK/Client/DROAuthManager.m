@@ -71,14 +71,8 @@
 
 #pragma mark - WebView Delegate
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    if (self.progressHUDShowHandler) {
-        self.progressHUDShowHandler();
-    }
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if (self.progressHUDDismissHandler) self.progressHUDDismissHandler();
+- (void)webViewDidFinishLoad:(UIWebView *)webView {    
+    
     //if the UIWebView is showing our authorization URL, show the UIWebView control
     if ([webView.request.URL.absoluteString rangeOfString:self.redirectUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
         self.webView.userInteractionEnabled = YES;
@@ -100,7 +94,7 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if (self.progressHUDDismissHandler) self.progressHUDDismissHandler();
+    logInteral(@"Erorr - %@", [error description]);
 }
 
 #pragma mark - Helpers

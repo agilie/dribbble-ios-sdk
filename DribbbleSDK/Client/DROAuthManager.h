@@ -14,8 +14,6 @@
 @interface DROAuthManager : NSObject <UIWebViewDelegate>
 
 @property (copy, nonatomic) DRHandler dismissWebViewHandler;
-@property (copy, nonatomic) DRHandler progressHUDShowHandler;
-@property (copy, nonatomic) DRHandler progressHUDDismissHandler;
 
 - (void)authorizeWithWebView:(UIWebView *)webView settings:(DRApiClientSettings *)settings responseHandler:(DRResponseHandler)completion;
 

@@ -11,7 +11,6 @@
 #import "DribbbleSDK.h"
 #import "DRApiClientSettings.h"
 
-
 @class DRShot, DRShotCategory;
 
 extern void logInteral(NSString *format, ...);
