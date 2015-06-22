@@ -28,6 +28,7 @@
 		4D0B808C1B31CB2B00F3FB48 /* DRTeam.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B807D1B31CB2B00F3FB48 /* DRTeam.m */; };
 		4D0B808D1B31CB2B00F3FB48 /* DRTransactionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B807F1B31CB2B00F3FB48 /* DRTransactionModel.m */; };
 		4D0B808E1B31CB2B00F3FB48 /* DRUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80811B31CB2B00F3FB48 /* DRUser.m */; };
+		4D680C7C1B381887005E501E /* DRBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D680C7B1B381887005E501E /* DRBaseModel.m */; };
 		E618F33605AC37AD18F75A06 /* libPods-DribbbleSDKDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 898B80CF5E634A6F14792E1D /* libPods-DribbbleSDKDev.a */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,8 @@
 		4D0B807F1B31CB2B00F3FB48 /* DRTransactionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRTransactionModel.m; sourceTree = "<group>"; };
 		4D0B80801B31CB2B00F3FB48 /* DRUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRUser.h; sourceTree = "<group>"; };
 		4D0B80811B31CB2B00F3FB48 /* DRUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRUser.m; sourceTree = "<group>"; };
+		4D680C7A1B381887005E501E /* DRBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRBaseModel.h; sourceTree = "<group>"; };
+		4D680C7B1B381887005E501E /* DRBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRBaseModel.m; sourceTree = "<group>"; };
 		634E60F17D4CBD63B98BF83A /* Pods-DribbbleSDKDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDKDev.release.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDKDev/Pods-DribbbleSDKDev.release.xcconfig"; sourceTree = "<group>"; };
 		898B80CF5E634A6F14792E1D /* libPods-DribbbleSDKDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DribbbleSDKDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		943273C57BC3D6EACA3EF09E /* Pods-DribbbleSDKDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDKDev.debug.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDKDev/Pods-DribbbleSDKDev.debug.xcconfig"; sourceTree = "<group>"; };
@@ -214,6 +217,8 @@
 			children = (
 				4D0B80701B31CB2B00F3FB48 /* DRApiResponse.h */,
 				4D0B80711B31CB2B00F3FB48 /* DRApiResponse.m */,
+				4D680C7A1B381887005E501E /* DRBaseModel.h */,
+				4D680C7B1B381887005E501E /* DRBaseModel.m */,
 				4D0B80721B31CB2B00F3FB48 /* DRFolloweeUser.h */,
 				4D0B80731B31CB2B00F3FB48 /* DRFolloweeUser.m */,
 				4D0B80741B31CB2B00F3FB48 /* DRImage.h */,
@@ -394,6 +399,7 @@
 				4D0B80871B31CB2B00F3FB48 /* DRFolloweeUser.m in Sources */,
 				4D0B80401B31C9F600F3FB48 /* AppDelegate.m in Sources */,
 				4D0B803D1B31C9F600F3FB48 /* main.m in Sources */,
+				4D680C7C1B381887005E501E /* DRBaseModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

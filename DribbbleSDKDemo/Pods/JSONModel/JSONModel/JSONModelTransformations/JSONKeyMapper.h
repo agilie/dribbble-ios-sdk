@@ -85,7 +85,7 @@ typedef NSString* (^JSONModelKeyMapBlock)(NSString* keyName);
  * @return JSONKeyMapper instance
  */
 -(instancetype)initWithDictionary:(NSDictionary*)map;
-
+ 
 /**
  * Creates a JSONKeyMapper, which converts underscore_case to camelCase and vice versa.
  */

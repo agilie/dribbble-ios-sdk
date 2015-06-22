@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONModel.h"
+#import "DRBaseModel.h"
 
 @class DRUser;
 
-@interface DRFolloweeUser : JSONModel
+@interface DRFolloweeUser : DRBaseModel
 
 @property (nonatomic, strong) DRUser *followee;
 

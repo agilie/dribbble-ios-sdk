@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "JSONModel.h"
+#import "DRBaseModel.h"
 
-@interface DRImage : JSONModel
+@interface DRImage : DRBaseModel
 
 @property (strong, nonatomic) NSString <Optional>*hidpi;
 @property (strong, nonatomic) NSString <Optional>*normal;
