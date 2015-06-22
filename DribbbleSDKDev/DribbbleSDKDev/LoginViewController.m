@@ -18,18 +18,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     __weak typeof(self) weakSelf = self;
-    [self.apiClient authorizeWithWebView:self.webView responseHandler:^(DRApiResponse *data) {
+    [self.apiClient authorizeWithWebView:self.webView responseHandler:^(DROAuthHandler *data, BOOL success) {
         if (!data.error) {
             weakSelf.authCompletionHandler(YES);
         }
-    } cancellationHandler:^{
-        [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        if (!success) {
+           [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil]; 
+        }
     }];
 }
 
