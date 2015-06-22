@@ -29,6 +29,7 @@
 		4D0B808D1B31CB2B00F3FB48 /* DRTransactionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B807F1B31CB2B00F3FB48 /* DRTransactionModel.m */; };
 		4D0B808E1B31CB2B00F3FB48 /* DRUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80811B31CB2B00F3FB48 /* DRUser.m */; };
 		4D680C7F1B381B08005E501E /* DRCombinedJSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D680C7E1B381B08005E501E /* DRCombinedJSONKeyMapper.m */; };
+		80DC845B1B38556600E9C825 /* DRAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC845A1B38556600E9C825 /* DRAuthority.m */; };
 		E618F33605AC37AD18F75A06 /* libPods-DribbbleSDKDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 898B80CF5E634A6F14792E1D /* libPods-DribbbleSDKDev.a */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,8 @@
 		4D680C7D1B381B08005E501E /* DRCombinedJSONKeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCombinedJSONKeyMapper.h; sourceTree = "<group>"; };
 		4D680C7E1B381B08005E501E /* DRCombinedJSONKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCombinedJSONKeyMapper.m; sourceTree = "<group>"; };
 		634E60F17D4CBD63B98BF83A /* Pods-DribbbleSDKDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDKDev.release.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDKDev/Pods-DribbbleSDKDev.release.xcconfig"; sourceTree = "<group>"; };
+		80DC84591B38556600E9C825 /* DRAuthority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRAuthority.h; sourceTree = "<group>"; };
+		80DC845A1B38556600E9C825 /* DRAuthority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAuthority.m; sourceTree = "<group>"; };
 		898B80CF5E634A6F14792E1D /* libPods-DribbbleSDKDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DribbbleSDKDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		943273C57BC3D6EACA3EF09E /* Pods-DribbbleSDKDev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDKDev.debug.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDKDev/Pods-DribbbleSDKDev.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -229,10 +232,12 @@
 				4D0B80791B31CB2B00F3FB48 /* DRShot.m */,
 				4D0B807A1B31CB2B00F3FB48 /* DRShotCategory.h */,
 				4D0B807B1B31CB2B00F3FB48 /* DRShotCategory.m */,
-				4D0B807C1B31CB2B00F3FB48 /* DRTeam.h */,
-				4D0B807D1B31CB2B00F3FB48 /* DRTeam.m */,
 				4D0B807E1B31CB2B00F3FB48 /* DRTransactionModel.h */,
 				4D0B807F1B31CB2B00F3FB48 /* DRTransactionModel.m */,
+				80DC84591B38556600E9C825 /* DRAuthority.h */,
+				80DC845A1B38556600E9C825 /* DRAuthority.m */,
+				4D0B807C1B31CB2B00F3FB48 /* DRTeam.h */,
+				4D0B807D1B31CB2B00F3FB48 /* DRTeam.m */,
 				4D0B80801B31CB2B00F3FB48 /* DRUser.h */,
 				4D0B80811B31CB2B00F3FB48 /* DRUser.m */,
 			);
@@ -392,6 +397,7 @@
 				4D0B80861B31CB2B00F3FB48 /* DRApiResponse.m in Sources */,
 				4D0B80841B31CB2B00F3FB48 /* DROAuthManager.m in Sources */,
 				4D0B808B1B31CB2B00F3FB48 /* DRShotCategory.m in Sources */,
+				80DC845B1B38556600E9C825 /* DRAuthority.m in Sources */,
 				4D0B808E1B31CB2B00F3FB48 /* DRUser.m in Sources */,
 				4D0B808D1B31CB2B00F3FB48 /* DRTransactionModel.m in Sources */,
 				4D0B808C1B31CB2B00F3FB48 /* DRTeam.m in Sources */,

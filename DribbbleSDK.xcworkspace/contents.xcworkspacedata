@@ -8,6 +8,12 @@
          location = "group:Client"
          name = "Client">
          <FileRef
+            location = "group:DRCombinedJSONKeyMapper.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRCombinedJSONKeyMapper.m">
+         </FileRef>
+         <FileRef
             location = "group:DRApiClient.h">
          </FileRef>
          <FileRef
@@ -39,12 +45,6 @@
          location = "group:Models"
          name = "Models">
          <FileRef
-            location = "group:DRBaseModel.h">
-         </FileRef>
-         <FileRef
-            location = "group:DRBaseModel.m">
-         </FileRef>
-         <FileRef
             location = "group:DRFolloweeUser.h">
          </FileRef>
          <FileRef
@@ -75,12 +75,6 @@
             location = "group:DRShotCategory.m">
          </FileRef>
          <FileRef
-            location = "group:DRTeam.h">
-         </FileRef>
-         <FileRef
-            location = "group:DRTeam.m">
-         </FileRef>
-         <FileRef
             location = "group:DRTransactionModel.h">
          </FileRef>
          <FileRef
@@ -91,6 +85,18 @@
          </FileRef>
          <FileRef
             location = "group:DRUser.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRTeam.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRTeam.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRAuthority.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRAuthority.m">
          </FileRef>
       </Group>
    </Group>
