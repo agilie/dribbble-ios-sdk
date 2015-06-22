@@ -176,11 +176,11 @@ void logInteral(NSString *format, ...) {
     [self runRequestWithMethod:kDribbbleApiMethodUser requestType:kDribbbleGetRequest modelClass:[DRUser class] params:nil responseHandler:responseHandler];
 }
 
-- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withResponseHandler:(DRResponseHandler)responseHandler {
+- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDribbbleApiMethodGetFollowers, userId] requestType:kDribbbleGetRequest modelClass:[DRFolloweeUser class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withResponseHandler:(DRResponseHandler)responseHandler {
+- (void)loadFolloweesShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:kDribbbleApiMethodGetFolloweesShot requestType:kDribbbleGetRequest modelClass:[DRShot class] params:params responseHandler:responseHandler];
 }
 

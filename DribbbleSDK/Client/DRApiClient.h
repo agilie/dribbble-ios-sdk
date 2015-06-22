@@ -33,8 +33,8 @@ extern void logInteral(NSString *format, ...);
 // rest
 
 - (void)loadUserInfoWithResponseHandler:(DRResponseHandler)responseHandler;
-- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params withResponseHandler:(DRResponseHandler)responseHandler;
-- (void)loadFolloweesShotsWithParams:(NSDictionary *)params withResponseHandler:(DRResponseHandler)responseHandler;
+- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadFolloweesShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
 - (void)loadShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
