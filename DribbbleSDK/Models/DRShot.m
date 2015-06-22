@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "DRBaseModel.h"
+#import "DRApiResponse.h"
 #import "DRImage.h"
 #import "DRShot.h"
 #import "DRUser.h"

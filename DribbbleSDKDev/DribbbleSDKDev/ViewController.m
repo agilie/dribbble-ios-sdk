@@ -61,7 +61,7 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 }
 
 - (void)loadSomeData {
-    [self.apiClient loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 completionHandler:^(DRBaseModel *data) {
+    [self.apiClient loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 completionHandler:^(DRApiResponse *data) {
         NSLog(@"response: %@", data.object);
     }];
     

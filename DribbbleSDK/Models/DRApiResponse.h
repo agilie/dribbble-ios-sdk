@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DRBaseModel : NSObject
+@interface DRApiResponse : NSObject
 
 @property (strong, nonatomic) NSError *error;
 @property (strong, nonatomic) id object;

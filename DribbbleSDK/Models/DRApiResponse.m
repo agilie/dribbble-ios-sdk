@@ -6,24 +6,24 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "DRBaseModel.h"
+#import "DRApiResponse.h"
 
-@implementation DRBaseModel
+@implementation DRApiResponse
 
 + (instancetype)modelWithError:(NSError *)error {
-    DRBaseModel *model = [DRBaseModel new];
+    DRApiResponse *model = [DRApiResponse new];
     model.error = error;
     return model;
 }
 
 + (instancetype)modelWithData:(id)data {
-    DRBaseModel *model = [DRBaseModel new];
+    DRApiResponse *model = [DRApiResponse new];
     model.object = data;
     return model;
 }
 
 + (instancetype)modelWithData:(id)data error:(NSError *)error {
-    DRBaseModel *model = [DRBaseModel new];
+    DRApiResponse *model = [DRApiResponse new];
     model.object = data;
     model.error = error;
     return model;

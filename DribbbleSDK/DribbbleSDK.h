@@ -16,7 +16,7 @@
 #import "DREnums.h"
 #import "DRDefinitions.h"
 
-#import "DRBaseModel.h"
+#import "DRApiResponse.h"
 #import "DRLink.h"
 #import "DRTeam.h"
 #import "DRFolloweeUser.h"

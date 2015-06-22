@@ -19,7 +19,7 @@
 		4D0B80831B31CB2B00F3FB48 /* DRApiClientSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80681B31CB2B00F3FB48 /* DRApiClientSettings.m */; };
 		4D0B80841B31CB2B00F3FB48 /* DROAuthManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B806C1B31CB2B00F3FB48 /* DROAuthManager.m */; };
 		4D0B80851B31CB2B00F3FB48 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4D0B806E1B31CB2B00F3FB48 /* LICENSE */; };
-		4D0B80861B31CB2B00F3FB48 /* DRBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80711B31CB2B00F3FB48 /* DRBaseModel.m */; };
+		4D0B80861B31CB2B00F3FB48 /* DRApiResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80711B31CB2B00F3FB48 /* DRApiResponse.m */; };
 		4D0B80871B31CB2B00F3FB48 /* DRFolloweeUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80731B31CB2B00F3FB48 /* DRFolloweeUser.m */; };
 		4D0B80881B31CB2B00F3FB48 /* DRImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80751B31CB2B00F3FB48 /* DRImage.m */; };
 		4D0B80891B31CB2B00F3FB48 /* DRLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80771B31CB2B00F3FB48 /* DRLink.m */; };
@@ -67,8 +67,8 @@
 		4D0B806C1B31CB2B00F3FB48 /* DROAuthManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DROAuthManager.m; sourceTree = "<group>"; };
 		4D0B806D1B31CB2B00F3FB48 /* DribbbleSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DribbbleSDK.h; sourceTree = "<group>"; };
 		4D0B806E1B31CB2B00F3FB48 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		4D0B80701B31CB2B00F3FB48 /* DRBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRBaseModel.h; sourceTree = "<group>"; };
-		4D0B80711B31CB2B00F3FB48 /* DRBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRBaseModel.m; sourceTree = "<group>"; };
+		4D0B80701B31CB2B00F3FB48 /* DRApiResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRApiResponse.h; sourceTree = "<group>"; };
+		4D0B80711B31CB2B00F3FB48 /* DRApiResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRApiResponse.m; sourceTree = "<group>"; };
 		4D0B80721B31CB2B00F3FB48 /* DRFolloweeUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRFolloweeUser.h; sourceTree = "<group>"; };
 		4D0B80731B31CB2B00F3FB48 /* DRFolloweeUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRFolloweeUser.m; sourceTree = "<group>"; };
 		4D0B80741B31CB2B00F3FB48 /* DRImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRImage.h; sourceTree = "<group>"; };
@@ -212,8 +212,8 @@
 		4D0B806F1B31CB2B00F3FB48 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4D0B80701B31CB2B00F3FB48 /* DRBaseModel.h */,
-				4D0B80711B31CB2B00F3FB48 /* DRBaseModel.m */,
+				4D0B80701B31CB2B00F3FB48 /* DRApiResponse.h */,
+				4D0B80711B31CB2B00F3FB48 /* DRApiResponse.m */,
 				4D0B80721B31CB2B00F3FB48 /* DRFolloweeUser.h */,
 				4D0B80731B31CB2B00F3FB48 /* DRFolloweeUser.m */,
 				4D0B80741B31CB2B00F3FB48 /* DRImage.h */,
@@ -383,7 +383,7 @@
 				4D0B80891B31CB2B00F3FB48 /* DRLink.m in Sources */,
 				4D0B808A1B31CB2B00F3FB48 /* DRShot.m in Sources */,
 				4D0B80821B31CB2B00F3FB48 /* DRApiClient.m in Sources */,
-				4D0B80861B31CB2B00F3FB48 /* DRBaseModel.m in Sources */,
+				4D0B80861B31CB2B00F3FB48 /* DRApiResponse.m in Sources */,
 				4D0B80841B31CB2B00F3FB48 /* DROAuthManager.m in Sources */,
 				4D0B808B1B31CB2B00F3FB48 /* DRShotCategory.m in Sources */,
 				4D0B808E1B31CB2B00F3FB48 /* DRUser.m in Sources */,
