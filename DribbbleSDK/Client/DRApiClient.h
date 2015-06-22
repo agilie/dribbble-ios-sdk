@@ -21,6 +21,8 @@ extern void logInteral(NSString *format, ...);
 @property (nonatomic, readonly, getter=isUserAuthorized) BOOL userAuthorized;
 @property (copy, nonatomic) DRErrorHandler clientErrorHandler;
 
+@property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
+
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings;
 
 #pragma mark - Auth

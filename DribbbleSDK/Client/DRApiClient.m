@@ -32,7 +32,7 @@ void logInteral(NSString *format, ...) {
 
 @property (strong, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) DROAuthManager *oauthManager;
-@property (strong, nonatomic) AFHTTPRequestOperationManager *apiManager;
+
 
 @end
 
