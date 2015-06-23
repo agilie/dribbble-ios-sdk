@@ -74,6 +74,29 @@
     }
 }
 
+- (BOOL)isUrlRedirectUrl:(NSURL *)url {
+    NSURL *authUrl = [NSURL URLWithString:self.redirectUrl];
+    return ([[authUrl host] isEqualToString:url.host] && [[authUrl scheme] isEqualToString:url.scheme]);
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if ([self isUrlRedirectUrl:request.URL]) {
+        self.webView.userInteractionEnabled = YES;
+        NSDictionary *params = [self paramsFromUrl:request.URL];
+        if ([params objectForKey:@"code"]) {
+            [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType:kIDMOAccountType] enumerateObjectsUsingBlock:^(NXOAuth2Account * obj, NSUInteger idx, BOOL *stop) {
+                [[NXOAuth2AccountStore sharedStore] removeAccount:obj];
+            }];
+            [[NXOAuth2AccountStore sharedStore] handleRedirectURL:request.URL];
+        } else {
+            self.webView.userInteractionEnabled = NO;
+        }
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self finalizeAuthWithAccount:nil error:error];
 }

@@ -62,9 +62,18 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 }
 
 - (void)loadSomeData {
-    [self.apiClient loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 responseHandler:^(DRApiResponse *data) {
-        NSLog(@"response: %@", data.object);
-    }];
+    //    [self.apiClient loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 responseHandler:^(DRApiResponse *data) {
+    //        NSLog(@"response: %@", data.object);
+    //    }];
+    
+    if (![self.apiClient isUserAuthorized]) {
+        [self performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
+    } else {
+        
+        [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
+            NSLog(@"USER INFO: %@", response.object);
+        }];
+    }
     
 }
 
