@@ -42,6 +42,10 @@ extern void logInteral(NSString *format, ...);
 - (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadFolloweesShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
+- (void)uploadShotWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)updateShotWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)deleteShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
+
 - (void)loadShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page responseHandler:(DRResponseHandler)responseHandler;

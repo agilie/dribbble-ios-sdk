@@ -63,6 +63,14 @@ static NSString * const kDRParamTimeFrame = @"timeframe";
 static NSString * const kDRParamDate = @"date";
 static NSString * const kDRParamSort = @"sort";
 
+// Dribbble API shot param keys
+
+static NSString * const kDRParamTitle = @"title";
+static NSString * const kDRParamImage = @"image";
+static NSString * const kDRParamDescription = @"description";
+static NSString * const kDRParamTags = @"tags";
+static NSString * const kDRParamTeamId = @"team_id";
+static NSString * const kDRParamReboundSourceId = @"rebound_source_id";
 
 // Dribbble API permission keys
 
