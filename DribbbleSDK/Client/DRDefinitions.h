@@ -57,6 +57,11 @@ static NSString * const kDRApiMethodTeamShots = @"teams/%@/shots";
 
 static NSString * const kDRParamPage = @"page";
 static NSString * const kDRParamPerPage = @"per_page";
+static NSString * const kDRParamList = @"list";
+static NSString * const kDRParamTimeFrame = @"timeframe";
+static NSString * const kDRParamDate = @"date";
+static NSString * const kDRParamSort = @"sort";
+
 
 // Dribbble API permission keys
 

@@ -208,14 +208,14 @@ void logInteral(NSString *format, ...) {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     if (category) {
         if ([category.categoryValue isEqualToString:@"recent"]) {
-            dict[@"sort"] = category.categoryValue;
+            dict[kDRParamSort] = category.categoryValue;
         } else if (![category.categoryValue isEqualToString:@"popular"]) {
-            dict[@"list"] = category.categoryValue;
+            dict[kDRParamList] = category.categoryValue;
         }
     }
     if (page > 0) {
-        dict[@"page"] = @(page);
-        dict[@"per_page"] = @(kDefaultShotsPerPageNumber);
+        dict[kDRParamPage] = @(page);
+        dict[kDRParamPerPage] = @(kDefaultShotsPerPageNumber);
     }
     [self loadShotsWithParams:dict responseHandler:responseHandler];
 }

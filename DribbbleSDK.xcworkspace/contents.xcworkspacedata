@@ -45,6 +45,12 @@
          location = "group:Models"
          name = "Models">
          <FileRef
+            location = "group:DRComment.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRComment.m">
+         </FileRef>
+         <FileRef
             location = "group:DRFolloweeUser.h">
          </FileRef>
          <FileRef
