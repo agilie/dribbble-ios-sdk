@@ -38,12 +38,16 @@ static NSString * const kDRApiMethodCheckLikeComment = @"shots/%@/comments/%@/li
 static NSString * const kDRApiMethodShots = @"shots";
 static NSString * const kDRApiMethodShot = @"shots/%@";
 static NSString * const kDRApiMethodLikeShot = @"shots/%@/like";
+static NSString * const kDRApiMethodShotLikes = @"shots/%@/likes";
+static NSString * const kDRApiMethodShotRebounds = @"shots/%@/rebounds";
 static NSString * const kDRApiMethodFollowUser = @"users/%@/follow";
 static NSString * const kDRApiMethodCheckShotWasLiked = @"shots/%@/like";
 static NSString * const kDRApiMethodCheckIfUserFollowing = @"user/following/%@";
 static NSString * const kDRApiMethodGetFollowers = @"users/%@/following";
 static NSString * const kDRApiMethodGetFolloweesShot = @"user/following/shots";
 static NSString * const kDRApiMethodGetLikes = @"users/%@/likes";
+static NSString * const kDRApiMethodTeamMembers = @"teams/%@/members";
+static NSString * const kDRApiMethodTeamShots = @"teams/%@/shots";
 
 // Dribbble API params keys
 

@@ -41,10 +41,12 @@ extern void logInteral(NSString *format, ...);
 - (void)loadShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotsFromCategory:(DRShotCategory *)category atPage:(int)page responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadUserShots:(NSString *)url params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadReboundsOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
 - (void)likeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)unlikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkLikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadLikesOfShots:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
 - (void)loadCommentsOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadComment:(NSString *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
@@ -56,6 +58,9 @@ extern void logInteral(NSString *format, ...);
 
 - (void)loadProjectsOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadProject:(NSString *)projectId responseHandler:(DRResponseHandler)responseHandler;
+
+- (void)loadMembersOfTeam:(NSString *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadShotsOfTeam:(NSString *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
 - (void)followUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)unFollowUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
