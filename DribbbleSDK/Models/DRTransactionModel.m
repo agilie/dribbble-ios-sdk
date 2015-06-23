@@ -7,7 +7,12 @@
 //
 
 #import "DRTransactionModel.h"
+#import "DRCombinedJSONKeyMapper.h"
 
 @implementation DRTransactionModel
+
++ (JSONKeyMapper *)keyMapper {
+    return [[DRCombinedJSONKeyMapper alloc] initWithDictionary:@{@"id" : @"transactionId"}];
+}
 
 @end

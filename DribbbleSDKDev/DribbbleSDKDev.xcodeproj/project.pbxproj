@@ -32,6 +32,7 @@
 		80837A651B3948C6000B7696 /* DRArtWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 80837A631B3948C6000B7696 /* DRArtWork.m */; };
 		80837A661B3948C6000B7696 /* DRProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 80837A641B3948C6000B7696 /* DRProject.m */; };
 		80837A691B395305000B7696 /* DRShotAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 80837A681B395305000B7696 /* DRShotAttachment.m */; };
+		80837A6C1B395741000B7696 /* DRComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 80837A6B1B395741000B7696 /* DRComment.m */; };
 		80DC845B1B38556600E9C825 /* DRAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DC845A1B38556600E9C825 /* DRAuthority.m */; };
 		E618F33605AC37AD18F75A06 /* libPods-DribbbleSDKDev.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 898B80CF5E634A6F14792E1D /* libPods-DribbbleSDKDev.a */; };
 /* End PBXBuildFile section */
@@ -99,6 +100,8 @@
 		80837A641B3948C6000B7696 /* DRProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRProject.m; sourceTree = "<group>"; };
 		80837A671B395305000B7696 /* DRShotAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRShotAttachment.h; sourceTree = "<group>"; };
 		80837A681B395305000B7696 /* DRShotAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRShotAttachment.m; sourceTree = "<group>"; };
+		80837A6A1B395741000B7696 /* DRComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRComment.h; sourceTree = "<group>"; };
+		80837A6B1B395741000B7696 /* DRComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRComment.m; sourceTree = "<group>"; };
 		80DC84591B38556600E9C825 /* DRAuthority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRAuthority.h; sourceTree = "<group>"; };
 		80DC845A1B38556600E9C825 /* DRAuthority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRAuthority.m; sourceTree = "<group>"; };
 		898B80CF5E634A6F14792E1D /* libPods-DribbbleSDKDev.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DribbbleSDKDev.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,9 +235,9 @@
 				80837A671B395305000B7696 /* DRShotAttachment.h */,
 				80837A681B395305000B7696 /* DRShotAttachment.m */,
 				80837A611B3948C6000B7696 /* DRProject.h */,
+				80837A641B3948C6000B7696 /* DRProject.m */,
 				80837A621B3948C6000B7696 /* DRArtWork.h */,
 				80837A631B3948C6000B7696 /* DRArtWork.m */,
-				80837A641B3948C6000B7696 /* DRProject.m */,
 				4D0B80701B31CB2B00F3FB48 /* DRApiResponse.h */,
 				4D0B80711B31CB2B00F3FB48 /* DRApiResponse.m */,
 				4D0B80721B31CB2B00F3FB48 /* DRFolloweeUser.h */,
@@ -255,6 +258,8 @@
 				4D0B807D1B31CB2B00F3FB48 /* DRTeam.m */,
 				4D0B80801B31CB2B00F3FB48 /* DRUser.h */,
 				4D0B80811B31CB2B00F3FB48 /* DRUser.m */,
+				80837A6A1B395741000B7696 /* DRComment.h */,
+				80837A6B1B395741000B7696 /* DRComment.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -424,6 +429,7 @@
 				4D0B80401B31C9F600F3FB48 /* AppDelegate.m in Sources */,
 				4D0B803D1B31C9F600F3FB48 /* main.m in Sources */,
 				80837A661B3948C6000B7696 /* DRProject.m in Sources */,
+				80837A6C1B395741000B7696 /* DRComment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

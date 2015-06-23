@@ -29,6 +29,12 @@ typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBy
 static NSString * const kDRApiMethodUser = @"user";
 static NSString * const kDRApiMethodShotProjects = @"shots/%@/projects";
 static NSString * const kDRApiMethodProject = @"projects/%@";
+static NSString * const kDRApiMethodShotAttachments = @"shots/%@/attachments";
+static NSString * const kDRApiMethodAttachment = @"shots/%@/attachments/%@";
+static NSString * const kDRApiMethodShotComments = @"shots/%@/comments";
+static NSString * const kDRApiMethodComment = @"shots/%@/comments/%@";
+static NSString * const kDRApiMethodCommentLikes = @"shots/%@/comments/%@/likes";
+static NSString * const kDRApiMethodCheckLikeComment = @"shots/%@/comments/%@/like";
 static NSString * const kDRApiMethodShots = @"shots";
 static NSString * const kDRApiMethodShot = @"shots/%@";
 static NSString * const kDRApiMethodLikeShot = @"shots/%@/like";
