@@ -62,9 +62,73 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 }
 
 - (void)loadSomeData {
-    //    [self.apiClient loadShotsFromCategory:[DRShotCategory recentShotsCategory] atPage:1 responseHandler:^(DRApiResponse *data) {
-    //        NSLog(@"response: %@", data.object);
-    //    }];
+//    [self.apiClient loadProjectsOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadLikesOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadUserInfo:@"597558" responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadTeamsOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadShotsOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadReboundsOfShot:@"472178" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadShot:@"2037338" responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadLikesOfShot:@"2037338" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+
+//    [self.apiClient loadCommentsOfShot:@"2037338" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+
+//    [self.apiClient loadComment:@"4526047" forShot:@"2037338" responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+
+//    [self.apiClient loadLikesOfComment:@"4526047" forShot:@"2037338" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+
+//    [self.apiClient checkLikeComment:@"4526047" forShot:@"2037338" responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadAttachmentsOfShot:@"471756" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadProjectsOfShot:@"471756" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadProject:@"48926" responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+
+//    [self.apiClient loadMembersOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
+    
+//    [self.apiClient loadShotsOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+//        NSLog(@"response - %@", response.object);
+//    }];
     
     if (![self.apiClient isUserAuthorized]) {
         [self performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
