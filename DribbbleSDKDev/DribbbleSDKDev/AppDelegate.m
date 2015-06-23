@@ -7,16 +7,35 @@
 //
 
 #import "AppDelegate.h"
+#import "NXOAuth2.h"
 
 @interface AppDelegate ()
 
 @end
 
+static NSString * const kDribbblePreviousAuthKey = @"1234123123ssss";
+
+
+static NSString * const kIDMOAccountType = @"DribbbleAuth";
+
+
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (![userDefaults objectForKey:kDribbblePreviousAuthKey]) {
+        [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType:kIDMOAccountType] enumerateObjectsUsingBlock:^(NXOAuth2Account * obj, NSUInteger idx, BOOL *stop) {
+            [[NXOAuth2AccountStore sharedStore] removeAccount:obj];
+        }];
+        NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        for (NSHTTPCookie *cookie in [storage cookies]) {
+            [storage deleteCookie:cookie];
+        }
+#warning TODO refactor and get to work
+        [userDefaults setObject:[NSString stringWithFormat:@"%@", [NSDate date]] forKey:kDribbblePreviousAuthKey];
+    }
+    
     return YES;
 }
 
