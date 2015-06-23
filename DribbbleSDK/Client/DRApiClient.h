@@ -37,6 +37,8 @@ extern void logInteral(NSString *format, ...);
 - (void)loadUserInfo:(NSString *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadLikesOfUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadProjectsOfUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadTeamsOfUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadShotsOfUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadFolloweesShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
@@ -49,7 +51,7 @@ extern void logInteral(NSString *format, ...);
 - (void)likeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)unlikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkLikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
-- (void)loadLikesOfShots:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadLikesOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
 - (void)loadCommentsOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadComment:(NSString *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;

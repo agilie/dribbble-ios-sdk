@@ -31,6 +31,7 @@ static NSString * const kDRApiMethodUserInfo = @"users/%@";
 static NSString * const kDRApiMethodUserLikes = @"users/%@/likes";
 static NSString * const kDRApiMethodUserProjects = @"users/%@/projects";
 static NSString * const kDRApiMethodUserTeams = @"users/%@/teams";
+static NSString * const kDRApiMethodUserShots = @"users/%@/shots";
 static NSString * const kDRApiMethodShotProjects = @"shots/%@/projects";
 static NSString * const kDRApiMethodProject = @"projects/%@";
 static NSString * const kDRApiMethodShotAttachments = @"shots/%@/attachments";
