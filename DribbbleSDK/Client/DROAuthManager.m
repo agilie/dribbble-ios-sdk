@@ -47,6 +47,10 @@
     }];
     self.authErrorObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NSError *error = [aNotification.userInfo objectForKey:NXOAuth2AccountStoreErrorKey];
+        
+#warning TODO finish handle and check double authHandler finalizing:
+        NSData *responseData = error.userInfo[@"responseData"];
+        
         [weakSelf finalizeAuthWithAccount:nil error:error];
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authErrorObserver];
     }];
@@ -98,7 +102,7 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    [self finalizeAuthWithAccount:nil error:error];
+//    [self finalizeAuthWithAccount:nil error:error];
 }
 
 #pragma mark - Helpers
