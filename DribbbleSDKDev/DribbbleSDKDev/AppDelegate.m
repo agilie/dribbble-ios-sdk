@@ -13,6 +13,12 @@
 
 @end
 
+static NSString * const kDribbblePreviousAuthKey = @"1234123123ssss";
+
+
+static NSString * const kIDMOAccountType = @"DribbbleAuth";
+
+
 @implementation AppDelegate
 
 
