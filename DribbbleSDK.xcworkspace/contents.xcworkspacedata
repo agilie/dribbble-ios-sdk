@@ -63,12 +63,6 @@
             location = "group:DRLink.m">
          </FileRef>
          <FileRef
-            location = "group:DRShot.h">
-         </FileRef>
-         <FileRef
-            location = "group:DRShot.m">
-         </FileRef>
-         <FileRef
             location = "group:DRShotCategory.h">
          </FileRef>
          <FileRef
@@ -97,6 +91,30 @@
          </FileRef>
          <FileRef
             location = "group:DRAuthority.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRArtWork.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRArtWork.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRShot.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRShot.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRProject.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRProject.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRShotAttachment.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRShotAttachment.m">
          </FileRef>
       </Group>
    </Group>

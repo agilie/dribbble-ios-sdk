@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "JSONModel.h"
 #import "DRAuthority.h"
 
 @class DRLink;

@@ -34,6 +34,7 @@
     if (self.authCompletionObserver) [notificationCenter removeObserver:self.authCompletionObserver];
     if (self.authErrorObserver) [notificationCenter removeObserver:self.authErrorObserver];
     __weak typeof(self)weakSelf = self;
+    
     self.authCompletionObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreAccountsDidChangeNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
         logInteral(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
@@ -42,7 +43,6 @@
         } else {
             [weakSelf finalizeAuthWithAccount:nil error:[NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]];
         }
-        
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authCompletionObserver];
     }];
     self.authErrorObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {

@@ -25,6 +25,7 @@
 #import "DRImage.h"
 #import "DRShotCategory.h"
 #import "DRUser.h"
+#import "DRProject.h"
 
 #import "DROAuthManager.h"
 #import "DRApiClient.h"

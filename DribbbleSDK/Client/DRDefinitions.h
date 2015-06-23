@@ -27,6 +27,8 @@ typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBy
 // Dribbble API methods
 
 static NSString * const kDRApiMethodUser = @"user";
+static NSString * const kDRApiMethodShotProjects = @"shots/%@/projects";
+static NSString * const kDRApiMethodProject = @"projects/%@";
 static NSString * const kDRApiMethodShots = @"shots";
 static NSString * const kDRApiMethodShot = @"shots/%@";
 static NSString * const kDRApiMethodLikeShot = @"shots/%@/like";

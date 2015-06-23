@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "JSONModel.h"
+#import "DRArtWork.h"
 
-@class DRUser, DRUser, DRTeam, DRImage;
+@class DRImage;
 
-@interface DRShot : JSONModel
+@interface DRShot : DRArtWork
 
 @property (strong, nonatomic) NSNumber *shotId;
 @property (strong, nonatomic) NSNumber *width;
@@ -24,8 +24,6 @@
 @property (strong, nonatomic) DRImage *images;
 @property (strong, nonatomic) NSNumber *reboundsCount;
 @property (strong, nonatomic) NSNumber *bucketsCount;
-@property (strong, nonatomic) NSString *createdAt;
-@property (strong, nonatomic) NSString *updatedAt;
 @property (strong, nonatomic) NSString <Optional> *reboundSourceUrl;
 @property (strong, nonatomic) NSString <Optional>*htmlUrl;
 @property (strong, nonatomic) NSString <Optional>*attachmentsUrl;
@@ -35,8 +33,6 @@
 @property (strong, nonatomic) NSString <Optional>*projectsUrl;
 @property (strong, nonatomic) NSString <Optional>*reboundsUrl;
 @property (strong, nonatomic) NSArray *tags;
-@property (strong, nonatomic) DRUser <Optional> *user;
-@property (strong, nonatomic) DRTeam <Optional> *team;
 
 // helper properties
 

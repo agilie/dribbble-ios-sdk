@@ -46,6 +46,9 @@ extern void logInteral(NSString *format, ...);
 - (void)unlikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkLikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 
+- (void)loadShotProjects:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadProject:(NSString *)projectId responseHandler:(DRResponseHandler)responseHandler;
+
 - (void)followUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)unFollowUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkFollowingUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;

@@ -7,13 +7,6 @@
 //
 
 #import "DRApiClient.h"
-#import "DROAuthManager.h"
-#import "DribbbleSDK.h"
-#import "DRApiResponse.h"
-#import "DRFolloweeUser.h"
-#import "DRShot.h"
-#import "DRTransactionModel.h"
-#import "DRShotCategory.h"
 #import "DribbbleSDK.h"
 
 static NSInteger const kDefaultShotsPerPageNumber = 20;
@@ -228,6 +221,16 @@ void logInteral(NSString *format, ...) {
 
 - (void)checkLikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckShotWasLiked, shotId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
+}
+
+#pragma mark - Projects
+
+- (void)loadShotProjects:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotProjects, shotId] requestType:kHttpMethodGet modelClass:[DRProject class] params:params responseHandler:responseHandler];
+}
+
+- (void)loadProject:(NSString *)projectId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodProject, projectId] requestType:kHttpMethodGet modelClass:[DRProject class] params:nil responseHandler:responseHandler];
 }
 
 #pragma mark - Following
