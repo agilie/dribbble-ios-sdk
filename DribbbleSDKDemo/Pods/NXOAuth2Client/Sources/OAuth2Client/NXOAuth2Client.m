@@ -564,7 +564,10 @@ NSString * const NXOAuth2ClientConnectionContextTokenRefresh = @"tokenRefresh";
             }
             
             if ([delegate respondsToSelector:@selector(oauthClient:didFailToGetAccessTokenWithError:)]) {
-                [delegate oauthClient:self didFailToGetAccessTokenWithError:error];
+                NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
+                payload[@"responseData"] = connection.data;
+                NSError *payloadError = [NSError errorWithDomain:error.domain code:error.code userInfo:payload];
+                [delegate oauthClient:self didFailToGetAccessTokenWithError:payloadError];
             }
         }
     }
