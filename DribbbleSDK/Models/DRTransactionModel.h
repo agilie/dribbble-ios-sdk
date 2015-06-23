@@ -8,7 +8,7 @@
 
 #import "JSONModel.h"
 
-@class DRUser, DRTeam;
+@class DRUser, DRTeam, DRShot;
 
 @interface DRTransactionModel : JSONModel
 
@@ -16,5 +16,6 @@
 @property (strong, nonatomic) NSNumber *transactionId;
 @property (strong, nonatomic) DRUser <Optional>*user;
 @property (strong, nonatomic) DRTeam <Optional>*team;
+@property (strong, nonatomic) DRShot <Optional>*shot;
 
 @end
