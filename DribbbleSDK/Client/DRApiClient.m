@@ -150,11 +150,13 @@ void DRLog(NSString *format, ...) {
 
 - (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     
-    [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-        //[formData appendPartWithFileData:[params objectForKey:@"image"] name:@"image" fileName:@"my_shot" mimeType:<#(NSString *)#>]
-        
-        [formData appendPartWithFormData:[params objectForKey:@"image"] name:@"image"];
+    #warning TODO: 1) make generic - use custom parameters in method invocation, not here.
+    #warning 2) check image size (400x300 or 800x600)
+    #warning 3) make sure user.canUploadShot == 1
+    
+    [self.apiManager POST:method parameters:@{@"title" : @"another one great shot"} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSData *imageData = [params objectForKey:@"image"];
+        [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpg" mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"sucess - %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -115,7 +115,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
                                                                         clientId:kIDMOAuth2ClientId
                                                                     clientSecret:kIDMOAuth2ClientSecret
                                                                clientAccessToken:kIDMOAuth2ClientAccessToken
-                                                                          scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, nil]];
+                                                                          scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, kDRUploadScope, nil]];
     self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
     __weak typeof(self) weakSelf = self;
     self.apiClient.defaultErrorHandler = ^ (NSError *error) {
@@ -215,7 +215,10 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([[info valueForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
-        UIImage *img = [info valueForKey:UIImagePickerControllerEditedImage];
+        
+#warning TODO: use here original image only, because edited can't be exact 400x300 or 800x600 size
+        
+        UIImage *img = nil; //[info valueForKey:UIImagePickerControllerEditedImage];
         if (!img) {
             img = [info valueForKey:UIImagePickerControllerOriginalImage];
         }
