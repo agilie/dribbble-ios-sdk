@@ -11,6 +11,8 @@
 #import "DribbbleSDK.h"
 #import <BlocksKit+UIKit.h>
 
+typedef void(^UserUploadImageBlock)(NSURL *fileUrl, NSData *imageData);
+
 // SDK setup constants
 
 //valid
@@ -37,7 +39,7 @@ static NSString * const kBaseApiUrl = @"https://api.dribbble.com/v1/";
 
 NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 
-@interface ViewController ()
+@interface ViewController () <UIImagePickerControllerDelegate>
 
 @property (strong, nonatomic) DRApiClient *apiClient;
 
@@ -54,6 +56,7 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     __weak typeof(self) weakSelf = self;
     UIButton *pickImg = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 100.f, 100.f, 40.f)];
     [self.view addSubview:pickImg];
@@ -64,6 +67,7 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
             }];
         } fromView:nil];
     } forControlEvents:UIControlEventTouchUpInside];
+    
     [self setupApiClient];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self loadSomeData];
@@ -72,7 +76,6 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self loadSomeData];
 }
 
 #pragma mark - IBAction
@@ -110,9 +113,6 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
 
 - (void)loadSomeData {
 
@@ -192,7 +192,20 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
     //    [self.apiClient loadShotsOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
     //        NSLog(@"response - %@", response.object);
     //    }];
-    
+
+}
+
+
+- (void)showPickerUploadImageWithCompletion:(UserUploadImageBlock)completionHandler fromView:(UIView *)sourceView {
+    self.userUploadImageBlock = completionHandler;
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select image" delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+        [actionSheet bk_addButtonWithTitle:@"Choose From Gallery" handler:^{
+            [self choosePhotoFromGallery];
+        }];
+        [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
+        [actionSheet showInView:self.view];
+    }
 }
 
 - (void)choosePhotoFromGallery {
