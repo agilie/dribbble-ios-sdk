@@ -9,12 +9,22 @@
 #import "ViewController.h"
 #import "LoginViewController.h"
 #import "DribbbleSDK.h"
+#import <BlocksKit+UIKit.h>
 
 // SDK setup constants
 
+//valid
 static NSString * const kIDMOAuth2ClientId = @"d1bf57813d51b916e816894683371d2bcfaff08a5a5f389965f1cf779e7da6f8";
-static NSString * const kIDMOAuth2ClientSecret = @"305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
-//static NSString * const kIDMOAuth2ClientSecret = @"00305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
+
+// invalid
+//static NSString * const kIDMOAuth2ClientId = @"00d1bf57813d51b916e816894683371d2bcfaff08a5a5f389965f1cf779e7da6f8";
+
+// valid
+//static NSString * const kIDMOAuth2ClientSecret = @"305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
+
+// invalid
+static NSString * const kIDMOAuth2ClientSecret = @"00305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
+
 static NSString * const kIDMOAuth2ClientAccessToken = @"ebc7adb327f3ae4cf2517de0a37b483a0973d932b3187578501c55b9f5ede17b";
 
 static NSString * const kIDMOAuth2RedirectURL = @"apitestapp://authorize";
@@ -40,6 +50,9 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupApiClient];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self loadSomeData];
+    });
 }
 
 - (void)setupApiClient {
@@ -56,13 +69,42 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
     self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
     __weak typeof(self) weakSelf = self;
     self.apiClient.defaultErrorHandler = ^ (NSError *error) {
-        if (![weakSelf.apiClient isUserAuthorized]) {
+        if (error.domain == NSURLErrorDomain && ![weakSelf.apiClient isUserAuthorized]) {
             [weakSelf performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
+        } else {
+            [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
         }
     };
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kSegueIdentifierAuthorize]) {
+        LoginViewController *loginViewController = (LoginViewController *)segue.destinationViewController;
+        loginViewController.apiClient = self.apiClient;
+        __weak typeof(self) weakSelf = self;
+        loginViewController.authCompletionHandler = ^(BOOL success) {
+            if (success) {
+                [weakSelf loadSomeData];
+            }
+        };
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
 - (void)loadSomeData {
+
+    if (![self.apiClient isUserAuthorized]) {
+        [self performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
+    } else {
+        
+        [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
+            NSLog(@"USER INFO: %@", response.object);
+        }];
+    }
+    
 //    [self.apiClient loadProjectsOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
 //        NSLog(@"response - %@", response.object);
 //    }];
@@ -131,33 +173,6 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 //        NSLog(@"response - %@", response.object);
 //    }];
     
-    if (![self.apiClient isUserAuthorized]) {
-        [self performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
-    } else {
-        
-        [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
-            NSLog(@"USER INFO: %@", response.object);
-        }];
-    }
-    
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:kSegueIdentifierAuthorize]) {
-        LoginViewController *loginViewController = (LoginViewController *)segue.destinationViewController;
-        loginViewController.apiClient = self.apiClient;
-        __weak typeof(self) weakSelf = self;
-        loginViewController.authCompletionHandler = ^(BOOL success) {
-            if (success) {
-                [weakSelf loadSomeData];
-            }
-        };
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self loadSomeData];
 }
 
 @end

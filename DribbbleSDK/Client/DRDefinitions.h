@@ -85,7 +85,11 @@ static NSInteger const kHttpAuthErrorCode = 401;
 static NSInteger const kHttpRateLimitErrorCode = 429;
 static NSInteger const kHttpContentNotModifiedCode = 304;
 
-static NSString * const kInvalidAuthData = @"Invalid auth data";
+static NSString * const kDROAuthErrorDomain = @"DROAuthErrorDomain";
+static NSString * const kDROAuthErrorFailureKey = @"DRAuthErrorFailureKey";
+
+static NSInteger kDROAuthErrorCodeUnacceptableRedirectUrl = 10001;
+static NSString * const kDROAuthErrorUnacceptableRedirectUrlDescription = @"Authentification failed, please try again";
 
 // Keychain
 

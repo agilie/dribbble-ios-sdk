@@ -41,17 +41,28 @@
         if (account.accessToken.accessToken) {
             [weakSelf finalizeAuthWithAccount:account error:nil];
         } else {
-            [weakSelf finalizeAuthWithAccount:nil error:[NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil]];
+            [weakSelf finalizeAuthWithAccount:nil error:[NSError errorWithDomain:kDROAuthErrorDomain code:kHttpAuthErrorCode userInfo:nil]];
         }
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authCompletionObserver];
     }];
     self.authErrorObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreDidFailToRequestAccessNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NSError *error = [aNotification.userInfo objectForKey:NXOAuth2AccountStoreErrorKey];
         
-#warning TODO finish handle and check double authHandler finalizing:
         NSData *responseData = error.userInfo[@"responseData"];
-        
-        [weakSelf finalizeAuthWithAccount:nil error:error];
+        if (responseData) {
+            NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+            NSString *errorText = responseDict[@"error"];
+            NSString *errorDesc = responseDict[@"error_description"];
+            NSDictionary *userInfo = nil;
+            if (errorText && errorDesc) {
+                userInfo = @{ NSLocalizedDescriptionKey : errorDesc, kDROAuthErrorFailureKey : errorText, NSUnderlyingErrorKey : error };
+            }
+            NSError *bodyError = [[NSError alloc] initWithDomain:kDROAuthErrorDomain code:kHttpAuthErrorCode userInfo:userInfo];
+            [weakSelf finalizeAuthWithAccount:nil error:bodyError];
+        } else {
+            [weakSelf finalizeAuthWithAccount:nil error:error];
+        }
+
         [[NSNotificationCenter defaultCenter] removeObserver:weakSelf.authErrorObserver];
     }];
 
@@ -61,21 +72,7 @@
 #pragma mark - WebView Delegate
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    if ([webView.request.URL.absoluteString rangeOfString:self.redirectUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        self.webView.userInteractionEnabled = YES;
-        NSDictionary *params = [self paramsFromUrl:webView.request.URL];
-        if ([params objectForKey:@"code"]) {
-            [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType:kIDMOAccountType] enumerateObjectsUsingBlock:^(NXOAuth2Account * obj, NSUInteger idx, BOOL *stop) {
-                [[NXOAuth2AccountStore sharedStore] removeAccount:obj];
-            }];
-            [[NXOAuth2AccountStore sharedStore] handleRedirectURL:webView.request.URL];
-        } else {
-            self.webView.userInteractionEnabled = NO;
-        }
-    } else if ([webView.request.URL.absoluteString rangeOfString:kUnacceptableWebViewUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
-        NSError *error = [NSError errorWithDomain:kInvalidAuthData code:kHttpAuthErrorCode userInfo:nil];
-        [self finalizeAuthWithAccount:nil error:error];
-    }
+    
 }
 
 - (BOOL)isUrlRedirectUrl:(NSURL *)url {
@@ -95,14 +92,27 @@
         } else {
             self.webView.userInteractionEnabled = NO;
         }
+        logInteral(@"webView:shouldStartLoadWithRequest returned NO for request: %@", request);
+        return NO;
+    } else if ([request.URL.absoluteString rangeOfString:kUnacceptableWebViewUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
+        NSError *error = [NSError errorWithDomain:kDROAuthErrorDomain code:kDROAuthErrorCodeUnacceptableRedirectUrl userInfo:@{ NSLocalizedDescriptionKey : kDROAuthErrorUnacceptableRedirectUrlDescription }];
+        [self finalizeAuthWithAccount:nil error:error];
+        logInteral(@"webView:shouldStartLoadWithRequest returned NO for request: %@", request);
         return NO;
     }
-    
+    logInteral(@"webView:shouldStartLoadWithRequest allowed YES for request: %@", request);
+
     return YES;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-//    [self finalizeAuthWithAccount:nil error:error];
+    logInteral(@"webview:didFailLoadWithError: %@\nREQUEST: %@", error, webView.request);
+    NSString *urlString = error.userInfo[NSURLErrorFailingURLStringErrorKey];
+    if (urlString && [self isUrlRedirectUrl:[NSURL URLWithString:urlString]]) {
+        // nop
+    } else {
+        [self finalizeAuthWithAccount:nil error:error];
+    }
 }
 
 #pragma mark - Helpers
@@ -138,6 +148,7 @@
     [accountStore requestAccessToAccountWithType:kIDMOAccountType withPreparedAuthorizationURLHandler:^(NSURL *preparedURL) {
         NSURLRequest *request = [NSURLRequest requestWithURL:preparedURL];
         [[NSURLCache sharedURLCache] removeAllCachedResponses];
+        logInteral(@"requestAccessToAccountWithType, request: %@", request);
         [webView loadRequest:request];
     }];
 }
