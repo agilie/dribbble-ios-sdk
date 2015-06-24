@@ -68,18 +68,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    __weak typeof(self)weakSelf = self;
-    UIButton *pickImg = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 100.f, 100.f, 40.f)];
-    [pickImg setTitle:@"Pick image" forState:UIControlStateNormal];
-    [pickImg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.view addSubview:pickImg];
-    [pickImg bk_addEventHandler:^(id sender) {
-        [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
-            [weakSelf.apiClient uploadShotWithParams:@{@"title": @"my_shot", @"image" : imageData} responseHandler:^(DRApiResponse *response) {
-                NSLog(@"response - %@", response.object);
-            }];
-        } fromView:nil];
-    } forControlEvents:UIControlEventTouchUpInside];
+//    __weak typeof(self)weakSelf = self;
     
     self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
     
@@ -112,6 +101,8 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    self.signOutButton.hidden = ![self.apiClient isUserAuthorized];
+    self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
 
 #pragma mark - IBAction
@@ -242,6 +233,12 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)pressSignOut:(id)sender {
+    [self.apiClient logout];
+    self.signOutButton.hidden = ![self.apiClient isUserAuthorized];
+    self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
 
 @end
