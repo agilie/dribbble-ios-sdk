@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		4D0B803D1B31C9F600F3FB48 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B803C1B31C9F600F3FB48 /* main.m */; };
 		4D0B80401B31C9F600F3FB48 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B803F1B31C9F600F3FB48 /* AppDelegate.m */; };
-		4D0B80431B31C9F600F3FB48 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80421B31C9F600F3FB48 /* ViewController.m */; };
+		4D0B80431B31C9F600F3FB48 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80421B31C9F600F3FB48 /* MainViewController.m */; };
 		4D0B80461B31C9F600F3FB48 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D0B80441B31C9F600F3FB48 /* Main.storyboard */; };
 		4D0B80481B31C9F600F3FB48 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D0B80471B31C9F600F3FB48 /* Images.xcassets */; };
 		4D0B804B1B31C9F600F3FB48 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D0B80491B31C9F600F3FB48 /* LaunchScreen.xib */; };
@@ -29,6 +29,9 @@
 		4D0B808D1B31CB2B00F3FB48 /* DRTransactionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B807F1B31CB2B00F3FB48 /* DRTransactionModel.m */; };
 		4D0B808E1B31CB2B00F3FB48 /* DRUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0B80811B31CB2B00F3FB48 /* DRUser.m */; };
 		4D680C7F1B381B08005E501E /* DRCombinedJSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D680C7E1B381B08005E501E /* DRCombinedJSONKeyMapper.m */; };
+		4D846B7A1B3AE45F005B3E8F /* ApiCallWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D846B791B3AE45F005B3E8F /* ApiCallWrapper.m */; };
+		4D846B7D1B3AE5C1005B3E8F /* ApiCallFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D846B7C1B3AE5C1005B3E8F /* ApiCallFactory.m */; };
+		4D846B801B3AEAFF005B3E8F /* TestApiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D846B7F1B3AEAFF005B3E8F /* TestApiViewController.m */; };
 		80837A651B3948C6000B7696 /* DRArtWork.m in Sources */ = {isa = PBXBuildFile; fileRef = 80837A631B3948C6000B7696 /* DRArtWork.m */; };
 		80837A661B3948C6000B7696 /* DRProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 80837A641B3948C6000B7696 /* DRProject.m */; };
 		80837A691B395305000B7696 /* DRShotAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 80837A681B395305000B7696 /* DRShotAttachment.m */; };
@@ -53,8 +56,8 @@
 		4D0B803C1B31C9F600F3FB48 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4D0B803E1B31C9F600F3FB48 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4D0B803F1B31C9F600F3FB48 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4D0B80411B31C9F600F3FB48 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4D0B80421B31C9F600F3FB48 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4D0B80411B31C9F600F3FB48 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		4D0B80421B31C9F600F3FB48 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		4D0B80451B31C9F600F3FB48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4D0B80471B31C9F600F3FB48 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4D0B804A1B31C9F600F3FB48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -93,6 +96,12 @@
 		4D0B80811B31CB2B00F3FB48 /* DRUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRUser.m; sourceTree = "<group>"; };
 		4D680C7D1B381B08005E501E /* DRCombinedJSONKeyMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCombinedJSONKeyMapper.h; sourceTree = "<group>"; };
 		4D680C7E1B381B08005E501E /* DRCombinedJSONKeyMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCombinedJSONKeyMapper.m; sourceTree = "<group>"; };
+		4D846B781B3AE45F005B3E8F /* ApiCallWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiCallWrapper.h; sourceTree = "<group>"; };
+		4D846B791B3AE45F005B3E8F /* ApiCallWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiCallWrapper.m; sourceTree = "<group>"; };
+		4D846B7B1B3AE5C1005B3E8F /* ApiCallFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiCallFactory.h; sourceTree = "<group>"; };
+		4D846B7C1B3AE5C1005B3E8F /* ApiCallFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiCallFactory.m; sourceTree = "<group>"; };
+		4D846B7E1B3AEAFF005B3E8F /* TestApiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestApiViewController.h; sourceTree = "<group>"; };
+		4D846B7F1B3AEAFF005B3E8F /* TestApiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestApiViewController.m; sourceTree = "<group>"; };
 		634E60F17D4CBD63B98BF83A /* Pods-DribbbleSDKDev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DribbbleSDKDev.release.xcconfig"; path = "../DribbbleSDKDemo/Pods/Target Support Files/Pods-DribbbleSDKDev/Pods-DribbbleSDKDev.release.xcconfig"; sourceTree = "<group>"; };
 		80837A611B3948C6000B7696 /* DRProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRProject.h; sourceTree = "<group>"; };
 		80837A621B3948C6000B7696 /* DRArtWork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRArtWork.h; sourceTree = "<group>"; };
@@ -162,14 +171,20 @@
 			children = (
 				4D0B803E1B31C9F600F3FB48 /* AppDelegate.h */,
 				4D0B803F1B31C9F600F3FB48 /* AppDelegate.m */,
-				4D0B80411B31C9F600F3FB48 /* ViewController.h */,
-				4D0B80421B31C9F600F3FB48 /* ViewController.m */,
+				4D0B80411B31C9F600F3FB48 /* MainViewController.h */,
+				4D0B80421B31C9F600F3FB48 /* MainViewController.m */,
 				4D0B80601B31CA6400F3FB48 /* LoginViewController.h */,
 				4D0B80611B31CA6400F3FB48 /* LoginViewController.m */,
+				4D846B7E1B3AEAFF005B3E8F /* TestApiViewController.h */,
+				4D846B7F1B3AEAFF005B3E8F /* TestApiViewController.m */,
+				4D846B781B3AE45F005B3E8F /* ApiCallWrapper.h */,
+				4D846B791B3AE45F005B3E8F /* ApiCallWrapper.m */,
 				4D0B80441B31C9F600F3FB48 /* Main.storyboard */,
 				4D0B80471B31C9F600F3FB48 /* Images.xcassets */,
 				4D0B80491B31C9F600F3FB48 /* LaunchScreen.xib */,
 				4D0B803A1B31C9F600F3FB48 /* Supporting Files */,
+				4D846B7B1B3AE5C1005B3E8F /* ApiCallFactory.h */,
+				4D846B7C1B3AE5C1005B3E8F /* ApiCallFactory.m */,
 			);
 			path = DribbbleSDKDev;
 			sourceTree = "<group>";
@@ -415,6 +430,7 @@
 				80837A651B3948C6000B7696 /* DRArtWork.m in Sources */,
 				4D0B80821B31CB2B00F3FB48 /* DRApiClient.m in Sources */,
 				4D680C7F1B381B08005E501E /* DRCombinedJSONKeyMapper.m in Sources */,
+				4D846B7A1B3AE45F005B3E8F /* ApiCallWrapper.m in Sources */,
 				4D0B80861B31CB2B00F3FB48 /* DRApiResponse.m in Sources */,
 				80837A691B395305000B7696 /* DRShotAttachment.m in Sources */,
 				4D0B80841B31CB2B00F3FB48 /* DROAuthManager.m in Sources */,
@@ -424,9 +440,11 @@
 				4D0B808D1B31CB2B00F3FB48 /* DRTransactionModel.m in Sources */,
 				4D0B808C1B31CB2B00F3FB48 /* DRTeam.m in Sources */,
 				4D0B80621B31CA6400F3FB48 /* LoginViewController.m in Sources */,
-				4D0B80431B31C9F600F3FB48 /* ViewController.m in Sources */,
+				4D846B7D1B3AE5C1005B3E8F /* ApiCallFactory.m in Sources */,
+				4D0B80431B31C9F600F3FB48 /* MainViewController.m in Sources */,
 				4D0B80871B31CB2B00F3FB48 /* DRFolloweeUser.m in Sources */,
 				4D0B80401B31C9F600F3FB48 /* AppDelegate.m in Sources */,
+				4D846B801B3AEAFF005B3E8F /* TestApiViewController.m in Sources */,
 				4D0B803D1B31C9F600F3FB48 /* main.m in Sources */,
 				80837A661B3948C6000B7696 /* DRProject.m in Sources */,
 				80837A6C1B395741000B7696 /* DRComment.m in Sources */,
