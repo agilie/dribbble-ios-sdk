@@ -149,7 +149,11 @@ void DRLog(NSString *format, ...) {
 }
 
 - (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
-    [self.apiManager POST:method parameters:@{@"title": @"my_shot"} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    
+    [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        //[formData appendPartWithFileData:[params objectForKey:@"image"] name:@"image" fileName:@"my_shot" mimeType:<#(NSString *)#>]
+        
         [formData appendPartWithFormData:[params objectForKey:@"image"] name:@"image"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"sucess - %@", responseObject);

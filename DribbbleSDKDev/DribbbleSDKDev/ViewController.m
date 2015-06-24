@@ -63,7 +63,7 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
     [self.view addSubview:pickImg];
     [pickImg bk_addEventHandler:^(id sender) {
         [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
-            [weakSelf.apiClient uploadShotWithParams:@{@"image" : imageData} responseHandler:^(DRApiResponse *response) {
+            [weakSelf.apiClient uploadShotWithParams:@{@"title": @"my_shot", @"image" : imageData} responseHandler:^(DRApiResponse *response) {
                 NSLog(@"response - %@", response.object);
             }];
         } fromView:nil];
