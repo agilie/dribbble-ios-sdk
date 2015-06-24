@@ -43,20 +43,41 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 
 @property (strong, nonatomic) IBOutlet LoginViewController *loginViewController;
 
+@property (strong, nonatomic) UIImagePickerController *imagePicker;
+@property (copy, nonatomic) UserUploadImageBlock userUploadImageBlock;
+
 @end
 
 @implementation ViewController
 
+#pragma View LifeCycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    __weak typeof(self) weakSelf = self;
+    UIButton *pickImg = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 100.f, 100.f, 40.f)];
+    [self.view addSubview:pickImg];
+    [pickImg bk_addEventHandler:^(id sender) {
+        [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
+            [weakSelf.apiClient uploadShotWithParams:@{@"image" : imageData} responseHandler:^(DRApiResponse *response) {
+                NSLog(@"response - %@", response.object);
+            }];
+        } fromView:nil];
+    } forControlEvents:UIControlEventTouchUpInside];
     [self setupApiClient];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self loadSomeData];
     });
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self loadSomeData];
+}
+
+#pragma mark - IBAction
+
 - (void)setupApiClient {
-    
     DRApiClientSettings *settings = [[DRApiClientSettings alloc] initWithBaseUrl:kBaseApiUrl
                                                                oAuth2RedirectUrl:kIDMOAuth2RedirectURL
                                                           oAuth2AuthorizationUrl:kIDMOAuth2AuthorizationURL
@@ -65,7 +86,6 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
                                                                     clientSecret:kIDMOAuth2ClientSecret
                                                                clientAccessToken:kIDMOAuth2ClientAccessToken
                                                                           scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, nil]];
-    
     self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
     __weak typeof(self) weakSelf = self;
     self.apiClient.defaultErrorHandler = ^ (NSError *error) {
@@ -165,14 +185,46 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 //        NSLog(@"response - %@", response.object);
 //    }];
 
-//    [self.apiClient loadMembersOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
+    //    [self.apiClient loadMembersOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+    //        NSLog(@"response - %@", response.object);
+    //    }];
     
-//    [self.apiClient loadShotsOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
+    //    [self.apiClient loadShotsOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
+    //        NSLog(@"response - %@", response.object);
+    //    }];
     
+}
+
+- (void)choosePhotoFromGallery {
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    NSMutableArray *dataTypes = [NSMutableArray arrayWithArray:self.imagePicker.mediaTypes];
+    [dataTypes addObject:(NSString*)kUTTypeImage];
+    self.imagePicker.mediaTypes = dataTypes;
+    [self presentViewController:self.imagePicker animated:YES completion:nil];
+}
+
+#pragma mark - ImagePicker
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    if ([[info valueForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
+        UIImage *img = [info valueForKey:UIImagePickerControllerEditedImage];
+        if (!img) {
+            img = [info valueForKey:UIImagePickerControllerOriginalImage];
+        }
+        if (img) {
+            NSData *imageData = UIImageJPEGRepresentation(img, 0.7);
+            NSString *imagePath = [NSString stringWithFormat:@"%@%@.jpg", NSTemporaryDirectory(), [[NSProcessInfo processInfo] globallyUniqueString]];
+            [imageData writeToFile:imagePath atomically:YES];
+            if (self.userUploadImageBlock) {
+                self.userUploadImageBlock([NSURL fileURLWithPath:imagePath], imageData);
+            }
+        }
+    }
+    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

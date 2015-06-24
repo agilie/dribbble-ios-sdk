@@ -124,32 +124,31 @@ void logInteral(NSString *format, ...) {
 - (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     __weak typeof(self)weakSelf = self;
     NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:requestType URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
-    AFHTTPRequestOperation *operation = nil;
-    if (![params objectForKey:@"image"]) {
-        operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            if ([operation.response statusCode] == kHttpAuthErrorCode || [operation.response statusCode] == kHttpRateLimitErrorCode) {
-                NSError *error = [NSError errorWithDomain:[responseObject objectForKey:@"message"] code:[operation.response statusCode] userInfo:nil];
-                if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
-            }
-            if (responseHandler) {
-                responseHandler([weakSelf mappedDataFromResponseObject:responseObject modelClass:modelClass]);
-            }
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
-            if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
-        }];
-    } else {
-        operation = [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-            
-        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
-        }];
-    }
     
+    AFHTTPRequestOperation *operation = [self.apiManager HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([operation.response statusCode] == kHttpAuthErrorCode || [operation.response statusCode] == kHttpRateLimitErrorCode) {
+            NSError *error = [NSError errorWithDomain:[responseObject objectForKey:@"message"] code:[operation.response statusCode] userInfo:nil];
+            if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
+        }
+        if (responseHandler) {
+            responseHandler([weakSelf mappedDataFromResponseObject:responseObject modelClass:modelClass]);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
+        if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
+    }];
     
     return operation;
+}
+
+- (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self.apiManager POST:method parameters:@{@"title": @"my_shot"} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFormData:[params objectForKey:@"image"] name:@"image"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"sucess - %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"failure - %@", error);
+    }];
 }
 
 - (void)runRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
@@ -213,11 +212,11 @@ void logInteral(NSString *format, ...) {
 #pragma mark - Shots
 
 - (void)uploadShotWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
-    
+    [self runMultiPartRequestWithMethod:kDRApiMethodShots params:params responseHandler:responseHandler];
 }
 
-- (void)updateShotWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
-    
+- (void)updateShot:(NSString *)shotId withParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShot, shotId] requestType:kHttpMethodPut modelClass:[DRShot class] params:params responseHandler:responseHandler];
 }
 
 - (void)deleteShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
