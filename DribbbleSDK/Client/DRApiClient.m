@@ -45,7 +45,6 @@ void logInteral(NSString *format, ...) {
     self = [super init];
     if (self) {
         self.oauthManager = [DROAuthManager new];
-        [self restoreAccessToken];
         [JSONModel setGlobalKeyMapper:[JSONKeyMapper mapperFromUnderscoreCaseToCamelCase]];
     }
     return self;
@@ -54,6 +53,7 @@ void logInteral(NSString *format, ...) {
 - (instancetype)initWithSettings:(DRApiClientSettings *)settings {
     if (self = [self init]) {
         _settings = settings;
+        [self restoreAccessToken];
         if (!_accessToken) {
             [self resetAccessToken];
         }
@@ -102,6 +102,7 @@ void logInteral(NSString *format, ...) {
 }
 
 - (void)logout {
+#warning TODO remove token from keychain and user info from NSUserDefaults
     [self resetAccessToken];
 }
 

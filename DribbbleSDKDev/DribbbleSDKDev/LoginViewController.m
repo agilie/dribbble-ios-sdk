@@ -24,11 +24,9 @@
     [super viewDidAppear:animated];
     __weak typeof(self) weakSelf = self;
     [self.apiClient authorizeWithWebView:self.webView authHandler:^(NXOAuth2Account *account, NSError *error) {
-        if (account) {
-            weakSelf.authCompletionHandler(YES);
-        } else {
-           [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil]; 
-        }
+        weakSelf.authCompletionHandler(@(account != nil));
+        [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        
     }];
 }
 
