@@ -6,10 +6,13 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "MainViewController.h"
 #import "LoginViewController.h"
 #import "DribbbleSDK.h"
 #import <BlocksKit+UIKit.h>
+#import "ApiCallFactory.h"
+#import "ApiCallWrapper.h"
+#import "TestApiViewController.h"
 
 typedef void(^UserUploadImageBlock)(NSURL *fileUrl, NSData *imageData);
 
@@ -37,20 +40,29 @@ static NSString * const kBaseApiUrl = @"https://api.dribbble.com/v1/";
 
 // ---
 
-NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
+static NSString * kCellIdentifier = @"cellIdentifier";
+static NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
+static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
-@interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@interface MainViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) DRApiClient *apiClient;
 
 @property (strong, nonatomic) IBOutlet LoginViewController *loginViewController;
 
+@property (strong, nonatomic) NSArray *apiCallWrappers;
+
+
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (copy, nonatomic) UserUploadImageBlock userUploadImageBlock;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIButton *signInButton;
+@property (weak, nonatomic) IBOutlet UIButton *signOutButton;
 
 @end
 
-@implementation ViewController
+@implementation MainViewController
 
 #pragma View LifeCycle
 
@@ -69,18 +81,33 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
         } fromView:nil];
     } forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *logoutBtn = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 300.f, 100.f, 40.f)];
-    [logoutBtn setTitle:@"logout" forState:UIControlStateNormal];
-    [logoutBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.view addSubview:logoutBtn];
-    [logoutBtn bk_addEventHandler:^(id sender) {
-        [self.apiClient logout];
-    } forControlEvents:UIControlEventTouchUpInside];
+    self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+    
+//    __weak typeof(self)weakSelf = self;
+//    UIButton *pickImg = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 100.f, 100.f, 40.f)];
+//    [pickImg setTitle:@"Pick image" forState:UIControlStateNormal];
+//    [pickImg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [self.view addSubview:pickImg];
+//    [pickImg bk_addEventHandler:^(id sender) {
+//        [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
+//            [weakSelf.apiClient uploadShotWithParams:@{@"image" : imageData} responseHandler:^(DRApiResponse *response) {
+//                NSLog(@"response - %@", response.object);
+//            }];
+//        } fromView:nil];
+//    } forControlEvents:UIControlEventTouchUpInside];
+//    
+//    UIButton *logoutBtn = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 300.f, 100.f, 40.f)];
+//    [logoutBtn setTitle:@"logout" forState:UIControlStateNormal];
+//    [logoutBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [self.view addSubview:logoutBtn];
+//    [logoutBtn bk_addEventHandler:^(id sender) {
+//        [self.apiClient logout];
+//    } forControlEvents:UIControlEventTouchUpInside];
     
     [self setupApiClient];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self loadSomeData];
-    });
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self loadSomeData];
+//    });
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -119,6 +146,10 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
                 [weakSelf loadSomeData];
             }
         };
+    } else if ([segue.identifier isEqualToString:kSegueIdentifierTestApi]) {
+        TestApiViewController *testApiController = (TestApiViewController *)segue.destinationViewController;
+        testApiController.apiCallWrapper = sender;
+        testApiController.apiClient = self.apiClient;
     }
 }
 
@@ -131,74 +162,31 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
             NSLog(@"USER INFO: %@", response.object);
         }];
     }
-    
-//    [self.apiClient loadProjectsOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadLikesOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadUserInfo:@"597558" responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadTeamsOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadShotsOfUser:@"597558" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadReboundsOfShot:@"472178" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadShot:@"2037338" responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadLikesOfShot:@"2037338" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
+}
 
-//    [self.apiClient loadCommentsOfShot:@"2037338" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
+#pragma mark - Table View Delegate + Data Source
 
-//    [self.apiClient loadComment:@"4526047" forShot:@"2037338" responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.apiCallWrappers count];
+}
 
-//    [self.apiClient loadLikesOfComment:@"4526047" forShot:@"2037338" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    
+    ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
+    
+    cell.textLabel.text = wrapper.title;
+    
+    return cell;
+}
 
-//    [self.apiClient checkLikeComment:@"4526047" forShot:@"2037338" responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadAttachmentsOfShot:@"471756" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadProjectsOfShot:@"471756" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-    
-//    [self.apiClient loadProject:@"48926" responseHandler:^(DRApiResponse *response) {
-//        NSLog(@"response - %@", response.object);
-//    }];
-
-    //    [self.apiClient loadMembersOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-    //        NSLog(@"response - %@", response.object);
-    //    }];
-    
-    //    [self.apiClient loadShotsOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
-    //        NSLog(@"response - %@", response.object);
-    //    }];
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
+    [self performSegueWithIdentifier:kSegueIdentifierTestApi sender:wrapper];
 }
 
 #pragma mark - Getters
