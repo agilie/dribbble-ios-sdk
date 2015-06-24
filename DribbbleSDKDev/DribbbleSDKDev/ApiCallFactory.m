@@ -34,9 +34,9 @@ static NSString * const kDemoUserId = @"597558";
     };
 
     NSArray *apiCallWrappers = [NSArray arrayWithObjects:
-                                [ApiCallFactory apiCallWrapperWithTitle:@"User Info" selector:@selector(loadUserInfo:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"User Likes" selector:@selector(loadLikesOfUser:params:responseHandler:) args:@[kDemoUserId, @{}] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"User Projects" selector:@selector(loadProjectsOfUser:params:responseHandler:) args:@[kDemoUserId, @{}] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"User Info" selector:@selector(loadAccountWithUser:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"User Likes" selector:@selector(loadLikesWithUser:params:responseHandler:) args:@[kDemoUserId, @{}] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"User Projects" selector:@selector(loadProjectsWithUser:params:responseHandler:) args:@[kDemoUserId, @{}] responseHandler:sharedHandler],
                                 nil];
     
     

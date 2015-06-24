@@ -196,23 +196,23 @@ void DRLog(NSString *format, ...) {
     [self runRequestWithMethod:kDRApiMethodUser requestType:kHttpMethodGet modelClass:[DRUser class] params:nil responseHandler:responseHandler];
 }
 
-- (void)loadUserInfo:(NSString *)userId responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadAccountWithUser:(NSString *)userId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodUserInfo, userId] requestType:kHttpMethodGet modelClass:[DRUser class] params:nil responseHandler:responseHandler];
 }
 
-- (void)loadLikesOfUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadLikesWithUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodUserLikes, userId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadProjectsOfUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadProjectsWithUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodUserProjects, userId] requestType:kHttpMethodGet modelClass:[DRProject class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadTeamsOfUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadTeamsWithUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodUserTeams, userId] requestType:kHttpMethodGet modelClass:[DRTeam class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadUserFollowees:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadFolloweesWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodGetFollowers, userId] requestType:kHttpMethodGet modelClass:[DRFolloweeUser class] params:params responseHandler:responseHandler];
 }
 
@@ -254,7 +254,7 @@ void DRLog(NSString *format, ...) {
     [self loadShotsWithParams:dict responseHandler:responseHandler];
 }
 
-- (void)loadShotsOfUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadShotsWithUser:(NSString *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodUserShots, userId] requestType:kHttpMethodGet modelClass:[DRShot class] params:params responseHandler:responseHandler];
 }
 
@@ -262,89 +262,89 @@ void DRLog(NSString *format, ...) {
     [self runRequestWithMethod:url requestType:kHttpMethodGet modelClass:[DRShot class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadReboundsOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadReboundsWithShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotRebounds, shotId] requestType:kHttpMethodGet modelClass:[DRShot class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadShotWith:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShot, shotId] requestType:kHttpMethodGet modelClass:[DRShot class] params:nil responseHandler:responseHandler];
 }
 
-- (void)likeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+- (void)likeWithShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLikeShot, shotId] requestType:kHttpMethodPost modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
-- (void)unlikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+- (void)unlikeWithShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLikeShot, shotId] requestType:kHttpMethodDelete modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
-- (void)checkLikeShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+- (void)checkLikeWithShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckShotWasLiked, shotId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
-- (void)loadLikesOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadLikesWithShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotLikes, shotId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:params responseHandler:responseHandler];
 }
 
 #pragma mark - Comments
 
-- (void)loadCommentsOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadCommentsWithShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotComments, shotId] requestType:kHttpMethodGet modelClass:[DRComment class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadComment:(NSString *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadCommentWith:(NSString *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodComment, shotId, commentId] requestType:kHttpMethodGet modelClass:[DRComment class] params:nil responseHandler:responseHandler];
 }
 
-- (void)loadLikesOfComment:(NSString *)commentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadLikesWithComment:(NSString *)commentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCommentLikes, shotId, commentId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
-- (void)checkLikeComment:(NSString *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
+- (void)checkLikeWithComment:(NSString *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckLikeComment, shotId, commentId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
 #pragma mark - Attachments
 
-- (void)loadAttachmentsOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadAttachmentsWithShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotAttachments, shotId] requestType:kHttpMethodGet modelClass:[DRShotAttachment class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadAttachment:(NSString *)attachmentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadAttachmentWith:(NSString *)attachmentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodAttachment, attachmentId, shotId] requestType:kHttpMethodGet modelClass:[DRShotAttachment class] params:params responseHandler:responseHandler];
 }
 
 #pragma mark - Projects
 
-- (void)loadProjectsOfShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadProjectsWithShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotProjects, shotId] requestType:kHttpMethodGet modelClass:[DRProject class] params:params responseHandler:responseHandler];
 }
 
-- (void)loadProject:(NSString *)projectId responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadProjectWith:(NSString *)projectId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodProject, projectId] requestType:kHttpMethodGet modelClass:[DRProject class] params:nil responseHandler:responseHandler];
 }
 
 #pragma mark - Team
 
-- (void)loadMembersOfTeam:(NSString *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadMembersWithTeam:(NSString *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodTeamMembers, teamId] requestType:kHttpMethodGet modelClass:[DRUser class] params:nil responseHandler:responseHandler];
 }
 
-- (void)loadShotsOfTeam:(NSString *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)loadShotsWithTeam:(NSString *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodTeamShots, teamId] requestType:kHttpMethodGet modelClass:[DRShot class] params:nil responseHandler:responseHandler];
 }
 
 #pragma mark - Following
 
-- (void)followUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
+- (void)followUserWith:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodFollowUser, userId] requestType:kHttpMethodPut modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
-- (void)unFollowUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
+- (void)unFollowUserWith:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodFollowUser, userId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
-- (void)checkFollowingUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
+- (void)checkFollowingWithUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckIfUserFollowing, userId] requestType:kHttpMethodGet modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
