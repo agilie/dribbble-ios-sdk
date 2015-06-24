@@ -39,7 +39,7 @@ static NSString * const kBaseApiUrl = @"https://api.dribbble.com/v1/";
 
 NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 
-@interface ViewController () <UIImagePickerControllerDelegate>
+@interface ViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) DRApiClient *apiClient;
 
@@ -56,9 +56,10 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    __weak typeof(self) weakSelf = self;
+    __weak typeof(self)weakSelf = self;
     UIButton *pickImg = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 100.f, 100.f, 40.f)];
+    [pickImg setTitle:@"Pick image" forState:UIControlStateNormal];
+    [pickImg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.view addSubview:pickImg];
     [pickImg bk_addEventHandler:^(id sender) {
         [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
@@ -66,6 +67,14 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
                 NSLog(@"response - %@", response.object);
             }];
         } fromView:nil];
+    } forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *logoutBtn = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 300.f, 100.f, 40.f)];
+    [logoutBtn setTitle:@"logout" forState:UIControlStateNormal];
+    [logoutBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.view addSubview:logoutBtn];
+    [logoutBtn bk_addEventHandler:^(id sender) {
+        [self.apiClient logout];
     } forControlEvents:UIControlEventTouchUpInside];
     
     [self setupApiClient];
@@ -115,11 +124,9 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 
 
 - (void)loadSomeData {
-
     if (![self.apiClient isUserAuthorized]) {
         [self performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
     } else {
-        
         [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
             NSLog(@"USER INFO: %@", response.object);
         }];
@@ -192,9 +199,18 @@ NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
     //    [self.apiClient loadShotsOfTeam:@"834683" params:@{kDRParamPage:@1} responseHandler:^(DRApiResponse *response) {
     //        NSLog(@"response - %@", response.object);
     //    }];
-
 }
 
+#pragma mark - Getters
+
+- (UIImagePickerController *)imagePicker {
+    if (!_imagePicker) {
+        _imagePicker = [[UIImagePickerController alloc] init];
+        _imagePicker.allowsEditing = YES;
+        _imagePicker.delegate = self;
+    }
+    return _imagePicker;
+}
 
 - (void)showPickerUploadImageWithCompletion:(UserUploadImageBlock)completionHandler fromView:(UIView *)sourceView {
     self.userUploadImageBlock = completionHandler;

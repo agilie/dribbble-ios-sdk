@@ -19,7 +19,7 @@ static NSString * kHttpMethodDelete = @"DELETE";
 static NSString * const kAuthorizationHTTPFieldName = @"Authorization";
 static NSString * const kBearerString = @"Bearer";
 
-void logInteral(NSString *format, ...) {
+void DRLog(NSString *format, ...) {
     if (DribbbleSDKLogsEnabled) {
         va_list argList;
         va_start(argList, format);
@@ -77,7 +77,7 @@ void logInteral(NSString *format, ...) {
 - (void)restoreAccessToken {
     NXOAuth2Account *account = [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType: kIDMOAccountType] lastObject];
     if (account) {
-        logInteral(@"token restored: %@", account.accessToken.accessToken);
+        DRLog(@"token restored: %@", account.accessToken.accessToken);
         self.accessToken = account.accessToken.accessToken;
     }
 }
@@ -102,7 +102,13 @@ void logInteral(NSString *format, ...) {
 }
 
 - (void)logout {
-#warning TODO remove token from keychain and user info from NSUserDefaults
+    [[[NXOAuth2AccountStore sharedStore] accountsWithAccountType:kIDMOAccountType] enumerateObjectsUsingBlock:^(NXOAuth2Account * obj, NSUInteger idx, BOOL *stop) {
+        [[NXOAuth2AccountStore sharedStore] removeAccount:obj];
+    }];
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *cookie in [storage cookies]) {
+        [storage deleteCookie:cookie];
+    }
     [self resetAccessToken];
 }
 

@@ -13,7 +13,7 @@
 
 @class DRShot, DRShotCategory;
 
-extern void logInteral(NSString *format, ...);
+extern void DRLog(NSString *format, ...);
 
 @interface DRApiClient : NSObject
 

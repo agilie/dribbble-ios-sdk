@@ -37,7 +37,7 @@
     
     self.authCompletionObserver = [notificationCenter addObserverForName:NXOAuth2AccountStoreAccountsDidChangeNotification object:[NXOAuth2AccountStore sharedStore] queue:nil usingBlock:^(NSNotification *aNotification) {
         NXOAuth2Account *account = [[aNotification userInfo] objectForKey:NXOAuth2AccountStoreNewAccountUserInfoKey];
-        logInteral(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
+        DRLog(@"We have token in OAuthManager:%@", account.accessToken.accessToken);
         if (account.accessToken.accessToken) {
             [weakSelf finalizeAuthWithAccount:account error:nil];
         } else {
@@ -92,21 +92,21 @@
         } else {
             self.webView.userInteractionEnabled = NO;
         }
-        logInteral(@"webView:shouldStartLoadWithRequest returned NO for request: %@", request);
+        DRLog(@"webView:shouldStartLoadWithRequest returned NO for request: %@", request);
         return NO;
     } else if ([request.URL.absoluteString rangeOfString:kUnacceptableWebViewUrl options:NSCaseInsensitiveSearch].location != NSNotFound) {
         NSError *error = [NSError errorWithDomain:kDROAuthErrorDomain code:kDROAuthErrorCodeUnacceptableRedirectUrl userInfo:@{ NSLocalizedDescriptionKey : kDROAuthErrorUnacceptableRedirectUrlDescription }];
         [self finalizeAuthWithAccount:nil error:error];
-        logInteral(@"webView:shouldStartLoadWithRequest returned NO for request: %@", request);
+        DRLog(@"webView:shouldStartLoadWithRequest returned NO for request: %@", request);
         return NO;
     }
-    logInteral(@"webView:shouldStartLoadWithRequest allowed YES for request: %@", request);
+    DRLog(@"webView:shouldStartLoadWithRequest allowed YES for request: %@", request);
 
     return YES;
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    logInteral(@"webview:didFailLoadWithError: %@\nREQUEST: %@", error, webView.request);
+    DRLog(@"webview:didFailLoadWithError: %@\nREQUEST: %@", error, webView.request);
     NSString *urlString = error.userInfo[NSURLErrorFailingURLStringErrorKey];
     if (urlString && [self isUrlRedirectUrl:[NSURL URLWithString:urlString]]) {
         // nop
@@ -148,7 +148,7 @@
     [accountStore requestAccessToAccountWithType:kIDMOAccountType withPreparedAuthorizationURLHandler:^(NSURL *preparedURL) {
         NSURLRequest *request = [NSURLRequest requestWithURL:preparedURL];
         [[NSURLCache sharedURLCache] removeAllCachedResponses];
-        logInteral(@"requestAccessToAccountWithType, request: %@", request);
+        DRLog(@"requestAccessToAccountWithType, request: %@", request);
         [webView loadRequest:request];
     }];
 }
