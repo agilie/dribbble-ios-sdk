@@ -10,6 +10,7 @@
 #import "DribbbleSDK.h"
 
 static NSInteger const kDefaultShotsPerPageNumber = 20;
+static NSInteger const kUploadFileBytesLimitSize = 8.0;
 
 static NSString * kHttpMethodGet = @"GET";
 static NSString * kHttpMethodPost = @"POST";
@@ -19,6 +20,8 @@ static NSString * kHttpMethodDelete = @"DELETE";
 static NSString * const kAuthorizationHTTPFieldName = @"Authorization";
 static NSString * const kBearerString = @"Bearer";
 static NSString * const kUploadErrorString = @"You're not able to upload shots, please upgrade to pro status";
+static NSString * const kUploadImageSizeAssertionString = @"Your file must be exatly 400x300 or 800x600";
+static NSString * const kUploadFileSizeAssertionString = @"Your file must be no larger than eight megabytes";
 
 void DRLog(NSString *format, ...) {
     if (DribbbleSDKLogsEnabled) {
@@ -148,32 +151,26 @@ void DRLog(NSString *format, ...) {
     return operation;
 }
 
-- (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params data:(NSData *)data responseHandler:(DRResponseHandler)responseHandler {
-    
+- (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params data:(NSData *)data mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
     UIImage *image = [[UIImage alloc] initWithData:data];
     CGSize imageSize = image.size;
-    
-    NSAssert((imageSize.width == 400.f && imageSize.height == 300.f) || (imageSize.width == 800.f && imageSize.height == 600.f), @"Your file must be exatly 400x300 or 800x600");
-    
-    NSAssert((data.length/1024.f/1024.f) <= 8.0, @"Your file must be no larger than eight megabytes");
+    NSAssert((imageSize.width == 400.f && imageSize.height == 300.f) || (imageSize.width == 800.f && imageSize.height == 600.f), kUploadImageSizeAssertionString);
+    NSAssert((data.length/1024.f/1024.f) <= kUploadFileBytesLimitSize, kUploadFileSizeAssertionString);
     
     __weak typeof(self)weakSelf = self;
     [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:data name:kDRParamImage fileName:@"image.jpg" mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (responseHandler) responseHandler([DRApiResponse responseWithObject:responseObject]);
-        NSLog(@"sucess - %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         if ([operation.response statusCode] == kHttpRequestFailedErrorCode) {
-            NSString *errorText = error.userInfo[@"NSLocalizedDescription"];
+            NSString *errorText = error.userInfo[NSLocalizedDescriptionKey];
             NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : kUploadErrorString, kDRUploadErrorFailureKey : errorText ?:@"", NSUnderlyingErrorKey : error};
             NSError *userError = [[NSError alloc] initWithDomain:kDRUploadErrorFailureKey code:kHttpRequestFailedErrorCode userInfo:userInfo];
             if (responseHandler) responseHandler([DRApiResponse responseWithError:userError]);
-            NSLog(@"failure - %@", userError);
         } else {
             if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
-            NSLog(@"failure - %@", error);
         }
     }];
 }
@@ -237,8 +234,8 @@ void DRLog(NSString *format, ...) {
 
 #pragma mark - Shots
 
-- (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file responseHandler:(DRResponseHandler)responseHandler {
-    [self runMultiPartRequestWithMethod:kDRApiMethodShots params:params data:(NSData *)file responseHandler:responseHandler];
+- (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
+    [self runMultiPartRequestWithMethod:kDRApiMethodShots params:params data:(NSData *)file mimeType:(NSString *)mimeType responseHandler:responseHandler];
 }
 
 - (void)updateShot:(NSNumber *)shotId withParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {

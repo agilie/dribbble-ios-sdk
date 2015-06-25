@@ -84,6 +84,7 @@ static NSString * const kDRUploadScope = @"upload";
 static NSInteger const kHttpAuthErrorCode = 401;
 static NSInteger const kHttpRequestFailedErrorCode = 403;
 static NSInteger const kHttpRateLimitErrorCode = 429;
+static NSInteger const kHttpInternalServerErrorCode = 500;
 static NSInteger const kHttpContentNotModifiedCode = 304;
 
 static NSString * const kDROAuthErrorDomain = @"DROAuthErrorDomain";

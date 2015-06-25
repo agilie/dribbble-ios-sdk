@@ -72,21 +72,21 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     
     self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
     
-    __weak typeof(self)weakSelf = self;
-    UIButton *pickImg = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 100.f, 100.f, 40.f)];
-    [pickImg setTitle:@"Pick image" forState:UIControlStateNormal];
-    [pickImg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.view addSubview:pickImg];
-    [pickImg bk_addEventHandler:^(id sender) {
-        [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
-            [weakSelf.apiClient uploadShotWithParams:@{kDRParamTitle:@"another one great shot"} file:imageData responseHandler:^(DRApiResponse *response) {
-                if (response.error.domain == kDRUploadErrorFailureKey) {
-                    [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[response.error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
-                }
-                NSLog(@"response - %@", response.object);
-            }];
-        } fromView:nil];
-    } forControlEvents:UIControlEventTouchUpInside];
+//    __weak typeof(self)weakSelf = self;
+//    UIButton *pickImg = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 100.f, 100.f, 40.f)];
+//    [pickImg setTitle:@"Pick image" forState:UIControlStateNormal];
+//    [pickImg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    [self.view addSubview:pickImg];
+//    [pickImg bk_addEventHandler:^(id sender) {
+//        [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
+//            [weakSelf.apiClient uploadShotWithParams:@{kDRParamTitle:@"another one great shot"} file:imageData responseHandler:^(DRApiResponse *response) {
+//                if (response.error.domain == kDRUploadErrorFailureKey) {
+//                    [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[response.error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+//                }
+//                NSLog(@"response - %@", response.object);
+//            }];
+//        } fromView:nil];
+//    } forControlEvents:UIControlEventTouchUpInside];
 //
 //    UIButton *logoutBtn = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 300.f, 100.f, 40.f)];
 //    [logoutBtn setTitle:@"logout" forState:UIControlStateNormal];
