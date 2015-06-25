@@ -14,7 +14,7 @@ To run the example project, clone the repo, and run `pod install` from the Demo 
 
 ## Quick start
 
-- All you need - setup your DRApiClient instance with your Dribbble credentials
+- All you need - setup your DRApiClient instance with your app Dribbble credentials
 ```obj-c
     DRApiClientSettings *settings = [[DRApiClientSettings alloc] initWithBaseUrl:kBaseApiUrl
         oAuth2RedirectUrl:kIDMOAuth2RedirectURL
@@ -26,10 +26,10 @@ To run the example project, clone the repo, and run `pod install` from the Demo 
         scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, kDRUploadScope, nil]];
     self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
 ```
-than you need to be authorized vith authorizeWithWebView method. (You need some UIWebView on your viewController)
+than you need to be authorized with authorizeWithWebView method. (You need UIWebView on your viewController for native Dribbble authorization)
 ```obj-c
     [self.apiClient authorizeWithWebView:self.webView authHandler:^(NXOAuth2Account *account, NSError *error) {
-        //
+        //heare you can handle authorization results
     }];
 ```
 
@@ -37,16 +37,18 @@ after success authorization you can use methods discibed in "API usage" chapter.
 
 ## Credentials
 
-For using DribbbleSDK with your app, you need to setup credentials into DRDefinitions.h class.
+For using DribbbleSDK with your app, you must set your app credentials into DRDefinitions.h class.
 ( kIDMOAuth2ClientId, kIDMOAuth2ClientSecret, kIDMOAuth2ClientAccessSecret )
 
 Dribbble resources:
-Register your app wia https://dribbble.com/account/applications/new
-Documentation http://developer.dribbble.com/v1/
+Register your app on https://dribbble.com/account/applications/new
+Documentation: http://developer.dribbble.com/v1/
 
 ## API usage
 
 Use DRApiClient class for all Dribbble stuff
+
+- Native Dribbble authorization with authorizeWithWebView method
 ```obj-c
 - (void)authorizeWithWebView:(UIWebView *)webView authHandler:(DROAuthHandler)authHandler;
 ```
@@ -56,7 +58,7 @@ Use DRApiClient class for all Dribbble stuff
 - (void)loadUserInfoWithResponseHandler:(DRResponseHandler)responseHandler;
 ```
 
-- Get any user`s data with this methods using userID (User`s account, likes, projects, teams, shots, followees)
+- Get any user`s data with this methods using userID (account, likes, projects, teams, shots, followees)
 ```obj-c
 - (void)loadAccountWithUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadLikesWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
@@ -86,12 +88,12 @@ Use DRApiClient class for all Dribbble stuff
 - (void)loadUserShots:(NSString *)url params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
-- Get list rebounds for a shot with loadReboundsWithShot
+- Get list rebounds for a shot with loadReboundsWithShot method
 ```obj-c
 - (void)loadReboundsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
-- You can like/unlike, shect is this shot liked, see who likes shot with this methods
+- You can like/unlike, chect is this shot liked, see who likes shot with this methods
 ```obj-c
 - (void)likeWithShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)unlikeWithShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
@@ -119,7 +121,7 @@ Use DRApiClient class for all Dribbble stuff
 - (void)loadProjectWith:(NSNumber *)projectId responseHandler:(DRResponseHandler)responseHandler;
 ```
 
-- Get team members and team shots via loadMembersWithTeam and loadShotsWithTeam methods
+- Get team members and all team shots with loadMembersWithTeam and loadShotsWithTeam methods
 ```obj-c
 - (void)loadMembersWithTeam:(NSNumber *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotsWithTeam:(NSNumber *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
