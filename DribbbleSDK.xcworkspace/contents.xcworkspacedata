@@ -125,10 +125,7 @@
       </Group>
    </Group>
    <FileRef
-      location = "group:DribbbleSDKDev/DribbbleSDKDev.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:DribbbleSDKDemo/DribbbleSDKDemo.xcodeproj">
+      location = "group:/Users/demomac/Develops/dribbble-ios-sdk-dev1/DribbbleSDKDev/DribbbleSDKDemo.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:DribbbleSDK Tests/DribbbleSDK Tests.xcodeproj">
