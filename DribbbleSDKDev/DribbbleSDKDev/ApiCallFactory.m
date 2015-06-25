@@ -7,7 +7,6 @@
 //
 
 #import "ApiCallFactory.h"
-#import "DRShotCategory.h"
 
 static NSString * const kDemoUserId = @"597558";
 static NSString * const kDemoShotId = @"472178";

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ApiCallWrapper.h"
-#import "DribbbleSDK.h"
+
+@class DRApiClient, ApiCallWrapper;
 
 @interface TestApiViewController : UIViewController
 

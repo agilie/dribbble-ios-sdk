@@ -18,7 +18,6 @@
 // Dribbble App Settings
 
 @property (strong, nonatomic, readonly) NSSet *scopes;
-
 @property (strong, nonatomic, readonly) NSString *clientId;
 @property (strong, nonatomic, readonly) NSString *clientSecret;
 @property (strong, nonatomic, readonly) NSString *clientAccessToken;

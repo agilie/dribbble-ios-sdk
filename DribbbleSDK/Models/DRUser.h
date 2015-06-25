@@ -8,8 +8,6 @@
 
 #import "DRAuthority.h"
 
-@class DRLink;
-
 @interface DRUser : DRAuthority
 
 @property (strong, nonatomic) NSNumber *userId;

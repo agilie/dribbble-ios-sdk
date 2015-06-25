@@ -7,7 +7,7 @@
 //
 
 #import "DRApiClient.h"
-#import "DribbbleSDK.h"
+#import "NXOAuth2.h"
 
 static NSInteger const kDefaultShotsPerPageNumber = 20;
 static NSInteger const kUploadFileBytesLimitSize = 8.0;

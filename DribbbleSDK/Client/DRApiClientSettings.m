@@ -10,8 +10,6 @@
 
 @implementation DRApiClientSettings
 
-//@synthesize baseUrl = _baseUrl;
-
 - (instancetype)initWithBaseUrl:(NSString *)baseUrl
               oAuth2RedirectUrl:(NSString *)oAuth2RedirectUrl
          oAuth2AuthorizationUrl:(NSString *)oAuth2AuthorizationUrl

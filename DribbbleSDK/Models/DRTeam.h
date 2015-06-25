@@ -8,8 +8,6 @@
 
 #import "DRAuthority.h"
 
-@class DRLink;
-
 @interface DRTeam : DRAuthority
 
 @property (strong, nonatomic) NSNumber *teamId;

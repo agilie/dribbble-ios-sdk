@@ -7,7 +7,6 @@
 //
 
 #import "DRFolloweeUser.h"
-#import "DRUser.h"
 
 @implementation DRFolloweeUser
 

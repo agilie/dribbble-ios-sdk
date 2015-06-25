@@ -7,7 +7,6 @@
 //
 
 #import "ApiCallWrapper.h"
-#import "DribbbleSDK.h"
 
 @implementation ApiCallWrapper
 

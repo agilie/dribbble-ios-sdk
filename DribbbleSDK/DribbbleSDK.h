@@ -31,5 +31,6 @@
 
 #import "DROAuthManager.h"
 #import "DRApiClient.h"
+#import "DRApiClientSettings.h"
 
 #endif

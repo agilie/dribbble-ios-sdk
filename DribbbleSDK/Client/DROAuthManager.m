@@ -6,9 +6,8 @@
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
-#import "DROAuthManager.h"
-#import "DRApiClient.h"
-#import "DRApiResponse.h"
+#import "DribbbleSDK.h"
+#import "NXOAuth2.h"
 
 @interface DROAuthManager ()
 

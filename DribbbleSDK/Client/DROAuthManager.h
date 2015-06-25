@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NXOAuth2.h"
 #import "DribbbleSDK.h"
-#import "DRApiClientSettings.h"
+
+@class DRApiClientSettings;
 
 @interface DROAuthManager : NSObject <UIWebViewDelegate>
 

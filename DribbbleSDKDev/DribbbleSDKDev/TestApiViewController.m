@@ -7,6 +7,8 @@
 //
 
 #import "TestApiViewController.h"
+#import "ApiCallWrapper.h"
+#import "DRApiResponse.h"
 
 @interface TestApiViewController ()
 
