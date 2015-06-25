@@ -82,11 +82,13 @@ static NSString * const kDRUploadScope = @"upload";
 // Http errors
 
 static NSInteger const kHttpAuthErrorCode = 401;
+static NSInteger const kHttpRequestFailedErrorCode = 403;
 static NSInteger const kHttpRateLimitErrorCode = 429;
 static NSInteger const kHttpContentNotModifiedCode = 304;
 
 static NSString * const kDROAuthErrorDomain = @"DROAuthErrorDomain";
 static NSString * const kDROAuthErrorFailureKey = @"DRAuthErrorFailureKey";
+static NSString * const kDRUploadErrorFailureKey = @"DRUploadErrorFailureKey";
 
 static NSInteger kDROAuthErrorCodeUnacceptableRedirectUrl = 10001;
 static NSString * const kDROAuthErrorUnacceptableRedirectUrlDescription = @"Authentification failed, please try again";
