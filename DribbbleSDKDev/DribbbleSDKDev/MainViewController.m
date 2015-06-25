@@ -79,7 +79,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     [self.view addSubview:pickImg];
     [pickImg bk_addEventHandler:^(id sender) {
         [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
-            [weakSelf.apiClient uploadShotWithParams:@{@"image" : imageData} responseHandler:^(DRApiResponse *response) {
+            [weakSelf.apiClient uploadShotWithParams:@{kDRParamTitle:@"another one great shot"} file:imageData responseHandler:^(DRApiResponse *response) {
                 if (response.error.domain == kDRUploadErrorFailureKey) {
                     [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[response.error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
                 }

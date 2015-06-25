@@ -145,23 +145,26 @@ void DRLog(NSString *format, ...) {
         if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
     }];
-    
     return operation;
 }
 
-- (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+- (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params data:(NSData *)data responseHandler:(DRResponseHandler)responseHandler {
     
-    #warning TODO: 1) make generic - use custom parameters in method invocation, not here.
-    #warning 2) check image size (400x300 or 800x600)
+    UIImage *image = [[UIImage alloc] initWithData:data];
+    CGSize imageSize = image.size;
+    
+    NSAssert((imageSize.width == 400.f && imageSize.height == 300.f) || (imageSize.width == 800.f && imageSize.height == 600.f), @"Your file must be exatly 400x300 or 800x600");
+    
+    NSAssert((data.length/1024.f/1024.f) <= 8.0, @"Your file must be no larger than eight megabytes");
+    
     __weak typeof(self)weakSelf = self;
-    [self.apiManager POST:method parameters:@{kDRParamTitle : @"another one great shot"} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        NSData *imageData = [params objectForKey:kDRParamImage];
-        [formData appendPartWithFileData:imageData name:kDRParamImage fileName:@"image.jpg" mimeType:@"image/jpeg"];
+    [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:data name:kDRParamImage fileName:@"image.jpg" mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (responseHandler) responseHandler([DRApiResponse responseWithObject:responseObject]);
         NSLog(@"sucess - %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
+        if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         if ([operation.response statusCode] == kHttpRequestFailedErrorCode) {
             NSString *errorText = error.userInfo[@"NSLocalizedDescription"];
             NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : kUploadErrorString, kDRUploadErrorFailureKey : errorText ?:@"", NSUnderlyingErrorKey : error};
@@ -200,7 +203,6 @@ void DRLog(NSString *format, ...) {
     return [DRApiResponse responseWithObject:mappedObject];
 }
 
-
 #pragma mark - API CALLS
 
 #pragma mark - User
@@ -235,8 +237,8 @@ void DRLog(NSString *format, ...) {
 
 #pragma mark - Shots
 
-- (void)uploadShotWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
-    [self runMultiPartRequestWithMethod:kDRApiMethodShots params:params responseHandler:responseHandler];
+- (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file responseHandler:(DRResponseHandler)responseHandler {
+    [self runMultiPartRequestWithMethod:kDRApiMethodShots params:params data:(NSData *)file responseHandler:responseHandler];
 }
 
 - (void)updateShot:(NSNumber *)shotId withParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
