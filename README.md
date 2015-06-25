@@ -40,8 +40,9 @@ Call the -authorizeWithWebView method to perform OAuth2 authorization. (You need
 
 Authorization isn't required, you can use non-authorized access for some methods. In this case, API client uses default access token provided by Dribbble. You can get the app access token, client id and secret keys on your Dribbble app page, check out the next links: 
 
-Register your app on https://dribbble.com/account/applications/new
-Documentation: http://developer.dribbble.com/v1/
+- Register your app on https://dribbble.com/account/applications/new
+
+- Documentation: http://developer.dribbble.com/v1/
 
 ## API usage
 
