@@ -1,6 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:DribbbleSDK"
+      name = "DribbbleSDK">
+      <Group
+         location = "group:Client"
+         name = "Client">
+         <FileRef
+            location = "group:DRApiClient.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRApiClient.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRApiClientSettings.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRApiClientSettings.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRCombinedJSONKeyMapper.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRCombinedJSONKeyMapper.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRDefinitions.h">
+         </FileRef>
+         <FileRef
+            location = "group:DREnums.h">
+         </FileRef>
+         <FileRef
+            location = "group:DROAuthManager.h">
+         </FileRef>
+         <FileRef
+            location = "group:DROAuthManager.m">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:DribbbleSDK.h">
+      </FileRef>
+      <Group
+         location = "group:Models"
+         name = "Models">
+         <FileRef
+            location = "group:DRApiResponse.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRApiResponse.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRArtWork.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRArtWork.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRAuthority.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRAuthority.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRComment.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRComment.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRFolloweeUser.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRFolloweeUser.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRImage.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRImage.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRLink.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRLink.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRProject.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRProject.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRShot.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRShot.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRShotAttachment.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRShotAttachment.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRShotCategory.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRShotCategory.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRTeam.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRTeam.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRTransactionModel.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRTransactionModel.m">
+         </FileRef>
+         <FileRef
+            location = "group:DRUser.h">
+         </FileRef>
+         <FileRef
+            location = "group:DRUser.m">
+         </FileRef>
+      </Group>
+   </Group>
+   <FileRef
+      location = "group:DribbbleSDK Tests/DribbbleSDK Tests.xcodeproj">
+   </FileRef>
    <FileRef
       location = "group:DribbbleSDKExample/DribbbleSDKExample.xcodeproj">
    </FileRef>

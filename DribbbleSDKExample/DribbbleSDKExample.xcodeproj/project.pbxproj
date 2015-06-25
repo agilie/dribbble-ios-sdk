@@ -9,23 +9,35 @@
 /* Begin PBXBuildFile section */
 		4D46CBE31B3C531A001EEA64 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CBE21B3C531A001EEA64 /* main.m */; };
 		4D46CBE61B3C531A001EEA64 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CBE51B3C531A001EEA64 /* AppDelegate.m */; };
-		4D46CBE91B3C531A001EEA64 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CBE81B3C531A001EEA64 /* ViewController.m */; };
 		4D46CBEC1B3C531A001EEA64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D46CBEA1B3C531A001EEA64 /* Main.storyboard */; };
 		4D46CBEE1B3C531A001EEA64 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D46CBED1B3C531A001EEA64 /* Images.xcassets */; };
 		4D46CBF11B3C531A001EEA64 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D46CBEF1B3C531A001EEA64 /* LaunchScreen.xib */; };
+		4D46CC101B3C53F6001EEA64 /* ApiCallFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CC061B3C53F6001EEA64 /* ApiCallFactory.m */; };
+		4D46CC111B3C53F6001EEA64 /* ApiCallWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CC071B3C53F6001EEA64 /* ApiCallWrapper.m */; };
+		4D46CC121B3C53F6001EEA64 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CC081B3C53F6001EEA64 /* MainViewController.m */; };
+		4D46CC131B3C53F6001EEA64 /* TestApiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CC0A1B3C53F6001EEA64 /* TestApiViewController.m */; };
+		4D46CC141B3C53F6001EEA64 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CC0E1B3C53F6001EEA64 /* LoginViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4D46CBDD1B3C531A001EEA64 /* DribbbleSDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DribbbleSDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D46CBE11B3C531A001EEA64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4D46CBE21B3C531A001EEA64 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4D46CBE41B3C531A001EEA64 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		4D46CBE51B3C531A001EEA64 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		4D46CBE71B3C531A001EEA64 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		4D46CBE81B3C531A001EEA64 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4D46CBE21B3C531A001EEA64 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4D46CBE41B3C531A001EEA64 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4D46CBE51B3C531A001EEA64 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4D46CBEB1B3C531A001EEA64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4D46CBED1B3C531A001EEA64 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4D46CBF01B3C531A001EEA64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		4D46CC061B3C53F6001EEA64 /* ApiCallFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ApiCallFactory.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4D46CC071B3C53F6001EEA64 /* ApiCallWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ApiCallWrapper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4D46CC081B3C53F6001EEA64 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MainViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4D46CC091B3C53F6001EEA64 /* TestApiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TestApiViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4D46CC0A1B3C53F6001EEA64 /* TestApiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TestApiViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4D46CC0B1B3C53F6001EEA64 /* ApiCallWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ApiCallWrapper.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4D46CC0C1B3C53F6001EEA64 /* ApiCallFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ApiCallFactory.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4D46CC0D1B3C53F6001EEA64 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MainViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		4D46CC0E1B3C53F6001EEA64 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LoginViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4D46CC0F1B3C53F6001EEA64 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LoginViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,10 +70,18 @@
 		4D46CBDF1B3C531A001EEA64 /* DribbbleSDKExample */ = {
 			isa = PBXGroup;
 			children = (
+				4D46CC0C1B3C53F6001EEA64 /* ApiCallFactory.h */,
+				4D46CC061B3C53F6001EEA64 /* ApiCallFactory.m */,
+				4D46CC0B1B3C53F6001EEA64 /* ApiCallWrapper.h */,
+				4D46CC071B3C53F6001EEA64 /* ApiCallWrapper.m */,
+				4D46CC091B3C53F6001EEA64 /* TestApiViewController.h */,
+				4D46CC0A1B3C53F6001EEA64 /* TestApiViewController.m */,
+				4D46CC0D1B3C53F6001EEA64 /* MainViewController.h */,
+				4D46CC081B3C53F6001EEA64 /* MainViewController.m */,
+				4D46CC0E1B3C53F6001EEA64 /* LoginViewController.m */,
+				4D46CC0F1B3C53F6001EEA64 /* LoginViewController.h */,
 				4D46CBE41B3C531A001EEA64 /* AppDelegate.h */,
 				4D46CBE51B3C531A001EEA64 /* AppDelegate.m */,
-				4D46CBE71B3C531A001EEA64 /* ViewController.h */,
-				4D46CBE81B3C531A001EEA64 /* ViewController.m */,
 				4D46CBEA1B3C531A001EEA64 /* Main.storyboard */,
 				4D46CBED1B3C531A001EEA64 /* Images.xcassets */,
 				4D46CBEF1B3C531A001EEA64 /* LaunchScreen.xib */,
@@ -149,9 +169,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D46CBE91B3C531A001EEA64 /* ViewController.m in Sources */,
 				4D46CBE61B3C531A001EEA64 /* AppDelegate.m in Sources */,
 				4D46CBE31B3C531A001EEA64 /* main.m in Sources */,
+				4D46CC111B3C53F6001EEA64 /* ApiCallWrapper.m in Sources */,
+				4D46CC121B3C53F6001EEA64 /* MainViewController.m in Sources */,
+				4D46CC141B3C53F6001EEA64 /* LoginViewController.m in Sources */,
+				4D46CC101B3C53F6001EEA64 /* ApiCallFactory.m in Sources */,
+				4D46CC131B3C53F6001EEA64 /* TestApiViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +324,7 @@
 				4D46CC021B3C531A001EEA64 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

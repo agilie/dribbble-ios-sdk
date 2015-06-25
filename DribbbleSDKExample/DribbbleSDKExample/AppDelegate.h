@@ -2,7 +2,7 @@
 //  AppDelegate.h
 //  DribbbleSDKExample
 //
-//  Created by Dmitry Salnikov on 6/25/15.
+//  Created by Dmitry Salnikov on 6/17/15.
 //  Copyright (c) 2015 Agilie. All rights reserved.
 //
 
