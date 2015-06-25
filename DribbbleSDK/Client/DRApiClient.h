@@ -42,7 +42,7 @@ extern void DRLog(NSString *format, ...);
 - (void)loadFolloweesWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadFolloweesShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
-- (void)uploadShotWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file responseHandler:(DRResponseHandler)responseHandler;
 - (void)updateShot:(NSNumber *)shotId withParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)deleteShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 
