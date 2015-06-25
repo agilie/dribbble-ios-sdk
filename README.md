@@ -1,6 +1,6 @@
 # DribbbleSDK
 
-DribbbleSDK provides easy-to-use iOS API for Dribbble services. We implemented all needed methods for you. Have fun.
+DribbbleSDK is easy-to-use iOS wrapper for [Dribbble SDK](http://developer.dribbble.com/). We're working hard to complete the full coverage of available methods and make this SDK the best Dribbble SDK for iOS. Have fun and stay tuned.
 
 
 [![CI Status](http://img.shields.io/travis/agilie/dribbble-ios-sdk.svg?style=flat)](https://travis-ci.org/agilie/dribbble-ios-sdk)
@@ -8,7 +8,12 @@ DribbbleSDK provides easy-to-use iOS API for Dribbble services. We implemented a
 [![License](https://img.shields.io/cocoapods/l/dribbble-ios-sdk.svg?style=flat)](http://cocoadocs.org/docsets/dribbble-ios-sdk)
 [![Platform](https://img.shields.io/cocoapods/p/dribbble-ios-sdk.svg?style=flat)](http://cocoadocs.org/docsets/dribbble-ios-sdk)
 
-## Pod usage
+## Installation
+
+Dribbble iOS SDK is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+    pod "DribbbleSDK"
 
 To run the example project, clone the repo, and run `pod install` from the Demo directory first.
 
@@ -16,33 +21,28 @@ To run the example project, clone the repo, and run `pod install` from the Demo 
 
 - All you need - setup your DRApiClient instance with your app Dribbble credentials
 ```obj-c
-    DRApiClientSettings *settings = [[DRApiClientSettings alloc] initWithBaseUrl:kBaseApiUrl
-        oAuth2RedirectUrl:kIDMOAuth2RedirectURL
-        oAuth2AuthorizationUrl:kIDMOAuth2AuthorizationURL
-        oAuth2TokenUrl:kIDMOAuth2TokenURL
-        clientId:kIDMOAuth2ClientId
-        clientSecret:kIDMOAuth2ClientSecret
-        clientAccessToken:kIDMOAuth2ClientAccessToken
-        scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, kDRUploadScope, nil]];
-    self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
+DRApiClientSettings *settings = [[DRApiClientSettings alloc] initWithBaseUrl:kBaseApiUrl
+    oAuth2RedirectUrl:kIDMOAuth2RedirectURL
+    oAuth2AuthorizationUrl:kIDMOAuth2AuthorizationURL
+    oAuth2TokenUrl:kIDMOAuth2TokenURL
+    clientId:kIDMOAuth2ClientId
+    clientSecret:kIDMOAuth2ClientSecret
+    clientAccessToken:kIDMOAuth2ClientAccessToken
+    scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, kDRUploadScope, nil]];
+DRApiClient *apiClient = [[DRApiClient alloc] initWithSettings:settings];
 ```
-than you need to be authorized with authorizeWithWebView method. (You need UIWebView on your viewController for native Dribbble authorization)
+Call the -authorizeWithWebView method to perform OAuth2 authorization. (You need UIWebView to display login web page)
 ```obj-c
-    [self.apiClient authorizeWithWebView:self.webView authHandler:^(NXOAuth2Account *account, NSError *error) {
-        //heare you can handle authorization results
-    }];
+[apiClient authorizeWithWebView:self.webView authHandler:^(NXOAuth2Account *account, NSError *error) {
+    //here you can handle authorization results
+}];
 ```
 
-after success authorization you can use methods discibed in "API usage" chapter. Have fun!
+Authorization isn't required, you can use non-authorized access for some methods. In this case, API client uses default access token provided by Dribbble. You can get the app access token, client id and secret keys on your Dribbble app page, check out the next links: 
 
-## Credentials
+- Register your app on https://dribbble.com/account/applications/new
 
-For using DribbbleSDK with your app, you must set your app credentials into DRDefinitions.h class.
-( kIDMOAuth2ClientId, kIDMOAuth2ClientSecret, kIDMOAuth2ClientAccessSecret )
-
-Dribbble resources:
-Register your app on https://dribbble.com/account/applications/new
-Documentation: http://developer.dribbble.com/v1/
+- Documentation: http://developer.dribbble.com/v1/
 
 ## API usage
 
@@ -141,12 +141,23 @@ Use DRApiClient class for all Dribbble stuff
 
 ## Requirements
 
-## Installation
+iOS 7.0+
 
-Dribbble iOS SDK is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+## Dependencies
 
-    pod "DribbbleSDK"
+API client is dependent on the next pods:
+
+    'AFNetworking' for networking
+    'JSONModel' for easy response-to-model translation
+    'NXOAuth2Client' for OAuth2 authorization
+    'BlocksKit' for general purposes
+
+## Roadmap
+
+Here is the features list we're planning to include in the future releases:
+- Completed Dribbble API methods implementation.
+- Request limit handling.
+- Conditional requests support.
 
 ## Author
 
