@@ -159,7 +159,7 @@ void DRLog(NSString *format, ...) {
     
     __weak typeof(self)weakSelf = self;
     [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:data name:kDRParamImage fileName:@"image.jpg" mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:data name:kDRParamImage fileName:@"image.jpg" mimeType:mimeType];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (responseHandler) responseHandler([DRApiResponse responseWithObject:responseObject]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -299,6 +299,18 @@ void DRLog(NSString *format, ...) {
 }
 
 #pragma mark - Comments
+
+- (void)uploadCommentWithShot:(NSNumber *)shotId withBody:(NSString *)body responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotComments, shotId] requestType:kHttpMethodPost modelClass:[DRComment class] params:@{kDRParamBody:body} responseHandler:responseHandler];
+}
+
+- (void)updateCommentWith:(NSNumber *)commentId forShot:(NSNumber *)shotId withBody:(NSString *)body responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodEditComment, shotId, commentId] requestType:kHttpMethodPut modelClass:[DRComment class] params:@{kDRParamBody:body} responseHandler:responseHandler];
+}
+
+- (void)deleteCommentWith:(NSNumber *)commentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodEditComment, shotId, commentId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
+}
 
 - (void)loadCommentsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotComments, shotId] requestType:kHttpMethodGet modelClass:[DRComment class] params:params responseHandler:responseHandler];

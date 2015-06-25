@@ -36,6 +36,7 @@ static NSString * const kDRApiMethodShotProjects = @"shots/%@/projects";
 static NSString * const kDRApiMethodProject = @"projects/%@";
 static NSString * const kDRApiMethodShotAttachments = @"shots/%@/attachments";
 static NSString * const kDRApiMethodAttachment = @"shots/%@/attachments/%@";
+static NSString * const kDRApiMethodEditComment = @"shots/%@/comments/%@";
 static NSString * const kDRApiMethodShotComments = @"shots/%@/comments";
 static NSString * const kDRApiMethodComment = @"shots/%@/comments/%@";
 static NSString * const kDRApiMethodCommentLikes = @"shots/%@/comments/%@/likes";
@@ -63,7 +64,7 @@ static NSString * const kDRParamTimeFrame = @"timeframe";
 static NSString * const kDRParamDate = @"date";
 static NSString * const kDRParamSort = @"sort";
 
-// Dribbble API shot param keys
+// Dribbble API param keys
 
 static NSString * const kDRParamTitle = @"title";
 static NSString * const kDRParamImage = @"image";
@@ -71,6 +72,7 @@ static NSString * const kDRParamDescription = @"description";
 static NSString * const kDRParamTags = @"tags";
 static NSString * const kDRParamTeamId = @"team_id";
 static NSString * const kDRParamReboundSourceId = @"rebound_source_id";
+static NSString * const kDRParamBody = @"body";
 
 // Dribbble API permission keys
 
