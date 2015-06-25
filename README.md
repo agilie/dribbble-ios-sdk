@@ -21,15 +21,15 @@ To run the example project, clone the repo, and run `pod install` from the Demo 
 
 - All you need - setup your DRApiClient instance with your app Dribbble credentials
 ```obj-c
-DRApiClientSettings *settings = [[DRApiClientSettings alloc] initWithBaseUrl:kBaseApiUrl
-    oAuth2RedirectUrl:kIDMOAuth2RedirectURL
-    oAuth2AuthorizationUrl:kIDMOAuth2AuthorizationURL
-    oAuth2TokenUrl:kIDMOAuth2TokenURL
-    clientId:kIDMOAuth2ClientId
-    clientSecret:kIDMOAuth2ClientSecret
-    clientAccessToken:kIDMOAuth2ClientAccessToken
-    scopes:[NSSet setWithObjects:kDRPublicScope, kDRWriteScope, kDRUploadScope, nil]];
-DRApiClient *apiClient = [[DRApiClient alloc] initWithSettings:settings];
+DRApiClientSettings *settings = [[DRApiClientSettings alloc] initWithBaseUrl:@"https://api.dribbble.com/v1/"
+    oAuth2RedirectUrl:@"YOUR_REDIRECT_URL"
+    oAuth2AuthorizationUrl:@"https://dribbble.com/oauth/authorize"
+    oAuth2TokenUrl:@"https://dribbble.com/oauth/token"
+    clientId:@"YOUR_OAuth2_CLIENT_ID"
+    clientSecret:@"YOUR_OAuth2_CLIENT_SECRET"
+    clientAccessToken:@"YOUR_OAuth2_CLIENT_ACCESS_TOKEN"
+    scopes:[NSSet setWithObjects:@"public", @"write", @"upload", nil]];
+self.apiClient = [[DRApiClient alloc] initWithSettings:settings];
 ```
 Call the -authorizeWithWebView method to perform OAuth2 authorization. (You need UIWebView to display login web page)
 ```obj-c

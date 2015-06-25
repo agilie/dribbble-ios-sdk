@@ -290,9 +290,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4D0B80361B31C9F600F3FB48 /* DribbbleSDKDev */ = {
+		4D0B80361B31C9F600F3FB48 /* DribbbleSDKDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D0B805A1B31C9F700F3FB48 /* Build configuration list for PBXNativeTarget "DribbbleSDKDev" */;
+			buildConfigurationList = 4D0B805A1B31C9F700F3FB48 /* Build configuration list for PBXNativeTarget "DribbbleSDKDemo" */;
 			buildPhases = (
 				105023B1A007FA765D8B55BB /* Check Pods Manifest.lock */,
 				4D0B80331B31C9F600F3FB48 /* Sources */,
@@ -304,14 +304,14 @@
 			);
 			dependencies = (
 			);
-			name = DribbbleSDKDev;
+			name = DribbbleSDKDemo;
 			productName = DribbbleSDKDev;
 			productReference = 4D0B80371B31C9F600F3FB48 /* DribbbleSDKDev.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4D0B804F1B31C9F700F3FB48 /* DribbbleSDKDevTests */ = {
+		4D0B804F1B31C9F700F3FB48 /* DribbbleSDKDemoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D0B805D1B31C9F700F3FB48 /* Build configuration list for PBXNativeTarget "DribbbleSDKDevTests" */;
+			buildConfigurationList = 4D0B805D1B31C9F700F3FB48 /* Build configuration list for PBXNativeTarget "DribbbleSDKDemoTests" */;
 			buildPhases = (
 				4D0B804C1B31C9F700F3FB48 /* Sources */,
 				4D0B804D1B31C9F700F3FB48 /* Frameworks */,
@@ -322,7 +322,7 @@
 			dependencies = (
 				4D0B80521B31C9F700F3FB48 /* PBXTargetDependency */,
 			);
-			name = DribbbleSDKDevTests;
+			name = DribbbleSDKDemoTests;
 			productName = DribbbleSDKDevTests;
 			productReference = 4D0B80501B31C9F700F3FB48 /* DribbbleSDKDevTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -345,7 +345,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4D0B80321B31C9F600F3FB48 /* Build configuration list for PBXProject "DribbbleSDKDev" */;
+			buildConfigurationList = 4D0B80321B31C9F600F3FB48 /* Build configuration list for PBXProject "DribbbleSDKDemo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -358,8 +358,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4D0B80361B31C9F600F3FB48 /* DribbbleSDKDev */,
-				4D0B804F1B31C9F700F3FB48 /* DribbbleSDKDevTests */,
+				4D0B80361B31C9F600F3FB48 /* DribbbleSDKDemo */,
+				4D0B804F1B31C9F700F3FB48 /* DribbbleSDKDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -464,7 +464,7 @@
 /* Begin PBXTargetDependency section */
 		4D0B80521B31C9F700F3FB48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 4D0B80361B31C9F600F3FB48 /* DribbbleSDKDev */;
+			target = 4D0B80361B31C9F600F3FB48 /* DribbbleSDKDemo */;
 			targetProxy = 4D0B80511B31C9F700F3FB48 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -525,7 +525,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -563,7 +563,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -577,6 +577,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = DribbbleSDKDev/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -588,6 +589,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = DribbbleSDKDev/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -630,7 +632,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4D0B80321B31C9F600F3FB48 /* Build configuration list for PBXProject "DribbbleSDKDev" */ = {
+		4D0B80321B31C9F600F3FB48 /* Build configuration list for PBXProject "DribbbleSDKDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D0B80581B31C9F700F3FB48 /* Debug */,
@@ -639,7 +641,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D0B805A1B31C9F700F3FB48 /* Build configuration list for PBXNativeTarget "DribbbleSDKDev" */ = {
+		4D0B805A1B31C9F700F3FB48 /* Build configuration list for PBXNativeTarget "DribbbleSDKDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D0B805B1B31C9F700F3FB48 /* Debug */,
@@ -648,7 +650,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D0B805D1B31C9F700F3FB48 /* Build configuration list for PBXNativeTarget "DribbbleSDKDevTests" */ = {
+		4D0B805D1B31C9F700F3FB48 /* Build configuration list for PBXNativeTarget "DribbbleSDKDemoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D0B805E1B31C9F700F3FB48 /* Debug */,
