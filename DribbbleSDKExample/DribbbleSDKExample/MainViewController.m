@@ -18,18 +18,8 @@ typedef void(^UserUploadImageBlock)(NSURL *fileUrl, NSData *imageData);
 
 // SDK setup constants
 
-//valid
 static NSString * const kIDMOAuth2ClientId = @"d1bf57813d51b916e816894683371d2bcfaff08a5a5f389965f1cf779e7da6f8";
-
-// invalid
-//static NSString * const kIDMOAuth2ClientId = @"00d1bf57813d51b916e816894683371d2bcfaff08a5a5f389965f1cf779e7da6f8";
-
-// valid
 static NSString * const kIDMOAuth2ClientSecret = @"305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
-
-// invalid
-//static NSString * const kIDMOAuth2ClientSecret = @"00305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
-
 static NSString * const kIDMOAuth2ClientAccessToken = @"ebc7adb327f3ae4cf2517de0a37b483a0973d932b3187578501c55b9f5ede17b";
 
 static NSString * const kIDMOAuth2RedirectURL = @"apitestapp://authorize";
@@ -49,10 +39,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 @property (strong, nonatomic) DRApiClient *apiClient;
 
-@property (strong, nonatomic) IBOutlet LoginViewController *loginViewController;
-
 @property (strong, nonatomic) NSArray *apiCallWrappers;
-
 
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (copy, nonatomic) UserUploadImageBlock userUploadImageBlock;
@@ -64,29 +51,11 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 @implementation MainViewController
 
-#pragma View LifeCycle
+#pragma mark - View LifeCycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    __weak typeof(self)weakSelf = self;
-    
     self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
-    
-    __weak typeof(self)weakSelf = self;
-    UIButton *pickImg = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 100.f, 100.f, 40.f)];
-    [pickImg setTitle:@"Pick image" forState:UIControlStateNormal];
-    [pickImg setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.view addSubview:pickImg];
-    [pickImg bk_addEventHandler:^(id sender) {
-        [weakSelf showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
-            [weakSelf.apiClient uploadShotWithParams:@{kDRParamTitle:@"another one great shot"} file:imageData mimeType:@"image/jpeg" responseHandler:^(DRApiResponse *response) {
-                if (response.error.domain == kDRUploadErrorFailureKey) {
-                    [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[response.error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
-                }
-                NSLog(@"upload shot response object: %@", response.object);
-            }];
-        } fromView:nil];
-    } forControlEvents:UIControlEventTouchUpInside];
     [self setupApiClient];
 }
 
@@ -96,7 +65,21 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
 
-#pragma mark - IBAction
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:kSegueIdentifierAuthorize]) {
+        LoginViewController *loginViewController = (LoginViewController *)segue.destinationViewController;
+        loginViewController.apiClient = self.apiClient;
+        loginViewController.authCompletionHandler = ^(BOOL success) {
+            NSLog(@"Signed in successfully? %d", success);
+        };
+    } else if ([segue.identifier isEqualToString:kSegueIdentifierTestApi]) {
+        TestApiViewController *testApiController = (TestApiViewController *)segue.destinationViewController;
+        testApiController.apiCallWrapper = sender;
+        testApiController.apiClient = self.apiClient;
+    }
+}
+
+#pragma mark - Internal
 
 - (void)setupApiClient {
     DRApiClientSettings *settings = [[DRApiClientSettings alloc] initWithBaseUrl:kBaseApiUrl
@@ -118,24 +101,18 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     };
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:kSegueIdentifierAuthorize]) {
-        LoginViewController *loginViewController = (LoginViewController *)segue.destinationViewController;
-        loginViewController.apiClient = self.apiClient;
-        loginViewController.authCompletionHandler = ^(BOOL success) {
-            NSLog(@"Signed in successfully? %d", success);
-        };
-    } else if ([segue.identifier isEqualToString:kSegueIdentifierTestApi]) {
-        TestApiViewController *testApiController = (TestApiViewController *)segue.destinationViewController;
-        testApiController.apiCallWrapper = sender;
-        testApiController.apiClient = self.apiClient;
-    }
+#pragma mark - IBActions
+
+- (IBAction)pressSignOut:(id)sender {
+    [self.apiClient logout];
+    self.signOutButton.hidden = ![self.apiClient isUserAuthorized];
+    self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
 
 #pragma mark - Table View Delegate + Data Source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.apiCallWrappers count];
+    return [self.apiCallWrappers count] + 1; // for "upload shot"
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -145,19 +122,26 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
-    
-    cell.textLabel.text = wrapper.title;
+    if (indexPath.row < [self.apiCallWrappers count]) {
+        ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
+        cell.textLabel.text = wrapper.title;
+    } else {
+        cell.textLabel.text = @"Upload new shot";
+    }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
-    [self performSegueWithIdentifier:kSegueIdentifierTestApi sender:wrapper];
+    if (indexPath.row < [self.apiCallWrappers count]) {
+        ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
+        [self performSegueWithIdentifier:kSegueIdentifierTestApi sender:wrapper];
+    } else {
+        [self pickImage];
+    }
 }
 
-#pragma mark - Getters
+#pragma mark - Image Uploading Stuff
 
 - (UIImagePickerController *)imagePicker {
     if (!_imagePicker) {
@@ -168,7 +152,19 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     return _imagePicker;
 }
 
-- (void)showPickerUploadImageWithCompletion:(UserUploadImageBlock)completionHandler fromView:(UIView *)sourceView {
+- (void)pickImage {
+    __weak typeof(self) weakSelf = self;
+    [self showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
+        [weakSelf.apiClient uploadShotWithParams:@{kDRParamTitle:@"another one great shot"} file:imageData mimeType:@"image/jpeg" responseHandler:^(DRApiResponse *response) {
+            if (response.error.domain == kDRUploadErrorFailureKey) {
+                [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[response.error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+            }
+            NSLog(@"upload shot response object: %@", response.object);
+        }];
+    }];
+}
+
+- (void)showPickerUploadImageWithCompletion:(UserUploadImageBlock)completionHandler {
     self.userUploadImageBlock = completionHandler;
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select image" delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
@@ -188,8 +184,6 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     [self presentViewController:self.imagePicker animated:YES completion:nil];
 }
 
-#pragma mark - ImagePicker
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([[info valueForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
         UIImage *img = [info valueForKey:UIImagePickerControllerOriginalImage];
@@ -207,12 +201,6 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)pressSignOut:(id)sender {
-    [self.apiClient logout];
-    self.signOutButton.hidden = ![self.apiClient isUserAuthorized];
-    self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
 
 @end

@@ -53,6 +53,7 @@ static NSString * const kDemoTeamId = @"834683";
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Team shots" selector:@selector(loadShotsWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
                                 nil];
     
+    
     return apiCallWrappers;
 }
 
