@@ -83,23 +83,11 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
                 if (response.error.domain == kDRUploadErrorFailureKey) {
                     [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[response.error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
                 }
-                NSLog(@"response - %@", response.object);
+                NSLog(@"upload shot response object: %@", response.object);
             }];
         } fromView:nil];
     } forControlEvents:UIControlEventTouchUpInside];
-//
-//    UIButton *logoutBtn = [[UIButton alloc] initWithFrame:CGRectMake(20.f, 300.f, 100.f, 40.f)];
-//    [logoutBtn setTitle:@"logout" forState:UIControlStateNormal];
-//    [logoutBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [self.view addSubview:logoutBtn];
-//    [logoutBtn bk_addEventHandler:^(id sender) {
-//        [self.apiClient logout];
-//    } forControlEvents:UIControlEventTouchUpInside];
-    
     [self setupApiClient];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self loadSomeData];
-//    });
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -134,27 +122,13 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     if ([segue.identifier isEqualToString:kSegueIdentifierAuthorize]) {
         LoginViewController *loginViewController = (LoginViewController *)segue.destinationViewController;
         loginViewController.apiClient = self.apiClient;
-        __weak typeof(self) weakSelf = self;
         loginViewController.authCompletionHandler = ^(BOOL success) {
-            if (success) {
-                [weakSelf loadSomeData];
-            }
+            NSLog(@"Signed in successfully? %d", success);
         };
     } else if ([segue.identifier isEqualToString:kSegueIdentifierTestApi]) {
         TestApiViewController *testApiController = (TestApiViewController *)segue.destinationViewController;
         testApiController.apiCallWrapper = sender;
         testApiController.apiClient = self.apiClient;
-    }
-}
-
-
-- (void)loadSomeData {
-    if (![self.apiClient isUserAuthorized]) {
-        [self performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
-    } else {
-        [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
-            NSLog(@"USER INFO: %@", response.object);
-        }];
     }
 }
 
@@ -218,13 +192,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if ([[info valueForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
-        
-#warning TODO: use here original image only, because edited can't be exact 400x300 or 800x600 size
-        
-        UIImage *img = nil; //[info valueForKey:UIImagePickerControllerEditedImage];
-        if (!img) {
-            img = [info valueForKey:UIImagePickerControllerOriginalImage];
-        }
+        UIImage *img = [info valueForKey:UIImagePickerControllerOriginalImage];
         if (img) {
             NSData *imageData = UIImageJPEGRepresentation(img, 0.7);
             NSString *imagePath = [NSString stringWithFormat:@"%@%@.jpg", NSTemporaryDirectory(), [[NSProcessInfo processInfo] globallyUniqueString]];
