@@ -20,7 +20,7 @@ Uses latest Dribbble HTTP API !
     DESC
     s.homepage         = "https://github.com/agilie/dribbble-ios-sdk"
     # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
-    s.license          = { :type => 'MIT', :file => 'DribbbleSDK/LICENSE' }
+    s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.authors           = { 'Agilie' => 'info@agilie.com' }
     s.source           = { :git => "https://github.com/agilie/dribbble-ios-sdk.git",
                             :tag => s.version.to_s
