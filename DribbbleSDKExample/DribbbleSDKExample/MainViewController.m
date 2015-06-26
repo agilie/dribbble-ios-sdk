@@ -34,14 +34,12 @@ static NSString * kCellIdentifier = @"cellIdentifier";
 static NSString * kSegueIdentifierAuthorize = @"authorizeSegue";
 static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
-
-@interface MainViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MainViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) DRApiClient *apiClient;
 
 @property (strong, nonatomic) NSArray *apiCallWrappers;
 
-@property (strong, nonatomic) UIImagePickerController *imagePicker;
 @property (copy, nonatomic) UserUploadImageBlock userUploadImageBlock;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *signInButton;
@@ -112,7 +110,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 #pragma mark - Table View Delegate + Data Source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.apiCallWrappers count] + 1; // for "upload shot"
+    return [self.apiCallWrappers count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -122,85 +120,15 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-    if (indexPath.row < [self.apiCallWrappers count]) {
-        ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
-        cell.textLabel.text = wrapper.title;
-    } else {
-        cell.textLabel.text = @"Upload new shot";
-    }
+    ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
+    cell.textLabel.text = wrapper.title;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row < [self.apiCallWrappers count]) {
-        ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
-        [self performSegueWithIdentifier:kSegueIdentifierTestApi sender:wrapper];
-    } else {
-        [self pickImage];
-    }
-}
-
-#pragma mark - Image Uploading Stuff
-
-- (UIImagePickerController *)imagePicker {
-    if (!_imagePicker) {
-        _imagePicker = [[UIImagePickerController alloc] init];
-        _imagePicker.allowsEditing = YES;
-        _imagePicker.delegate = self;
-    }
-    return _imagePicker;
-}
-
-- (void)pickImage {
-    __weak typeof(self) weakSelf = self;
-    [self showPickerUploadImageWithCompletion:^(NSURL *fileUrl, NSData *imageData) {
-        [weakSelf.apiClient uploadShotWithParams:@{kDRParamTitle:@"another one great shot"} file:imageData mimeType:@"image/jpeg" responseHandler:^(DRApiResponse *response) {
-            if (response.error.domain == kDRUploadErrorFailureKey) {
-                [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[response.error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
-            }
-            NSLog(@"upload shot response object: %@", response.object);
-        }];
-    }];
-}
-
-- (void)showPickerUploadImageWithCompletion:(UserUploadImageBlock)completionHandler {
-    self.userUploadImageBlock = completionHandler;
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Select image" delegate:nil cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
-        [actionSheet bk_addButtonWithTitle:@"Choose From Gallery" handler:^{
-            [self choosePhotoFromGallery];
-        }];
-        [actionSheet bk_setCancelButtonWithTitle:@"Cancel" handler:nil];
-        [actionSheet showInView:self.view];
-    }
-}
-
-- (void)choosePhotoFromGallery {
-    self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    NSMutableArray *dataTypes = [NSMutableArray arrayWithArray:self.imagePicker.mediaTypes];
-    [dataTypes addObject:(NSString*)kUTTypeImage];
-    self.imagePicker.mediaTypes = dataTypes;
-    [self presentViewController:self.imagePicker animated:YES completion:nil];
-}
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    if ([[info valueForKey:UIImagePickerControllerMediaType] isEqualToString:(NSString *)kUTTypeImage]) {
-        UIImage *img = [info valueForKey:UIImagePickerControllerOriginalImage];
-        if (img) {
-            NSData *imageData = UIImageJPEGRepresentation(img, 0.7);
-            NSString *imagePath = [NSString stringWithFormat:@"%@%@.jpg", NSTemporaryDirectory(), [[NSProcessInfo processInfo] globallyUniqueString]];
-            [imageData writeToFile:imagePath atomically:YES];
-            if (self.userUploadImageBlock) {
-                self.userUploadImageBlock([NSURL fileURLWithPath:imagePath], imageData);
-            }
-        }
-    }
-    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+    ApiCallWrapper *wrapper = self.apiCallWrappers[indexPath.row];
+    [self performSegueWithIdentifier:kSegueIdentifierTestApi sender:wrapper];
 }
 
 @end

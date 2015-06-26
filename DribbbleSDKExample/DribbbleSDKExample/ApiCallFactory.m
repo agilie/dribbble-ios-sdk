@@ -30,7 +30,7 @@ static NSString * const kDemoTeamId = @"834683";
     DRResponseHandler sharedHandler = ^(DRApiResponse *response) {
         NSLog(@"response: %@", response);
     };
-
+    
     NSArray *apiCallWrappers = [NSArray arrayWithObjects:
                                 [ApiCallFactory apiCallWrapperWithTitle:@"User Info" selector:@selector(loadAccountWithUser:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"User Likes" selector:@selector(loadLikesWithUser:params:responseHandler:) args:@[kDemoUserId, @{}] responseHandler:sharedHandler],
@@ -49,8 +49,9 @@ static NSString * const kDemoTeamId = @"834683";
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Comment Likes" selector:@selector(loadLikesWithComment:forShot:params:responseHandler:) args:@[kDemoCommentId, kDemoShotId, @{}] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Shot Projects" selector:@selector(loadProjectsWithShot:params:responseHandler:) args:@[kDemoShotId, @{}] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Project" selector:@selector(loadProjectWith:responseHandler:) args:@[kDemoProjectId] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Team members" selector:@selector(loadMembersWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Team shots" selector:@selector(loadShotsWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Team Members" selector:@selector(loadMembersWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Team Shots" selector:@selector(loadShotsWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Upload New Shot" selector:@selector(uploadShotWithParams:file:mimeType:responseHandler:) args:@[@{kDRParamTitle:@"another one great shot"}, UIImageJPEGRepresentation([UIImage imageNamed:@"ball.jpg"], 0.8), @"image/jpeg"] responseHandler:sharedHandler],
                                 nil];
     
     

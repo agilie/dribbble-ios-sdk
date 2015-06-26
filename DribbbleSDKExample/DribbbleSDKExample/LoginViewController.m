@@ -26,7 +26,6 @@
     [self.apiClient authorizeWithWebView:self.webView authHandler:^(NXOAuth2Account *account, NSError *error) {
         weakSelf.authCompletionHandler(@(account != nil));
         [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-        
     }];
 }
 

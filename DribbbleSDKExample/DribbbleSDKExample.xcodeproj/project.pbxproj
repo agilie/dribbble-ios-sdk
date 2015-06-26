@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		02F82D8925F4ECEBA38F8745 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E8BBCD53087C51DFDBA93D /* libPods.a */; };
+		4D1456131B3D922A009A7665 /* ball.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4D1456121B3D922A009A7665 /* ball.jpg */; };
 		4D46CBE31B3C531A001EEA64 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CBE21B3C531A001EEA64 /* main.m */; };
 		4D46CBE61B3C531A001EEA64 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D46CBE51B3C531A001EEA64 /* AppDelegate.m */; };
 		4D46CBEC1B3C531A001EEA64 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D46CBEA1B3C531A001EEA64 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		141D64FE9193E9A530C27035 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "../Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		4D1456121B3D922A009A7665 /* ball.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ball.jpg; sourceTree = "<group>"; };
 		4D46CBDD1B3C531A001EEA64 /* DribbbleSDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DribbbleSDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D46CBE11B3C531A001EEA64 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4D46CBE21B3C531A001EEA64 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -100,6 +102,7 @@
 		4D46CBE01B3C531A001EEA64 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4D1456121B3D922A009A7665 /* ball.jpg */,
 				4D46CBE11B3C531A001EEA64 /* Info.plist */,
 				4D46CBE21B3C531A001EEA64 /* main.m */,
 			);
@@ -184,6 +187,7 @@
 			files = (
 				4D46CBEC1B3C531A001EEA64 /* Main.storyboard in Resources */,
 				4D46CBF11B3C531A001EEA64 /* LaunchScreen.xib in Resources */,
+				4D1456131B3D922A009A7665 /* ball.jpg in Resources */,
 				4D46CBEE1B3C531A001EEA64 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
