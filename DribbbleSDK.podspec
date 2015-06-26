@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "DribbbleSDK"
-    s.version          = "0.0.1"
+    s.version          = "0.0.2"
     s.platform         = :ios, '7.0'
     s.summary          = "Unofficial Dribbble iOS SDK"
     s.description      = <<-DESC
@@ -31,7 +31,6 @@ Uses latest Dribbble HTTP API !
 
     s.source_files = 'DribbbleSDK/**/*.{c,h,m}'
     # s.resource_bundles = {
-    #                     'AGLocationDispatcher' => ['Pod/Assets/*.png']
     #                     }
 
     s.public_header_files = 'DribbbleSDK/**/*.h'
