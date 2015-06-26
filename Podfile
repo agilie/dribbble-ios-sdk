@@ -14,7 +14,7 @@ target :DribbbleSDKExample do
     do_import
 end
 
-target :'DribbbleSDK Tests' do
-    xcodeproj 'DribbbleSDK Tests/DribbbleSDK Tests'
+target :Tests do
+    xcodeproj 'DribbbleSDKTests/DribbbleSDKTests'
     do_import
 end
