@@ -35,7 +35,7 @@ PODS:
   - BlocksKit/UIKit (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
-  - DribbbleSDK (0.0.1):
+  - DribbbleSDK (0.0.2):
     - AFNetworking (~> 2.3)
     - BlocksKit
     - JSONModel
@@ -53,7 +53,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
-  DribbbleSDK: b3aab3963945321aae31d5f601a3e84d0479a176
+  DribbbleSDK: ed2975141a7e6e8f3d3af16d316ed516b50f773e
   JSONModel: ec77e9865236a7a09d9cf7668df6b4b328d9ec1d
   NXOAuth2Client: 98c4d4c594edd2b289cfc34a8928653e1dab7adf
 
