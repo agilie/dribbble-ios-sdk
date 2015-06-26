@@ -133,7 +133,4 @@
    <FileRef
       location = "group:DribbbleSDKExample/DribbbleSDKExample.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:DribbbleSDKTests/DribbbleSDKTests.xcodeproj">
-   </FileRef>
 </Workspace>
