@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "DribbbleSDK"
-    s.version          = "0.0.1"
+    s.version          = "0.0.2"
     s.platform         = :ios, '7.0'
     s.summary          = "Unofficial Dribbble iOS SDK"
     s.description      = <<-DESC
