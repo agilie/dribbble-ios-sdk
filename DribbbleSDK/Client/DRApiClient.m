@@ -19,9 +19,10 @@ static NSString * kHttpMethodDelete = @"DELETE";
 
 static NSString * const kAuthorizationHTTPFieldName = @"Authorization";
 static NSString * const kBearerString = @"Bearer";
-static NSString * const kUploadErrorString = @"You're not able to upload shots, please upgrade to pro status";
 static NSString * const kUploadImageSizeAssertionString = @"Your file must be exatly 400x300 or 800x600";
 static NSString * const kUploadFileSizeAssertionString = @"Your file must be no larger than eight megabytes";
+
+static NSString * const kDRUploadImageDefaultFilename = @"image.jpg";
 
 void DRLog(NSString *format, ...) {
     if (DribbbleSDKLogsEnabled) {
@@ -159,14 +160,14 @@ void DRLog(NSString *format, ...) {
     
     __weak typeof(self)weakSelf = self;
     [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:data name:kDRParamImage fileName:@"image.jpg" mimeType:mimeType];
+        [formData appendPartWithFileData:data name:kDRParamImage fileName:kDRUploadImageDefaultFilename mimeType:mimeType];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (responseHandler) responseHandler([DRApiResponse responseWithObject:responseObject]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         if ([operation.response statusCode] == kHttpRequestFailedErrorCode) {
             NSString *errorText = error.userInfo[NSLocalizedDescriptionKey];
-            NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : kUploadErrorString, kDRUploadErrorFailureKey : errorText ?:@"", NSUnderlyingErrorKey : error};
+            NSDictionary *userInfo = @{ kDRUploadErrorFailureKey : errorText ?:@"", NSUnderlyingErrorKey : error};
             NSError *userError = [[NSError alloc] initWithDomain:kDRUploadErrorFailureKey code:kHttpRequestFailedErrorCode userInfo:userInfo];
             if (responseHandler) responseHandler([DRApiResponse responseWithError:userError]);
         } else {
