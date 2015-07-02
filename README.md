@@ -1,6 +1,6 @@
 # DribbbleSDK
 
-DribbbleSDK is easy-to-use iOS wrapper for [Dribbble SDK](http://developer.dribbble.com/). We're working hard to complete the full coverage of available methods and make this SDK the best Dribbble SDK for iOS. Have fun and stay tuned.
+DribbbleSDK is easy-to-use iOS wrapper for [Dribbble API](http://developer.dribbble.com/). We're working hard to complete the full coverage of available methods and make this SDK the best Dribbble SDK for iOS. Have fun and stay tuned.
 
 
 [![CI Status](http://img.shields.io/travis/agilie/dribbble-ios-sdk.svg?style=flat)](https://travis-ci.org/agilie/dribbble-ios-sdk)
