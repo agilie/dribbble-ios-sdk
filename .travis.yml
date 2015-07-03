@@ -9,4 +9,4 @@ xcode_scheme: DribbbleSDKExample
 # - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 # script:
 #- set -o pipefail && xcodebuild test -workspace Example/AGLocationDispatcher.xcworkspace -scheme AGLocationDispatcher-Example -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-- pod lib lint --quick
+#- pod lib lint --quick
