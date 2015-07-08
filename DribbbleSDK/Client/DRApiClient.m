@@ -91,6 +91,8 @@ void DRLog(NSString *format, ...) {
     return [self.accessToken length] && ![self.accessToken isEqualToString:self.settings.clientAccessToken];
 }
 
+#pragma mark - OAuth calls
+
 - (void)authorizeWithWebView:(UIWebView *)webView authHandler:(DROAuthHandler)authHandler {
     __weak typeof(self) weakSelf = self;
     [self.oauthManager authorizeWithWebView:webView settings:self.settings authHandler:^(NXOAuth2Account *account, NSError *error) {
@@ -130,9 +132,6 @@ void DRLog(NSString *format, ...) {
     return _apiManager;
 }
 
-
-#pragma mark - OAuth calls
-
 - (AFHTTPRequestOperation *)createRequestWithMethod:(NSString *)method requestType:(NSString *)requestType modelClass:(Class)modelClass params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     __weak typeof(self)weakSelf = self;
     NSMutableURLRequest *request = [self.apiManager.requestSerializer requestWithMethod:requestType URLString:[[NSURL URLWithString:method relativeToURL:self.apiManager.baseURL] absoluteString] parameters:params error:nil];
@@ -152,15 +151,20 @@ void DRLog(NSString *format, ...) {
     return operation;
 }
 
-- (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params data:(NSData *)data mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
-    UIImage *image = [[UIImage alloc] initWithData:data];
-    CGSize imageSize = image.size;
-    NSAssert((imageSize.width == 400.f && imageSize.height == 300.f) || (imageSize.width == 800.f && imageSize.height == 600.f), kUploadImageSizeAssertionString);
-    NSAssert((data.length/1024.f/1024.f) <= kUploadFileBytesLimitSize, kUploadFileSizeAssertionString);
-    
+- (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params data:(NSData *)data mimeType:(NSString *)mimeType isAttachment:(BOOL)isAttachment responseHandler:(DRResponseHandler)responseHandler {
+    if (!isAttachment) {
+        UIImage *image = [[UIImage alloc] initWithData:data];
+        CGSize imageSize = image.size;
+        NSAssert((imageSize.width == 400.f && imageSize.height == 300.f) || (imageSize.width == 800.f && imageSize.height == 600.f), kUploadImageSizeAssertionString);
+        NSAssert((data.length/1024.f/1024.f) <= kUploadFileBytesLimitSize, kUploadFileSizeAssertionString);
+    }
     __weak typeof(self)weakSelf = self;
     [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:data name:kDRParamImage fileName:kDRUploadImageDefaultFilename mimeType:mimeType];
+        if (isAttachment) {
+            [formData appendPartWithFileData:data name:kDRParamImage fileName:kDRUploadImageDefaultFilename mimeType:mimeType];
+        } else {
+            [formData appendPartWithFormData:data name:kDRParamFile];
+        }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (responseHandler) responseHandler([DRApiResponse responseWithObject:responseObject]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -225,8 +229,12 @@ void DRLog(NSString *format, ...) {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodUserTeams, userId] requestType:kHttpMethodGet modelClass:[DRTeam class] params:params responseHandler:responseHandler];
 }
 
+- (void)loadFollowersWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodGetFollowers, userId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:params responseHandler:responseHandler];
+}
+
 - (void)loadFolloweesWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodGetFollowers, userId] requestType:kHttpMethodGet modelClass:[DRFolloweeUser class] params:params responseHandler:responseHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodGetFollowees, userId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:params responseHandler:responseHandler];
 }
 
 - (void)loadFolloweesShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
@@ -236,7 +244,7 @@ void DRLog(NSString *format, ...) {
 #pragma mark - Shots
 
 - (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
-    [self runMultiPartRequestWithMethod:kDRApiMethodShots params:params data:(NSData *)file mimeType:(NSString *)mimeType responseHandler:responseHandler];
+    [self runMultiPartRequestWithMethod:kDRApiMethodShots params:params data:(NSData *)file mimeType:(NSString *)mimeType isAttachment:NO responseHandler:responseHandler];
 }
 
 - (void)updateShot:(NSNumber *)shotId withParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
@@ -244,7 +252,7 @@ void DRLog(NSString *format, ...) {
 }
 
 - (void)deleteShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShot, shotId] requestType:kHttpMethodGet modelClass:[DRShot class] params:nil responseHandler:responseHandler];    
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShot, shotId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
 - (void)loadShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
@@ -288,7 +296,7 @@ void DRLog(NSString *format, ...) {
 }
 
 - (void)unlikeWithShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLikeShot, shotId] requestType:kHttpMethodDelete modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLikeShot, shotId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
 - (void)checkLikeWithShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
@@ -310,7 +318,7 @@ void DRLog(NSString *format, ...) {
 }
 
 - (void)deleteCommentWith:(NSNumber *)commentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodEditComment, shotId, commentId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodComment, shotId, commentId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
 - (void)loadCommentsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
@@ -329,7 +337,23 @@ void DRLog(NSString *format, ...) {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckLikeComment, shotId, commentId] requestType:kHttpMethodGet modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
 }
 
+- (void)likeWithComment:(NSNumber *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckLikeComment, shotId, commentId] requestType:kHttpMethodPost modelClass:[DRTransactionModel class] params:nil responseHandler:responseHandler];
+}
+
+- (void)unlikeWithComment:(NSNumber *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckLikeComment, shotId, commentId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
+}
+
 #pragma mark - Attachments
+
+- (void)uploadAttachmentWithShot:(NSNumber *)shotId params:(NSDictionary *)params file:(NSData *)file mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
+    [self runMultiPartRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotAttachments, shotId] params:params data:file mimeType:mimeType isAttachment:YES responseHandler:responseHandler];
+}
+
+- (void)deleteAttachmentWith:(NSNumber *)commentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodAttachment, shotId, commentId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
+}
 
 - (void)loadAttachmentsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotAttachments, shotId] requestType:kHttpMethodGet modelClass:[DRShotAttachment class] params:params responseHandler:responseHandler];
@@ -371,6 +395,10 @@ void DRLog(NSString *format, ...) {
 
 - (void)checkFollowingWithUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckIfUserFollowing, userId] requestType:kHttpMethodGet modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
+}
+
+- (void)checkIfUserWith:(NSNumber *)userId followingAnotherUserWith:(NSNumber *)anotherUserId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodCheckIfOneUserFollowingAnother, userId, anotherUserId] requestType:kHttpMethodGet modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
 @end

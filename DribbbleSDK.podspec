@@ -23,8 +23,8 @@ Uses latest Dribbble HTTP API !
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.authors           = { 'Agilie' => 'info@agilie.com' }
     s.source           = { :git => "https://github.com/agilie/dribbble-ios-sdk.git",
-                            :tag => s.version.to_s
-                            :branch => "public"
+                            :tag => s.version.to_s,
+                            :branch => "dev1"
                         }
     # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 

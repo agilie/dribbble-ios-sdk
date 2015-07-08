@@ -48,8 +48,10 @@ static NSString * const kDRApiMethodShotLikes = @"shots/%@/likes";
 static NSString * const kDRApiMethodShotRebounds = @"shots/%@/rebounds";
 static NSString * const kDRApiMethodFollowUser = @"users/%@/follow";
 static NSString * const kDRApiMethodCheckShotWasLiked = @"shots/%@/like";
+static NSString * const kDRApiMethodGetFollowers = @"users/%@/followers";
 static NSString * const kDRApiMethodCheckIfUserFollowing = @"user/following/%@";
-static NSString * const kDRApiMethodGetFollowers = @"users/%@/following";
+static NSString * const kDRApiMethodCheckIfOneUserFollowingAnother = @"users/%@/following/%@";
+static NSString * const kDRApiMethodGetFollowees = @"users/%@/following";
 static NSString * const kDRApiMethodGetFolloweesShot = @"user/following/shots";
 static NSString * const kDRApiMethodGetLikes = @"users/%@/likes";
 static NSString * const kDRApiMethodTeamMembers = @"teams/%@/members";
@@ -73,6 +75,7 @@ static NSString * const kDRParamTags = @"tags";
 static NSString * const kDRParamTeamId = @"team_id";
 static NSString * const kDRParamReboundSourceId = @"rebound_source_id";
 static NSString * const kDRParamBody = @"body";
+static NSString * const kDRParamFile = @"file";
 
 // Dribbble API permission keys
 
