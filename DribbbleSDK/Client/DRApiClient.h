@@ -86,7 +86,6 @@ extern void DRLog(NSString *format, ...);
 - (void)unFollowUserWith:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkFollowingWithUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkIfUserWith:(NSNumber *)userId followingAnotherUserWith:(NSNumber *)anotherUserId responseHandler:(DRResponseHandler)responseHandler;
-- (void)checkIfUserWith:(NSNumber *)userId followingAnotherUserWith:(NSNumber *)anotherUserId responseHandler:(DRResponseHandler)responseHandler;
 
 //
 

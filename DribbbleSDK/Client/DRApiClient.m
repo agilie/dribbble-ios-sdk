@@ -145,6 +145,10 @@ void DRLog(NSString *format, ...) {
             responseHandler([weakSelf mappedDataFromResponseObject:responseObject modelClass:modelClass]);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if ([operation.response statusCode] == 404) {
+            NSError *dribbbleFalseError = [NSError errorWithDomain:error.domain code:404 userInfo:error.userInfo];
+            error = dribbbleFalseError;
+        }
         if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
     }];

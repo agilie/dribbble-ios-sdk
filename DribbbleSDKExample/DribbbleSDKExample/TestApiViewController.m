@@ -30,7 +30,13 @@
         if (response.object) {
             weakSelf.textView.text = [NSString stringWithFormat:@"Request succeeded, response object:\n%@", [response.object description]];
         } else if (response.error) {
-            weakSelf.textView.text = [NSString stringWithFormat:@"Request failed with error:\n%@", response.error];
+            if (response.error.code == 404) {
+                weakSelf.textView.text = [NSString stringWithFormat:@"Request succeeded. No data"];
+            } else {
+                weakSelf.textView.text = [NSString stringWithFormat:@"Request failed with error:\n%@", response.error];
+            }
+        } else if (!response.object && !response.error) {
+            weakSelf.textView.text = [NSString stringWithFormat:@"Request succeeded"];
         }
     };
     [self.apiCallWrapper invokeWithApiClient:self.apiClient];

@@ -7,6 +7,7 @@
 //
 
 #import "ApiCallFactory.h"
+#import "AppDelegate.h"
 
 static NSString * const kDemoUserId = @"597558";
 static NSString * const kDemoShotId = @"472178";
@@ -52,8 +53,14 @@ static NSString * const kDemoTeamId = @"834683";
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Team Members" selector:@selector(loadMembersWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Team Shots" selector:@selector(loadShotsWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Upload New Shot" selector:@selector(uploadShotWithParams:file:mimeType:responseHandler:) args:@[@{kDRParamTitle:@"another one great shot"}, UIImageJPEGRepresentation([UIImage imageNamed:@"ball.jpg"], 0.8), @"image/jpeg"] responseHandler:sharedHandler],
+                                
+                                
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Follow user" selector:@selector(followUserWith:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Unfollow user" selector:@selector(unFollowUserWith:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Check if you are following a user" selector:@selector(checkFollowingWithUser:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Are you following user" selector:@selector(checkIfUserWith:followingAnotherUserWith:responseHandler:) args:@[[AppDelegate delegate].user.userId ?: kDemoUserId, kDemoUserId] responseHandler:sharedHandler],
+                                
                                 nil];
-    
     
     return apiCallWrappers;
 }
