@@ -69,6 +69,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
         loginViewController.apiClient = self.apiClient;
         loginViewController.authCompletionHandler = ^(BOOL success) {
             NSLog(@"Signed in successfully? %d", success);
+            [self loadMockData];
         };
     } else if ([segue.identifier isEqualToString:kSegueIdentifierTestApi]) {
         TestApiViewController *testApiController = (TestApiViewController *)segue.destinationViewController;
@@ -100,10 +101,56 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
         }
     };
     
+    
+    if (![AppDelegate delegate].user) {
+        [self loadMockData];
+    }
+    
+    self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+    [self.tableView reloadData];
+}
+
+- (void)loadMockData {
     [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
         if (response.object) {
             [AppDelegate delegate].user = response.object;
         }
+        
+        [self.apiClient loadShotsWithUser:[AppDelegate delegate].user.userId params:@{} responseHandler:^(DRApiResponse *response) {
+            if (response.object) {
+                if ([response.object isKindOfClass:[NSArray class]]) {
+                    if ([response.object count]) {
+                        DRShot *shot = [response.object firstObject];
+                        if(shot) {
+                            [AppDelegate delegate].shot = shot;
+                            [self.apiClient loadCommentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
+                                if (response.object) {
+                                    for (DRComment *comment in response.object) {
+                                        if (([comment.body isEqualToString:@"<p>API test updated comment</p>"] || [comment.body isEqualToString:@"<p>API test comment</p>"]) &&
+                                            comment.user.userId == [AppDelegate delegate].user.userId) {
+                                            [AppDelegate delegate].comment = comment;
+                                            self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+                                            [self.tableView reloadData];
+                                        }
+                                    }
+                                    if (![AppDelegate delegate].comment) {
+                                        [self.apiClient uploadCommentWithShot:shot.shotId withBody:@"API test comment" responseHandler:^(DRApiResponse *response) {
+                                            if (response.object) {
+                                                DRComment *comment = response.object;
+                                                [AppDelegate delegate].comment = comment;
+                                                self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+                                                [self.tableView reloadData];
+                                            }
+                                        }];
+                                    }
+                                }
+                            }];
+                        }
+                    }
+                }
+            }
+        }];
+        
         self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
         [self.tableView reloadData];
     }];
@@ -113,6 +160,9 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (IBAction)pressSignOut:(id)sender {
     [self.apiClient logout];
+    [AppDelegate delegate].user = nil;
+    [AppDelegate delegate].shot = nil;
+    [AppDelegate delegate].comment = nil;
     self.signOutButton.hidden = ![self.apiClient isUserAuthorized];
     self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
