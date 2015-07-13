@@ -360,11 +360,11 @@ void DRLog(NSString *format, ...) {
 }
 
 - (void)loadAttachmentsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotAttachments, shotId] requestType:kHttpMethodGet modelClass:[DRShotAttachment class] params:params responseHandler:responseHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotAttachments, shotId] requestType:kHttpMethodGet modelClass:[DRShotAttachment class] params:nil responseHandler:responseHandler];
 }
 
 - (void)loadAttachmentWith:(NSNumber *)attachmentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodAttachment, attachmentId, shotId] requestType:kHttpMethodGet modelClass:[DRShotAttachment class] params:params responseHandler:responseHandler];
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodAttachment, shotId, attachmentId] requestType:kHttpMethodGet modelClass:[DRShotAttachment class] params:nil responseHandler:responseHandler];
 }
 
 #pragma mark - Projects

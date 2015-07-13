@@ -133,16 +133,6 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
                                             [self.tableView reloadData];
                                         }
                                     }
-                                    if (![AppDelegate delegate].comment) {
-                                        [self.apiClient uploadCommentWithShot:shot.shotId withBody:@"API test comment" responseHandler:^(DRApiResponse *response) {
-                                            if (response.object) {
-                                                DRComment *comment = response.object;
-                                                [AppDelegate delegate].comment = comment;
-                                                self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
-                                                [self.tableView reloadData];
-                                            }
-                                        }];
-                                    }
                                     [self.apiClient loadAttachmentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
                                         if (response.object && [response.object isKindOfClass:[NSArray class]]) {
                                             DRShotAttachment *attachment = [response.object lastObject];
