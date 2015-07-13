@@ -58,6 +58,8 @@ static NSString * const kDemoTeamId = @"834683";
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Check if you are following a user" selector:@selector(checkFollowingWithUser:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Are you following user" selector:@selector(checkIfUserWith:followingAnotherUserWith:responseHandler:) args:@[[AppDelegate delegate].user.userId ?: kDemoUserId, kDemoUserId] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Update comment" selector:@selector(updateCommentWith:forShot:withBody:responseHandler:) args:@[[AppDelegate delegate].comment.commentId ?: kDemoCommentId, [AppDelegate delegate].shot.shotId ?: kDemoShotId, @"API test updated comment"] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Upload attachment" selector:@selector(uploadAttachmentWithShot:params:file:mimeType:responseHandler:) args:@[[AppDelegate delegate].shot.shotId ?: kDemoShotId, @{}, UIImageJPEGRepresentation([UIImage imageNamed:@"ball.jpg"], 0.8), @"image/jpeg"] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Delete attach (restart after upload)" selector:@selector(deleteAttachmentWith:forShot:responseHandler:) args:@[[AppDelegate delegate].attachment.attachmentId ?: @(0), [AppDelegate delegate].shot.shotId ?: kDemoShotId] responseHandler:sharedHandler],
                                 nil];
     
     return apiCallWrappers;

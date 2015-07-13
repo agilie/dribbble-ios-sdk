@@ -165,9 +165,9 @@ void DRLog(NSString *format, ...) {
     __weak typeof(self)weakSelf = self;
     [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         if (isAttachment) {
-            [formData appendPartWithFileData:data name:kDRParamImage fileName:kDRUploadImageDefaultFilename mimeType:mimeType];
+            [formData appendPartWithFileData:data name:kDRParamFile fileName:kDRUploadImageDefaultFilename mimeType:mimeType];
         } else {
-            [formData appendPartWithFormData:data name:kDRParamFile];
+            [formData appendPartWithFileData:data name:kDRParamImage fileName:kDRUploadImageDefaultFilename mimeType:mimeType];
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (responseHandler) responseHandler([DRApiResponse responseWithObject:responseObject]);
@@ -355,8 +355,8 @@ void DRLog(NSString *format, ...) {
     [self runMultiPartRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotAttachments, shotId] params:params data:file mimeType:mimeType isAttachment:YES responseHandler:responseHandler];
 }
 
-- (void)deleteAttachmentWith:(NSNumber *)commentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
-    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodAttachment, shotId, commentId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
+- (void)deleteAttachmentWith:(NSNumber *)attachmentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodAttachment, shotId, attachmentId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:nil responseHandler:responseHandler];
 }
 
 - (void)loadAttachmentsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {

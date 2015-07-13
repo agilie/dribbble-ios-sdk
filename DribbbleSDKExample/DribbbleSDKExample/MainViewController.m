@@ -143,6 +143,14 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
                                             }
                                         }];
                                     }
+                                    [self.apiClient loadAttachmentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
+                                        if (response.object && [response.object isKindOfClass:[NSArray class]]) {
+                                            DRShotAttachment *attachment = [response.object lastObject];
+                                            [AppDelegate delegate].attachment = attachment;
+                                            self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+                                            [self.tableView reloadData];
+                                        }
+                                    }];
                                 }
                             }];
                         }
@@ -163,6 +171,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     [AppDelegate delegate].user = nil;
     [AppDelegate delegate].shot = nil;
     [AppDelegate delegate].comment = nil;
+    [AppDelegate delegate].attachment = nil;
     self.signOutButton.hidden = ![self.apiClient isUserAuthorized];
     self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
