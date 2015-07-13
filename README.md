@@ -65,6 +65,7 @@ Use DRApiClient class for all Dribbble stuff
 - (void)loadProjectsWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadTeamsWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotsWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadFollowersWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadFolloweesWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
@@ -101,16 +102,23 @@ Use DRApiClient class for all Dribbble stuff
 - (void)loadLikesWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
-- Get comment/comments for shot, get likes with comments and check like with comment with this methods
+- Upload/get/update/delete comment/comments for shot, get likes with comments and check like/unlike with comment with this methods
 ```obj-c
+- (void)uploadCommentWithShot:(NSNumber *)shotId withBody:(NSString *)body responseHandler:(DRResponseHandler)responseHandler;
+- (void)updateCommentWith:(NSNumber *)commentId forShot:(NSNumber *)shotId withBody:(NSString *)body responseHandler:(DRResponseHandler)responseHandler;
+- (void)deleteCommentWith:(NSNumber *)commentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadCommentsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadCommentWith:(NSNumber *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
-- (void)loadLikesWithComment:(NSNumber *)commentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)likeWithComment:(NSNumber *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
+- (void)unlikeWithComment:(NSNumber *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkLikeWithComment:(NSNumber *)commentId forShot:(NSString *)shotId responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadLikesWithComment:(NSNumber *)commentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
-- Get attachment/attachments for shot with loadAttachmentsWithShot and loadAttachmentWith:attachmentId methods
+- Get/upload/delete attachment/attachments for shot with this methods
 ```obj-c
+- (void)uploadAttachmentWithShot:(NSNumber *)shotId params:(NSDictionary *)params file:(NSData *)file mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler;
+- (void)deleteAttachmentWith:(NSNumber *)attachmentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadAttachmentsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadAttachmentWith:(NSNumber *)attachmentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
@@ -121,17 +129,18 @@ Use DRApiClient class for all Dribbble stuff
 - (void)loadProjectWith:(NSNumber *)projectId responseHandler:(DRResponseHandler)responseHandler;
 ```
 
-- Get team members and all team shots with loadMembersWithTeam and loadShotsWithTeam methods
-```obj-c
-- (void)loadMembersWithTeam:(NSNumber *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
-- (void)loadShotsWithTeam:(NSNumber *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
-```
-
-- You can follow/unfollow user and check if you following user with this methods
+- You can follow/unfollow user and check if you/some user following user with this methods
 ```obj-c
 - (void)followUserWith:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)unFollowUserWith:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)checkFollowingWithUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
+- (void)checkIfUserWith:(NSNumber *)userId followingAnotherUserWith:(NSNumber *)anotherUserId responseHandler:(DRResponseHandler)responseHandler; 
+```
+
+- Get team members and all team shots with loadMembersWithTeam and loadShotsWithTeam methods
+```obj-c
+- (void)loadMembersWithTeam:(NSNumber *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadShotsWithTeam:(NSNumber *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
 - Logout
