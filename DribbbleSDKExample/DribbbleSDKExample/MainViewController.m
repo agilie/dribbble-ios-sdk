@@ -19,11 +19,11 @@ typedef void(^UserUploadImageBlock)(NSURL *fileUrl, NSData *imageData);
 
 // SDK setup constants
 
-static NSString * const kIDMOAuth2ClientId = @"d1bf57813d51b916e816894683371d2bcfaff08a5a5f389965f1cf779e7da6f8";
-static NSString * const kIDMOAuth2ClientSecret = @"305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
-static NSString * const kIDMOAuth2ClientAccessToken = @"ebc7adb327f3ae4cf2517de0a37b483a0973d932b3187578501c55b9f5ede17b";
+static NSString * const kIDMOAuth2ClientId = @"<YOUR CLIENT ID>";
+static NSString * const kIDMOAuth2ClientSecret = @"<YOUR CLIENT SECRET>";
+static NSString * const kIDMOAuth2ClientAccessToken = @"<YOUR ACCESS TOKEN>";
 
-static NSString * const kIDMOAuth2RedirectURL = @"apitestapp://authorize";
+static NSString * const kIDMOAuth2RedirectURL = @"<YOUR APP REDIRECT URL>";
 static NSString * const kIDMOAuth2AuthorizationURL = @"https://dribbble.com/oauth/authorize";
 static NSString * const kIDMOAuth2TokenURL = @"https://dribbble.com/oauth/token";
 
@@ -38,7 +38,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 @interface MainViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) DRApiClient *apiClient;
-
+@property (strong, nonatomic) AppDelegate *delegate;
 @property (strong, nonatomic) NSArray *apiCallWrappers;
 
 @property (copy, nonatomic) UserUploadImageBlock userUploadImageBlock;
@@ -54,6 +54,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.delegate = [AppDelegate delegate];
     [self setupApiClient];
 }
 
@@ -102,7 +103,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
     };
     
     
-    if (![AppDelegate delegate].user) {
+    if (!self.delegate.user) {
         [self loadMockData];
     }
     
@@ -113,22 +114,22 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 - (void)loadMockData {
     [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
         if (response.object) {
-            [AppDelegate delegate].user = response.object;
+            self.delegate.user = response.object;
         }
         
-        [self.apiClient loadShotsWithUser:[AppDelegate delegate].user.userId params:@{} responseHandler:^(DRApiResponse *response) {
+        [self.apiClient loadShotsWithUser:self.delegate.user.userId params:@{} responseHandler:^(DRApiResponse *response) {
             if (response.object) {
                 if ([response.object isKindOfClass:[NSArray class]]) {
                     if ([response.object count]) {
                         DRShot *shot = [response.object firstObject];
                         if(shot) {
-                            [AppDelegate delegate].shot = shot;
+                            self.delegate.shot = shot;
                             [self.apiClient loadCommentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
                                 if (response.object) {
                                     for (DRComment *comment in response.object) {
                                         if (([comment.body isEqualToString:@"<p>API test updated comment</p>"] || [comment.body isEqualToString:@"<p>API test comment</p>"]) &&
-                                            comment.user.userId == [AppDelegate delegate].user.userId) {
-                                            [AppDelegate delegate].comment = comment;
+                                            comment.user.userId == self.delegate.user.userId) {
+                                            self.delegate.comment = comment;
                                             self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
                                             [self.tableView reloadData];
                                         }
@@ -136,7 +137,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
                                     [self.apiClient loadAttachmentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
                                         if (response.object && [response.object isKindOfClass:[NSArray class]]) {
                                             DRShotAttachment *attachment = [response.object lastObject];
-                                            [AppDelegate delegate].attachment = attachment;
+                                            self.delegate.attachment = attachment;
                                             self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
                                             [self.tableView reloadData];
                                         }
@@ -158,10 +159,10 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (IBAction)pressSignOut:(id)sender {
     [self.apiClient logout];
-    [AppDelegate delegate].user = nil;
-    [AppDelegate delegate].shot = nil;
-    [AppDelegate delegate].comment = nil;
-    [AppDelegate delegate].attachment = nil;
+    self.delegate.user = nil;
+    self.delegate.shot = nil;
+    self.delegate.comment = nil;
+    self.delegate.attachment = nil;
     self.signOutButton.hidden = ![self.apiClient isUserAuthorized];
     self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
