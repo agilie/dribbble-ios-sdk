@@ -19,16 +19,11 @@ typedef void(^UserUploadImageBlock)(NSURL *fileUrl, NSData *imageData);
 
 // SDK setup constants
 
-//static NSString * const kIDMOAuth2ClientId = @"<YOUR CLIENT ID>";
-//static NSString * const kIDMOAuth2ClientSecret = @"<YOUR CLIENT SECRET>";
-//static NSString * const kIDMOAuth2ClientAccessToken = @"<YOUR ACCESS TOKEN>";
-//
-//static NSString * const kIDMOAuth2RedirectURL = @"<YOUR APP REDIRECT URL>";
-static NSString * const kIDMOAuth2ClientId = @"d1bf57813d51b916e816894683371d2bcfaff08a5a5f389965f1cf779e7da6f8";
-static NSString * const kIDMOAuth2ClientSecret = @"305fea0abc1074b8d613a05790fba550b56d93023995fdc67987eed288cd1af5";
-static NSString * const kIDMOAuth2ClientAccessToken = @"ebc7adb327f3ae4cf2517de0a37b483a0973d932b3187578501c55b9f5ede17b";
+static NSString * const kIDMOAuth2ClientId = @"<YOUR CLIENT ID>";
+static NSString * const kIDMOAuth2ClientSecret = @"<YOUR CLIENT SECRET>";
+static NSString * const kIDMOAuth2ClientAccessToken = @"<YOUR ACCESS TOKEN>";
 
-static NSString * const kIDMOAuth2RedirectURL = @"apitestapp://authorize";
+static NSString * const kIDMOAuth2RedirectURL = @"<YOUR APP REDIRECT URL>";
 static NSString * const kIDMOAuth2AuthorizationURL = @"https://dribbble.com/oauth/authorize";
 static NSString * const kIDMOAuth2TokenURL = @"https://dribbble.com/oauth/token";
 
