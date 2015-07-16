@@ -62,11 +62,17 @@ Use DRApiClient class for all Dribbble stuff
 ```obj-c
 - (void)loadAccountWithUser:(NSNumber *)userId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadLikesWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadMyLikesWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadProjectsWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadMyProjectsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadTeamsWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadMyTeamsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotsWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadMyShotsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadFollowersWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadMyFollowersWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadFolloweesWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadMyFolloweesWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
 - Get your followee`s shots with loadFolloweesShotsWithParams method
@@ -123,10 +129,11 @@ Use DRApiClient class for all Dribbble stuff
 - (void)loadAttachmentWith:(NSNumber *)attachmentId forShot:(NSString *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
-- Get projects for shot or exact project by projectID with this methods
+- Get projects for shot, project shots or exact project by projectID with this methods
 ```obj-c
 - (void)loadProjectsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadProjectWith:(NSNumber *)projectId responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadProjectShotsWith:(NSNumber *)projectId responseHandler:(DRResponseHandler)responseHandler;
 ```
 
 - You can follow/unfollow user and check if you/some user following user with this methods
@@ -141,6 +148,20 @@ Use DRApiClient class for all Dribbble stuff
 ```obj-c
 - (void)loadMembersWithTeam:(NSNumber *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotsWithTeam:(NSNumber *)teamId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+```
+
+- All about buckets with following methods
+```obj-c
+- (void)loadMyBucketsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadBucketsWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadBucketsForShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadBucketShots:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)addShotToBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)deleteShotFromBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)addBucketWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)updateBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)deleteBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 ```
 
 - Logout
