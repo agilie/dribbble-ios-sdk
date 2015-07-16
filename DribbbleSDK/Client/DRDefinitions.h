@@ -65,6 +65,10 @@ static NSString * const kDRApiMethodTeamMembers = @"teams/%@/members";
 static NSString * const kDRApiMethodTeamShots = @"teams/%@/shots";
 static NSString * const kDRApiMethodMyBuckets = @"user/buckets";
 static NSString * const kDRApiMethodUserBuckets = @"users/%@/buckets";
+static NSString * const kDRApiMethodBucketsForShot = @"shots/%@/buckets";
+static NSString * const kDRApiMethodLoadBucket = @"buckets/%@";
+static NSString * const kDRApiMethodLoadBucketShots = @"buckets/%@/shots";
+static NSString * const kDRApiMethodAddBucket = @"buckets";
 
 // Dribbble API params keys
 

@@ -103,6 +103,14 @@ extern void DRLog(NSString *format, ...);
 
 - (void)loadMyBucketsWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadBucketsWithUser:(NSNumber *)userId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadBucketsForShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)loadBucketShots:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)addShotToBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)deleteShotFromBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)addBucketWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)updateBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
+- (void)deleteBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 
 - (void)logout;
 

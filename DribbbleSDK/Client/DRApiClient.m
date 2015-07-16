@@ -443,4 +443,36 @@ void DRLog(NSString *format, ...) {
     [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodUserBuckets, userId] requestType:kHttpMethodGet modelClass:[DRBucket class] params:params responseHandler:responseHandler];
 }
 
+- (void)loadBucketsForShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodBucketsForShot, shotId] requestType:kHttpMethodGet modelClass:[DRBucket class] params:params responseHandler:responseHandler];
+}
+
+- (void)loadBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLoadBucket, bucketId] requestType:kHttpMethodGet modelClass:[DRBucket class] params:params responseHandler:responseHandler];
+}
+
+- (void)loadBucketShots:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLoadBucketShots, bucketId] requestType:kHttpMethodGet modelClass:[DRShot class] params:params responseHandler:responseHandler];
+}
+
+- (void)addShotToBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLoadBucketShots, bucketId] requestType:kHttpMethodPut modelClass:[DRApiResponse class] params:params responseHandler:responseHandler];
+}
+
+- (void)deleteShotFromBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLoadBucketShots, bucketId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:params responseHandler:responseHandler];
+}
+
+- (void)addBucketWithParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:kDRApiMethodAddBucket requestType:kHttpMethodPost modelClass:[DRBucket class] params:params responseHandler:responseHandler];
+}
+
+- (void)updateBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLoadBucket, bucketId] requestType:kHttpMethodPut modelClass:[DRBucket class] params:params responseHandler:responseHandler];
+}
+
+- (void)deleteBucket:(NSNumber *)bucketId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
+    [self runRequestWithMethod:[NSString stringWithFormat:kDRApiMethodLoadBucket, bucketId] requestType:kHttpMethodDelete modelClass:[DRApiResponse class] params:params responseHandler:responseHandler];
+}
+
 @end
