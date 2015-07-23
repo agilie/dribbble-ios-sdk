@@ -29,11 +29,16 @@ typedef void(^DRDownloadProgressHandler)(NSUInteger bytesRead, long long totalBy
 static NSString * const kDRApiMethodUser = @"user";
 static NSString * const kDRApiMethodUserInfo = @"users/%@";
 static NSString * const kDRApiMethodUserLikes = @"users/%@/likes";
+static NSString * const kDRApiMethodMyLikes = @"user/likes";
 static NSString * const kDRApiMethodUserProjects = @"users/%@/projects";
+static NSString * const kDRApiMethodOwnUserProjects = @"user/projects";
 static NSString * const kDRApiMethodUserTeams = @"users/%@/teams";
+static NSString * const kDRApiMethodMyTeams = @"user/teams";
 static NSString * const kDRApiMethodUserShots = @"users/%@/shots";
+static NSString * const kDRApiMethodOwnUserShots = @"user/shots";
 static NSString * const kDRApiMethodShotProjects = @"shots/%@/projects";
 static NSString * const kDRApiMethodProject = @"projects/%@";
+static NSString * const kDRApiMethodProjectShots = @"projects/%@/shots";
 static NSString * const kDRApiMethodShotAttachments = @"shots/%@/attachments";
 static NSString * const kDRApiMethodAttachment = @"shots/%@/attachments/%@";
 static NSString * const kDRApiMethodEditComment = @"shots/%@/comments/%@";
@@ -48,12 +53,22 @@ static NSString * const kDRApiMethodShotLikes = @"shots/%@/likes";
 static NSString * const kDRApiMethodShotRebounds = @"shots/%@/rebounds";
 static NSString * const kDRApiMethodFollowUser = @"users/%@/follow";
 static NSString * const kDRApiMethodCheckShotWasLiked = @"shots/%@/like";
+static NSString * const kDRApiMethodGetFollowers = @"users/%@/followers";
+static NSString * const kDRApiMethodGetMyFollowers = @"user/followers";
 static NSString * const kDRApiMethodCheckIfUserFollowing = @"user/following/%@";
-static NSString * const kDRApiMethodGetFollowers = @"users/%@/following";
+static NSString * const kDRApiMethodCheckIfOneUserFollowingAnother = @"users/%@/following/%@";
+static NSString * const kDRApiMethodGetFollowees = @"users/%@/following";
+static NSString * const kDRApiMethodGetMyFollowees = @"user/following";
 static NSString * const kDRApiMethodGetFolloweesShot = @"user/following/shots";
 static NSString * const kDRApiMethodGetLikes = @"users/%@/likes";
 static NSString * const kDRApiMethodTeamMembers = @"teams/%@/members";
 static NSString * const kDRApiMethodTeamShots = @"teams/%@/shots";
+static NSString * const kDRApiMethodMyBuckets = @"user/buckets";
+static NSString * const kDRApiMethodUserBuckets = @"users/%@/buckets";
+static NSString * const kDRApiMethodBucketsForShot = @"shots/%@/buckets";
+static NSString * const kDRApiMethodLoadBucket = @"buckets/%@";
+static NSString * const kDRApiMethodLoadBucketShots = @"buckets/%@/shots";
+static NSString * const kDRApiMethodAddBucket = @"buckets";
 
 // Dribbble API params keys
 
@@ -73,6 +88,7 @@ static NSString * const kDRParamTags = @"tags";
 static NSString * const kDRParamTeamId = @"team_id";
 static NSString * const kDRParamReboundSourceId = @"rebound_source_id";
 static NSString * const kDRParamBody = @"body";
+static NSString * const kDRParamFile = @"file";
 
 // Dribbble API permission keys
 
@@ -84,6 +100,7 @@ static NSString * const kDRUploadScope = @"upload";
 // Http errors
 
 static NSInteger const kHttpAuthErrorCode = 401;
+static NSInteger const kHttpNotFoundErrorCode = 404;
 static NSInteger const kHttpRequestFailedErrorCode = 403;
 static NSInteger const kHttpRateLimitErrorCode = 429;
 static NSInteger const kHttpInternalServerErrorCode = 500;

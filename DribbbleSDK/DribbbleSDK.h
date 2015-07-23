@@ -44,6 +44,7 @@
 #import "DRProject.h"
 #import "DRShotAttachment.h"
 #import "DRComment.h"
+#import "DRBucket.h"
 
 #import "DROAuthManager.h"
 #import "DRApiClient.h"

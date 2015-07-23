@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "DribbbleSDK"
-    s.version          = "0.0.2"
+    s.version          = "0.0.3"
     s.platform         = :ios, '7.0'
     s.summary          = "Unofficial Dribbble iOS SDK"
     s.description      = <<-DESC
@@ -23,8 +23,8 @@ Uses latest Dribbble HTTP API !
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.authors           = { 'Agilie' => 'info@agilie.com' }
     s.source           = { :git => "https://github.com/agilie/dribbble-ios-sdk.git",
-                            :tag => s.version.to_s
-                            :branch => "public"
+                            :tag => s.version.to_s,
+                            :branch => "master"
                         }
     # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 

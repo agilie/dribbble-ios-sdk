@@ -14,6 +14,8 @@
 
 @property (strong, nonatomic) NSDate *createdAt;
 @property (strong, nonatomic) NSNumber *transactionId;
+@property (strong, nonatomic) DRUser <Optional>*follower;
+@property (strong, nonatomic) DRUser <Optional>*followee;
 @property (strong, nonatomic) DRUser <Optional>*user;
 @property (strong, nonatomic) DRTeam <Optional>*team;
 @property (strong, nonatomic) DRShot <Optional>*shot;

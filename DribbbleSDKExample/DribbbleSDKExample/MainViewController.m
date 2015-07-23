@@ -13,6 +13,7 @@
 #import "ApiCallFactory.h"
 #import "ApiCallWrapper.h"
 #import "TestApiViewController.h"
+#import "AppDelegate.h"
 
 typedef void(^UserUploadImageBlock)(NSURL *fileUrl, NSData *imageData);
 
@@ -37,7 +38,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 @interface MainViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) DRApiClient *apiClient;
-
+@property (strong, nonatomic) AppDelegate *delegate;
 @property (strong, nonatomic) NSArray *apiCallWrappers;
 
 @property (copy, nonatomic) UserUploadImageBlock userUploadImageBlock;
@@ -53,7 +54,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+    self.delegate = [AppDelegate delegate];
     [self setupApiClient];
 }
 
@@ -69,6 +70,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
         loginViewController.apiClient = self.apiClient;
         loginViewController.authCompletionHandler = ^(BOOL success) {
             NSLog(@"Signed in successfully? %d", success);
+            [self loadMockData];
         };
     } else if ([segue.identifier isEqualToString:kSegueIdentifierTestApi]) {
         TestApiViewController *testApiController = (TestApiViewController *)segue.destinationViewController;
@@ -94,9 +96,59 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
         if (error.domain == NSURLErrorDomain && ![weakSelf.apiClient isUserAuthorized]) {
             [weakSelf performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
         } else {
-            [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+            if (error.code != kHttpNotFoundErrorCode) {
+                [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+            }
         }
     };
+    
+    if (self.apiClient.userAuthorized) {
+        [self loadMockData];
+    } else {
+        self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+        [self.tableView reloadData];
+    }
+}
+
+- (void)loadMockData {
+    __weak typeof(self) weakSelf = self;
+    
+    __block DRUser *user = nil;
+    __block DRShot *shot = nil;
+    __block DRComment *comment = nil;
+    __block DRShotAttachment *attachment = nil;
+    
+    [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
+        if ([response.object isKindOfClass:[DRUser class]]) {
+            user = response.object;
+        }
+        [weakSelf.apiClient loadShotsWithUser:user.userId params:@{} responseHandler:^(DRApiResponse *response) {
+            if ([response.object count] && [response.object isKindOfClass:[NSArray class]]) {
+                shot = [response.object firstObject];
+                if ([shot isKindOfClass:[DRShot class]]) {
+                    [weakSelf.apiClient loadCommentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
+                        for (DRComment *commentForShot in response.object) {
+                            if (([commentForShot.body isEqualToString:@"<p>API test updated comment</p>"] || [commentForShot.body isEqualToString:@"<p>API test comment</p>"]) &&
+                                commentForShot.user.userId == user.userId) {
+                                comment = commentForShot;
+                            }
+                        }
+                        [weakSelf.apiClient loadAttachmentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
+                            if ([response.object isKindOfClass:[NSArray class]]) {
+                                DRShotAttachment *attachmentForShot = [response.object firstObject];
+                                attachment = attachmentForShot;
+                                weakSelf.apiCallWrappers = [ApiCallFactory demoApiCallWrappersWithUser:user
+                                                                                                  shot:shot
+                                                                                               comment:comment
+                                                                                         andAttachment:attachment];
+                                [weakSelf.tableView reloadData];
+                            }
+                        }];
+                    }];
+                }
+            }
+        }];
+    }];
 }
 
 #pragma mark - IBActions
