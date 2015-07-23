@@ -1,13 +1,13 @@
 language: objective-c
-#podfile: Podfile
-#before_install:
-#- gem install cocoapods # Since Travis is not always on latest version
-#- pod install --project-directory=DribbbleSDKExample
+podfile: DribbbleSDKExample/Podfile
+before_install:
+- gem install cocoapods # Since Travis is not always on latest version
+- pod install --project-directory=DribbbleSDKExample
 
-#xcode_workspace: DribbbleSDKExample.xcworkspace # path to your xcodeproj folder
-#xcode_scheme: DribbbleSDKExample
-#xcode_target: DribbbleSDKExample
-#xcode_sdk: iphonesimulator
+xcode_workspace: DribbbleSDKExample.xcworkspace # path to your xcodeproj folder
+xcode_scheme: DribbbleSDKExample
+xcode_target: DribbbleSDKExample
+xcode_sdk: iphonesimulator
 
 # install:
 # - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
