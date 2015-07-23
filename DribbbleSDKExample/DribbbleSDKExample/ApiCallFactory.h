@@ -15,5 +15,6 @@
 + (ApiCallWrapper *)apiCallWrapperWithTitle:(NSString *)title selector:(SEL)selector args:(NSArray *)args responseHandler:(DRResponseHandler)responseHandler;
 
 + (NSArray *)demoApiCallWrappers;
++ (NSArray *)demoApiCallWrappersWithUser:(DRUser *)user shot:(DRShot *)shot comment:(DRComment *)comment andAttachment:(DRShotAttachment *)attachment;
 
 @end

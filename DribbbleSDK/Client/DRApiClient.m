@@ -22,8 +22,6 @@ static NSString * const kBearerString = @"Bearer";
 static NSString * const kUploadImageSizeAssertionString = @"Your file must be exatly 400x300 or 800x600";
 static NSString * const kUploadFileSizeAssertionString = @"Your file must be no larger than eight megabytes";
 
-static NSString * const kDRUploadImageDefaultFilename = @"image.jpg";
-
 void DRLog(NSString *format, ...) {
     if (DribbbleSDKLogsEnabled) {
         va_list argList;
@@ -155,32 +153,20 @@ void DRLog(NSString *format, ...) {
     return operation;
 }
 
-- (void)runMultiPartRequestWithMethod:(NSString *)method params:(NSDictionary *)params data:(NSData *)data mimeType:(NSString *)mimeType isAttachment:(BOOL)isAttachment responseHandler:(DRResponseHandler)responseHandler {
-    if (!isAttachment) {
-        UIImage *image = [[UIImage alloc] initWithData:data];
-        CGSize imageSize = image.size;
-        NSAssert((imageSize.width == 400.f && imageSize.height == 300.f) || (imageSize.width == 800.f && imageSize.height == 600.f), kUploadImageSizeAssertionString);
-        NSAssert((data.length/1024.f/1024.f) <= kUploadFileBytesLimitSize, kUploadFileSizeAssertionString);
-    }
+- (void)runMultiPartRequestWithMethod:(NSString *)method parameterName:(NSString *)paramaterName params:(NSDictionary *)params fileName:(NSString *)fileName data:(NSData *)data mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
     __weak typeof(self)weakSelf = self;
     [self.apiManager POST:method parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        if (isAttachment) {
-            [formData appendPartWithFileData:data name:kDRParamFile fileName:kDRUploadImageDefaultFilename mimeType:mimeType];
-        } else {
-            [formData appendPartWithFileData:data name:kDRParamImage fileName:kDRUploadImageDefaultFilename mimeType:mimeType];
-        }
+        [formData appendPartWithFileData:data name:paramaterName fileName:fileName mimeType:mimeType];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (responseHandler) responseHandler([DRApiResponse responseWithObject:responseObject]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if (weakSelf.defaultErrorHandler) weakSelf.defaultErrorHandler(error);
         if ([operation.response statusCode] == kHttpRequestFailedErrorCode) {
-            NSString *errorText = error.userInfo[NSLocalizedDescriptionKey];
-            NSDictionary *userInfo = @{ kDRUploadErrorFailureKey : errorText ?:@"", NSUnderlyingErrorKey : error};
+            NSDictionary *userInfo = @{ kDRUploadErrorFailureKey : error.userInfo[NSLocalizedDescriptionKey] ?:@"", NSUnderlyingErrorKey : error};
             NSError *userError = [[NSError alloc] initWithDomain:kDRUploadErrorFailureKey code:kHttpRequestFailedErrorCode userInfo:userInfo];
-            if (responseHandler) responseHandler([DRApiResponse responseWithError:userError]);
-        } else {
-            if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
+            error = userError;
         }
+        if (responseHandler) responseHandler([DRApiResponse responseWithError:error]);
     }];
 }
 
@@ -267,8 +253,12 @@ void DRLog(NSString *format, ...) {
 
 #pragma mark - Shots
 
-- (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
-    [self runMultiPartRequestWithMethod:kDRApiMethodShots params:params data:(NSData *)file mimeType:(NSString *)mimeType isAttachment:NO responseHandler:responseHandler];
+- (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file fileName:(NSString *)fileName mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
+    UIImage *image = [[UIImage alloc] initWithData:file];
+    CGSize imageSize = image.size;
+    NSAssert((imageSize.width == 400.f && imageSize.height == 300.f) || (imageSize.width == 800.f && imageSize.height == 600.f), kUploadImageSizeAssertionString);
+    NSAssert((file.length/1024.f/1024.f) <= kUploadFileBytesLimitSize, kUploadFileSizeAssertionString);
+    [self runMultiPartRequestWithMethod:kDRApiMethodShots parameterName:kDRParamImage params:params fileName:fileName data:file mimeType:mimeType responseHandler:responseHandler];
 }
 
 - (void)updateShot:(NSNumber *)shotId withParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler {
@@ -375,8 +365,8 @@ void DRLog(NSString *format, ...) {
 
 #pragma mark - Attachments
 
-- (void)uploadAttachmentWithShot:(NSNumber *)shotId params:(NSDictionary *)params file:(NSData *)file mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
-    [self runMultiPartRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotAttachments, shotId] params:params data:file mimeType:mimeType isAttachment:YES responseHandler:responseHandler];
+- (void)uploadAttachmentWithShot:(NSNumber *)shotId params:(NSDictionary *)params file:(NSData *)file fileName:(NSString *)fileName mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler {
+    [self runMultiPartRequestWithMethod:[NSString stringWithFormat:kDRApiMethodShotAttachments, shotId] parameterName:kDRParamFile params:params fileName:fileName data:file mimeType:mimeType responseHandler:responseHandler];
 }
 
 - (void)deleteAttachmentWith:(NSNumber *)attachmentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler {

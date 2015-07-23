@@ -49,7 +49,7 @@ extern void DRLog(NSString *format, ...);
 
 // shots
 
-- (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler;
+- (void)uploadShotWithParams:(NSDictionary *)params file:(NSData *)file fileName:(NSString *)fileName mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler;
 - (void)updateShot:(NSNumber *)shotId withParams:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)deleteShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadShotWith:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
@@ -76,7 +76,7 @@ extern void DRLog(NSString *format, ...);
 
 // attachments
 
-- (void)uploadAttachmentWithShot:(NSNumber *)shotId params:(NSDictionary *)params file:(NSData *)file mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler;
+- (void)uploadAttachmentWithShot:(NSNumber *)shotId params:(NSDictionary *)params file:(NSData *)file fileName:(NSString *)fileName mimeType:(NSString *)mimeType responseHandler:(DRResponseHandler)responseHandler;
 - (void)deleteAttachmentWith:(NSNumber *)attachmentId forShot:(NSNumber *)shotId responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadAttachmentsWithShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;
 - (void)loadAttachmentWith:(NSNumber *)attachmentId forShot:(NSNumber *)shotId params:(NSDictionary *)params responseHandler:(DRResponseHandler)responseHandler;

@@ -7,13 +7,13 @@
 //
 
 #import "ApiCallFactory.h"
-#import "AppDelegate.h"
 
 static NSString * const kDemoUserId = @"597558";
 static NSString * const kDemoShotId = @"472178";
 static NSString * const kDemoCommentId = @"1146540";
 static NSString * const kDemoProjectId = @"48926";
 static NSString * const kDemoTeamId = @"834683";
+static NSString * const kDRUploadImageDefaultFilename = @"image.jpg";
 
 @implementation ApiCallFactory
 
@@ -27,7 +27,10 @@ static NSString * const kDemoTeamId = @"834683";
 }
 
 + (NSArray *)demoApiCallWrappers {
-    AppDelegate *delegate = [AppDelegate delegate];
+    return [ApiCallFactory demoApiCallWrappersWithUser:nil shot:nil comment:nil andAttachment:nil];
+}
+
++ (NSArray *)demoApiCallWrappersWithUser:(DRUser *)user shot:(DRShot *)shot comment:(DRComment *)comment andAttachment:(DRShotAttachment *)attachment {
     DRResponseHandler sharedHandler = ^(DRApiResponse *response) {
         NSLog(@"response: %@", response);
     };
@@ -56,22 +59,22 @@ static NSString * const kDemoTeamId = @"834683";
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Project" selector:@selector(loadProjectWith:responseHandler:) args:@[kDemoProjectId] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Team Members" selector:@selector(loadMembersWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Team Shots" selector:@selector(loadShotsWithTeam:params:responseHandler:) args:@[kDemoTeamId, @{}] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Upload New Shot" selector:@selector(uploadShotWithParams:file:mimeType:responseHandler:) args:@[@{kDRParamTitle:@"another one great shot"}, UIImageJPEGRepresentation([UIImage imageNamed:@"ball.jpg"], 0.8), @"image/jpeg"] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Upload New Shot" selector:@selector(uploadShotWithParams:file:fileName:mimeType:responseHandler:) args:@[@{kDRParamTitle:@"another one great shot"}, UIImageJPEGRepresentation([UIImage imageNamed:@"ball.jpg"], 0.8), kDRUploadImageDefaultFilename, @"image/jpeg"] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Follow user" selector:@selector(followUserWith:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Unfollow user" selector:@selector(unFollowUserWith:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
                                 [ApiCallFactory apiCallWrapperWithTitle:@"Check if you are following a user" selector:@selector(checkFollowingWithUser:responseHandler:) args:@[kDemoUserId] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Are you following user" selector:@selector(checkIfUserWith:followingAnotherUserWith:responseHandler:) args:@[delegate.user.userId ?: kDemoUserId, kDemoUserId] responseHandler:sharedHandler],
                                 
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Upload comment" selector:@selector(uploadCommentWithShot:withBody:responseHandler:) args:@[delegate.shot.shotId ?: kDemoShotId, @"API test comment"] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Are you following user" selector:@selector(checkIfUserWith:followingAnotherUserWith:responseHandler:) args:@[user.userId ?: kDemoUserId, kDemoUserId] responseHandler:sharedHandler],
                                 
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Update comment (upload & restart first)" selector:@selector(updateCommentWith:forShot:withBody:responseHandler:) args:@[delegate.comment.commentId ?: kDemoCommentId, delegate.shot.shotId ?: kDemoShotId, @"API test updated comment"] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Delete comment (upload & restart first)" selector:@selector(deleteCommentWith:forShot:responseHandler:) args:@[delegate.comment.commentId ?: kDemoCommentId, delegate.shot.shotId ?: kDemoShotId] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Upload attachment" selector:@selector(uploadAttachmentWithShot:params:file:mimeType:responseHandler:) args:@[delegate.shot.shotId ?: kDemoShotId, @{}, UIImageJPEGRepresentation([UIImage imageNamed:@"ball.jpg"], 0.8), @"image/jpeg"] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Load attach (restart after upload)" selector:@selector(loadAttachmentWith:forShot:params:responseHandler:) args:@[delegate.attachment.attachmentId ?: @(0), delegate.shot.shotId ?: kDemoShotId, @{}] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Load attach-s with shot (restart after upload)" selector:@selector(loadAttachmentsWithShot:params:responseHandler:) args:@[delegate.shot.shotId ?: kDemoShotId, @{}] responseHandler:sharedHandler],
-                                [ApiCallFactory apiCallWrapperWithTitle:@"Delete attach (restart after upload)" selector:@selector(deleteAttachmentWith:forShot:responseHandler:) args:@[delegate.attachment.attachmentId ?: @(0), delegate.shot.shotId ?: kDemoShotId] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Upload comment" selector:@selector(uploadCommentWithShot:withBody:responseHandler:) args:@[shot.shotId ?: kDemoShotId, @"API test comment"] responseHandler:sharedHandler],
+                                
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Update comment (upload & restart first)" selector:@selector(updateCommentWith:forShot:withBody:responseHandler:) args:@[comment.commentId ?: kDemoCommentId, shot.shotId ?: kDemoShotId, @"API test updated comment"] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Delete comment (upload & restart first)" selector:@selector(deleteCommentWith:forShot:responseHandler:) args:@[comment.commentId ?: kDemoCommentId, shot.shotId ?: kDemoShotId] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Upload attachment" selector:@selector(uploadAttachmentWithShot:params:file:fileName:mimeType:responseHandler:) args:@[shot.shotId ?: kDemoShotId, @{}, UIImageJPEGRepresentation([UIImage imageNamed:@"ball.jpg"], 0.8), kDRUploadImageDefaultFilename, @"image/jpeg"] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Load attach (restart after upload)" selector:@selector(loadAttachmentWith:forShot:params:responseHandler:) args:@[attachment.attachmentId ?: @(0), shot.shotId ?: kDemoShotId, @{}] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Load attach-s with shot (restart after upload)" selector:@selector(loadAttachmentsWithShot:params:responseHandler:) args:@[shot.shotId ?: kDemoShotId, @{}] responseHandler:sharedHandler],
+                                [ApiCallFactory apiCallWrapperWithTitle:@"Delete attach (restart after upload)" selector:@selector(deleteAttachmentWith:forShot:responseHandler:) args:@[attachment.attachmentId ?: @(0), shot.shotId ?: kDemoShotId] responseHandler:sharedHandler],
                                 nil];
-    
     return apiCallWrappers;
 }
 

@@ -102,36 +102,45 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
         }
     };
     
-    if (!self.delegate.user && self.apiClient.userAuthorized) {
+    if (self.apiClient.userAuthorized) {
         [self loadMockData];
+    } else {
+        self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+        [self.tableView reloadData];
     }
-    
-    self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
-    [self.tableView reloadData];
 }
 
 - (void)loadMockData {
     __weak typeof(self) weakSelf = self;
+    
+    __block DRUser *user = nil;
+    __block DRShot *shot = nil;
+    __block DRComment *comment = nil;
+    __block DRShotAttachment *attachment = nil;
+    
     [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
         if ([response.object isKindOfClass:[DRUser class]]) {
-            weakSelf.delegate.user = response.object;
+            user = response.object;
         }
-        [weakSelf.apiClient loadShotsWithUser:weakSelf.delegate.user.userId params:@{} responseHandler:^(DRApiResponse *response) {
+        [weakSelf.apiClient loadShotsWithUser:user.userId params:@{} responseHandler:^(DRApiResponse *response) {
             if ([response.object count] && [response.object isKindOfClass:[NSArray class]]) {
-                weakSelf.delegate.shot = [response.object firstObject];
-                if ([weakSelf.delegate.shot isKindOfClass:[DRShot class]]) {
-                    [weakSelf.apiClient loadCommentsWithShot:weakSelf.delegate.shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
-                        for (DRComment *comment in response.object) {
-                            if (([comment.body isEqualToString:@"<p>API test updated comment</p>"] || [comment.body isEqualToString:@"<p>API test comment</p>"]) &&
-                                comment.user.userId == weakSelf.delegate.user.userId) {
-                                weakSelf.delegate.comment = comment;
+                shot = [response.object firstObject];
+                if ([shot isKindOfClass:[DRShot class]]) {
+                    [weakSelf.apiClient loadCommentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
+                        for (DRComment *commentForShot in response.object) {
+                            if (([commentForShot.body isEqualToString:@"<p>API test updated comment</p>"] || [commentForShot.body isEqualToString:@"<p>API test comment</p>"]) &&
+                                commentForShot.user.userId == user.userId) {
+                                comment = commentForShot;
                             }
                         }
-                        [weakSelf.apiClient loadAttachmentsWithShot:weakSelf.delegate.shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
+                        [weakSelf.apiClient loadAttachmentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
                             if ([response.object isKindOfClass:[NSArray class]]) {
-                                DRShotAttachment *attachment = [response.object firstObject];
-                                weakSelf.delegate.attachment = attachment;
-                                weakSelf.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+                                DRShotAttachment *attachmentForShot = [response.object firstObject];
+                                attachment = attachmentForShot;
+                                weakSelf.apiCallWrappers = [ApiCallFactory demoApiCallWrappersWithUser:user
+                                                                                                  shot:shot
+                                                                                               comment:comment
+                                                                                         andAttachment:attachment];
                                 [weakSelf.tableView reloadData];
                             }
                         }];
@@ -146,10 +155,6 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 
 - (IBAction)pressSignOut:(id)sender {
     [self.apiClient logout];
-    self.delegate.user = nil;
-    self.delegate.shot = nil;
-    self.delegate.comment = nil;
-    self.delegate.attachment = nil;
     self.signOutButton.hidden = ![self.apiClient isUserAuthorized];
     self.signInButton.hidden = [self.apiClient isUserAuthorized];
 }
