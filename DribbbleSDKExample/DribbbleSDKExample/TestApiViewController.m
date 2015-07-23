@@ -30,7 +30,7 @@
         if (response.object) {
             weakSelf.textView.text = [NSString stringWithFormat:@"Request succeeded, response object:\n%@", [response.object description]];
         } else if (response.error) {
-            if (response.error.code == 404) {
+            if (response.error.code == kHttpNotFoundErrorCode) {
                 weakSelf.textView.text = [NSString stringWithFormat:@"Request succeeded. No data"];
             } else {
                 weakSelf.textView.text = [NSString stringWithFormat:@"Request failed with error:\n%@", response.error];

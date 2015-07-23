@@ -96,7 +96,7 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
         if (error.domain == NSURLErrorDomain && ![weakSelf.apiClient isUserAuthorized]) {
             [weakSelf performSegueWithIdentifier:kSegueIdentifierAuthorize sender:nil];
         } else {
-            if (error.code != 404) {
+            if (error.code != kHttpNotFoundErrorCode) {
                 [UIAlertView bk_showAlertViewWithTitle:@"Error" message:[error localizedDescription] cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
             }
         }
@@ -111,46 +111,34 @@ static NSString * kSegueIdentifierTestApi = @"testApiSegue";
 }
 
 - (void)loadMockData {
+    __weak typeof(self) weakSelf = self;
     [self.apiClient loadUserInfoWithResponseHandler:^(DRApiResponse *response) {
-        if (response.object) {
-            self.delegate.user = response.object;
+        if ([response.object isKindOfClass:[DRUser class]]) {
+            weakSelf.delegate.user = response.object;
         }
-        
-        [self.apiClient loadShotsWithUser:self.delegate.user.userId params:@{} responseHandler:^(DRApiResponse *response) {
-            if (response.object) {
-                if ([response.object isKindOfClass:[NSArray class]]) {
-                    if ([response.object count]) {
-                        DRShot *shot = [response.object firstObject];
-                        if(shot) {
-                            self.delegate.shot = shot;
-                            [self.apiClient loadCommentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
-                                if (response.object) {
-                                    for (DRComment *comment in response.object) {
-                                        if (([comment.body isEqualToString:@"<p>API test updated comment</p>"] || [comment.body isEqualToString:@"<p>API test comment</p>"]) &&
-                                            comment.user.userId == self.delegate.user.userId) {
-                                            self.delegate.comment = comment;
-                                            self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
-                                            [self.tableView reloadData];
-                                        }
-                                    }
-                                    [self.apiClient loadAttachmentsWithShot:shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
-                                        if (response.object && [response.object isKindOfClass:[NSArray class]]) {
-                                            DRShotAttachment *attachment = [response.object lastObject];
-                                            self.delegate.attachment = attachment;
-                                            self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
-                                            [self.tableView reloadData];
-                                        }
-                                    }];
-                                }
-                            }];
+        [weakSelf.apiClient loadShotsWithUser:weakSelf.delegate.user.userId params:@{} responseHandler:^(DRApiResponse *response) {
+            if ([response.object count] && [response.object isKindOfClass:[NSArray class]]) {
+                weakSelf.delegate.shot = [response.object firstObject];
+                if ([weakSelf.delegate.shot isKindOfClass:[DRShot class]]) {
+                    [weakSelf.apiClient loadCommentsWithShot:weakSelf.delegate.shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
+                        for (DRComment *comment in response.object) {
+                            if (([comment.body isEqualToString:@"<p>API test updated comment</p>"] || [comment.body isEqualToString:@"<p>API test comment</p>"]) &&
+                                comment.user.userId == weakSelf.delegate.user.userId) {
+                                weakSelf.delegate.comment = comment;
+                            }
                         }
-                    }
+                        [weakSelf.apiClient loadAttachmentsWithShot:weakSelf.delegate.shot.shotId params:@{} responseHandler:^(DRApiResponse *response) {
+                            if ([response.object isKindOfClass:[NSArray class]]) {
+                                DRShotAttachment *attachment = [response.object firstObject];
+                                weakSelf.delegate.attachment = attachment;
+                                weakSelf.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
+                                [weakSelf.tableView reloadData];
+                            }
+                        }];
+                    }];
                 }
             }
         }];
-        
-        self.apiCallWrappers = [ApiCallFactory demoApiCallWrappers];
-        [self.tableView reloadData];
     }];
 }
 

@@ -100,6 +100,7 @@ static NSString * const kDRUploadScope = @"upload";
 // Http errors
 
 static NSInteger const kHttpAuthErrorCode = 401;
+static NSInteger const kHttpNotFoundErrorCode = 404;
 static NSInteger const kHttpRequestFailedErrorCode = 403;
 static NSInteger const kHttpRateLimitErrorCode = 429;
 static NSInteger const kHttpInternalServerErrorCode = 500;
