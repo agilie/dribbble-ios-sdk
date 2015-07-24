@@ -1,5 +1,5 @@
 language: objective-c
-podfile:./Podfile
+podfile: ./Podfile
 
 git:
   depth: 1
