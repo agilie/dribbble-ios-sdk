@@ -20,20 +20,6 @@
                ReferencedContainer = "container:DribbbleSDKExample/DribbbleSDKExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4D46CBF51B3C531A001EEA64"
-               BuildableName = "DribbbleSDKExampleTests.xctest"
-               BlueprintName = "DribbbleSDKExampleTests"
-               ReferencedContainer = "container:DribbbleSDKExample/DribbbleSDKExample.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -42,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4D46CBF51B3C531A001EEA64"
-               BuildableName = "DribbbleSDKExampleTests.xctest"
-               BlueprintName = "DribbbleSDKExampleTests"
-               ReferencedContainer = "container:DribbbleSDKExample/DribbbleSDKExample.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
