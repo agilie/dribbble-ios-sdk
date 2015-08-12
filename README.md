@@ -4,9 +4,9 @@ DribbbleSDK is easy-to-use iOS wrapper for [Dribbble SDK](http://developer.dribb
 
 
 [![CI Status](http://img.shields.io/travis/agilie/dribbble-ios-sdk.svg?style=flat)](https://travis-ci.org/agilie/dribbble-ios-sdk)
-[![Version](https://img.shields.io/cocoapods/v/dribbble-ios-sdk.svg?style=flat)](http://cocoadocs.org/docsets/dribbble-ios-sdk)
-[![License](https://img.shields.io/cocoapods/l/dribbble-ios-sdk.svg?style=flat)](http://cocoadocs.org/docsets/dribbble-ios-sdk)
-[![Platform](https://img.shields.io/cocoapods/p/dribbble-ios-sdk.svg?style=flat)](http://cocoadocs.org/docsets/dribbble-ios-sdk)
+[![Version](https://img.shields.io/cocoapods/v/dribbble-ios-sdk.svg?style=flat)](http://cocoadocs.org/docsets/DribbbleSDK/0.0.3/)
+[![License](https://img.shields.io/cocoapods/l/dribbble-ios-sdk.svg?style=flat)](http://cocoapods.org/pods/DribbbleSDK)
+[![Platform](https://img.shields.io/cocoapods/p/PXSDK.svg?style=flat)](http://cocoapods.org/pods/DribbbleSDK)
 
 ## Installation
 
