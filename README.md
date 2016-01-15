@@ -8,9 +8,7 @@ DribbbleSDK is easy-to-use iOS wrapper for [Dribbble SDK](http://developer.dribb
 [![License](https://img.shields.io/cocoapods/l/DribbbleSDK.svg?style=flat)](https://cocoapods.org/pods/DribbbleSDK)
 [![Platform](https://img.shields.io/cocoapods/p/DribbbleSDK.svg?style=flat)](https://cocoapods.org/pods/DribbbleSDK)
 
-Check out our dribbble-android-sdk [link text itself].
-
-[Dribbble-SDK Android]: http://www.reddit.com
+Check out our dribbble-android-sdk [Dribbble-SDK Android]: http://www.reddit.com
 
 ## Installation
 
